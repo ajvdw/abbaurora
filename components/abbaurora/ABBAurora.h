@@ -28,6 +28,8 @@ protected:
     	clearReceiveData();
     }
 
+protected:
+    GPIOPin *flow_control_pin_{nullptr};
 
 private:
 

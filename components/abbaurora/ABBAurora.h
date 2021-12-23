@@ -46,22 +46,22 @@ private:
 
 
 public:
-    text_sensor *connection_status = new text_sensor();
-    text_sensor *version = new text_sensor();
+    text_sensor::TextSensor *connection_status = new text_sensor::TextSensor();
+    text_sensor::TextSensor *version = new text_sensor::TextSensor();
 
-    sensor *v_in_1 = new sensor();
-    sensor *v_in_2 = new sensor();
-    sensor *i_in_1 = new sensor();
-    sensor *i_in_2 = new sensor();
-    sensor *power_in_1 = new sensor();
-    sensor *power_in_2 = new sensor();
-    sensor *power_in_total = new sensor();
-    sensor *power_out_total = new sensor();
-    sensor *temperature_inverter = new sensor();
-    sensor *temperature_booster = new sensor();
-    sensor *grid_voltage = new sensor();
-    sensor *cumulated_energy_today = new sensor();
-    sensor *cumulated_energy_total = new sensor();
+    sensor::Sensor *v_in_1 = new sensor::Sensor();
+    sensor::Sensor *v_in_2 = new sensor::Sensor();
+    sensor::Sensor *i_in_1 = new sensor::Sensor();
+    sensor::Sensor *i_in_2 = new sensor::Sensor();
+    sensor::Sensor *power_in_1 = new sensor::Sensor();
+    sensor::Sensor *power_in_2 = new sensor::Sensor();
+    sensor::Sensor *power_in_total = new sensor::Sensor();
+    sensor::Sensor *power_out_total = new sensor::Sensor();
+    sensor::Sensor *temperature_inverter = new sensor::Sensor();
+    sensor::Sensor *temperature_booster = new sensor::Sensor();
+    sensor::Sensor *grid_voltage = new sensor::Sensor();
+    sensor::Sensor *cumulated_energy_today = new sensor::Sensor();
+    sensor::Sensor *cumulated_energy_total = new sensor::Sensor();
 
     void set_address(uint8_t address);
 

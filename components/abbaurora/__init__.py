@@ -46,7 +46,7 @@ async def to_code(config):
         cg.add(var.set_flow_control_pin(pin))
 
     if CONF_ADDRESS in config:
-        cg.add(var.set_address(address))
+        cg.add(var.set_address(config[CONF_ADDRESS])
 
 
 async def register_abbaurora_device(var, config):

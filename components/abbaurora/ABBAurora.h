@@ -21,7 +21,7 @@
 #define TAG "ABBAurora"
 
 namespace esphome {
-Namespace abbaurora { 
+namespace abbaurora { 
 
 class ABBAurora : public uart::UARTDevice, public PollingComponent
 {

@@ -19,14 +19,14 @@ from esphome.const import (
     UNIT_WATT_HOURS,
     UNIT_WATT,
 )
-from . import ABBAURORA, CONF_ABBAURORA_ID
+from . import ABBAurora, CONF_ABBAURORA_ID
 
 AUTO_LOAD = ["abbaurora"]
 
 
 CONFIG_SCHEMA = cv.Schema(
     {
-        cv.GenerateID(CONF_ABBAURORA_ID): cv.use_id(ABBAURORA),
+        cv.GenerateID(CONF_ABBAURORA_ID): cv.use_id(ABBAurora),
 
         cv.Optional("v_in_1"): sensor.sensor_schema(
             UNIT_VOLT, ICON_EMPTY, 1, DEVICE_CLASS_VOLTAGE, STATE_CLASS_NONE

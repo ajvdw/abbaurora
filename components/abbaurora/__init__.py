@@ -47,10 +47,3 @@ async def to_code(config):
 
     if CONF_ADDRESS in config:
         cg.add(var.set_address(config[CONF_ADDRESS])
-
-
-async def register_abbaurora_device(var, config):
-    parent = await cg.get_variable(config[CONF_ABBAURORA_ID])
-    cg.add(var.set_parent(parent))
-    cg.add(var.set_address(config[CONF_ADDRESS]))
-    cg.add(parent.register_device(var))

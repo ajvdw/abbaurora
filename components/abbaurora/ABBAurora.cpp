@@ -482,6 +482,7 @@ bool ABBAurora::ReadVersion()
     Version.Par4 = ABBAuroraStrings::VersionPart4(ReceiveData[5]);
 
     return Version.ReadState;
-}
+};
+
 } // namespace abbaurora
 } // namespace esphome

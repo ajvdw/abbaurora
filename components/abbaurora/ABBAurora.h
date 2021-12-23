@@ -2,24 +2,18 @@
 
 #include "ABBAuroraEnums.h"
 #include "ABBAuroraStrings.h"
-
 #include "esphome/core/component.h"
-
 #include "esphome/components/sensor/sensor.h"
-
 #include "esphome/components/text_sensor/text_sensor.h"
-
 #include "esphome/components/uart/uart.h"
-
 #include "esphome/core/log.h"
-
 #include "esphome/core/defines.h"
 
 #define CONNECTED "CONNECTED"
 #define DISCONNECTED "DISCONNECTED"
 
 #define TAG "ABBAurora"
-
+ 
 namespace esphome {
 namespace abbaurora { 
 
@@ -52,22 +46,22 @@ private:
 
 
 public:
-    TextSensor *connection_status = new TextSensor();
-    TextSensor *version = new TextSensor();
+    text_sensor *connection_status = new text_sensor();
+    text_sensor *version = new text_sensor();
 
-    Sensor *v_in_1 = new Sensor();
-    Sensor *v_in_2 = new Sensor();
-    Sensor *i_in_1 = new Sensor();
-    Sensor *i_in_2 = new Sensor();
-    Sensor *power_in_1 = new Sensor();
-    Sensor *power_in_2 = new Sensor();
-    Sensor *power_in_total = new Sensor();
-    Sensor *power_out_total = new Sensor();
-    Sensor *temperature_inverter = new Sensor();
-    Sensor *temperature_booster = new Sensor();
-    Sensor *grid_voltage = new Sensor();
-    Sensor *cumulated_energy_today = new Sensor();
-    Sensor *cumulated_energy_total = new Sensor();
+    sensor *v_in_1 = new sensor();
+    sensor *v_in_2 = new sensor();
+    sensor *i_in_1 = new sensor();
+    sensor *i_in_2 = new sensor();
+    sensor *power_in_1 = new sensor();
+    sensor *power_in_2 = new sensor();
+    sensor *power_in_total = new sensor();
+    sensor *power_out_total = new sensor();
+    sensor *temperature_inverter = new sensor();
+    sensor *temperature_booster = new sensor();
+    sensor *grid_voltage = new sensor();
+    sensor *cumulated_energy_today = new sensor();
+    sensor *cumulated_energy_total = new sensor();
 
     void set_address(uint8_t address);
 

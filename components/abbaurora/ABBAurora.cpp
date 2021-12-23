@@ -117,7 +117,7 @@ void ABBAurora::update()
     }
     else
     {
-      if(connection)
+      if (connection)
       {
         connection = 0;
         connection_status->publish_state(DISCONNECTED);

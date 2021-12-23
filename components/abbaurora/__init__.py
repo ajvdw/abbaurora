@@ -9,6 +9,9 @@ from esphome.const import (
     CONF_ID,
     CONF_ADDRESS,
 )
+from esphome import pins
+
+
 DEPENDENCIES = ["uart"]
 
 AUTO_LOAD = ["sensor", "text_sensor"]

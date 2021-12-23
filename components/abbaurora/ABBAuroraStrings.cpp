@@ -1,6 +1,6 @@
 #include "ABBAuroraStrings.h"
 
-String ABBAuroraStrings::TransmissionState(byte id)
+string ABBAuroraStrings::TransmissionState(byte id)
 {
     switch (id)
     {
@@ -27,7 +27,7 @@ String ABBAuroraStrings::TransmissionState(byte id)
     }
 }
 
-String ABBAuroraStrings::GlobalState(byte id)
+string ABBAuroraStrings::GlobalState(byte id)
 {
     switch (id)
     {
@@ -118,7 +118,7 @@ String ABBAuroraStrings::GlobalState(byte id)
     }
 }
 
-String ABBAuroraStrings::DcDcState(byte id)
+string ABBAuroraStrings::DcDcState(byte id)
 {
     switch (id)
     {
@@ -167,7 +167,7 @@ String ABBAuroraStrings::DcDcState(byte id)
     }
 }
 
-String ABBAuroraStrings::InverterState(byte id)
+string ABBAuroraStrings::InverterState(byte id)
 {
     switch (id)
     {
@@ -256,7 +256,7 @@ String ABBAuroraStrings::InverterState(byte id)
     }
 }
 
-String ABBAuroraStrings::AlarmState(byte id)
+string ABBAuroraStrings::AlarmState(byte id)
 {
     switch (id)
     {
@@ -395,7 +395,7 @@ String ABBAuroraStrings::AlarmState(byte id)
     }
 }
 
-String ABBAuroraStrings::VersionPart1(byte id)
+string ABBAuroraStrings::VersionPart1(byte id)
 {
     switch ((char)id)
     {
@@ -434,7 +434,7 @@ String ABBAuroraStrings::VersionPart1(byte id)
     }
 }
 
-String ABBAuroraStrings::VersionPart2(byte id)
+string ABBAuroraStrings::VersionPart2(byte id)
 {
     switch ((char)id)
     {
@@ -455,7 +455,7 @@ String ABBAuroraStrings::VersionPart2(byte id)
     }
 }
 
-String ABBAuroraStrings::VersionPart3(byte id)
+string ABBAuroraStrings::VersionPart3(byte id)
 {
 
     switch ((char)id)
@@ -468,7 +468,7 @@ String ABBAuroraStrings::VersionPart3(byte id)
         return F("Unknown");
     }
 }
-String ABBAuroraStrings::VersionPart4(byte id)
+string ABBAuroraStrings::VersionPart4(byte id)
 {
     switch ((char)id)
     {

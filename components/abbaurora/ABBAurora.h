@@ -99,10 +99,10 @@ public:
     {
         byte TransmissionState;
         byte GlobalState;
-        String Par1;
-        String Par2;
-        String Par3;
-        String Par4;
+        string Par1;
+        string Par2;
+        string Par3;
+        string Par4;
         bool ReadState;
     } DataVersion;
 
@@ -166,7 +166,7 @@ public:
 
     typedef struct
     {
-        String SerialNumber;
+        string SerialNumber;
         bool ReadState;
     } DataSystemSerialNumber;
 

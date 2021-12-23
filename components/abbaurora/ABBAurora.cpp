@@ -112,7 +112,7 @@ void ABBAurora::update()
     }
   }
 
-};
+}
  
 void ABBAurora::clearData(byte *data, byte len)
 {

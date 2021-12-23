@@ -5,18 +5,6 @@
 namespace esphome {
 namespace abbaurora {
 
-ABBAurora::ABBAurora()
-{
-    SendStatus = false;
-    ReceiveStatus = false;
-    clearReceiveData();
-}
-
-void ABBAurora::set_address(uint8_t address) 
-{ 
-    this->Address = address; 
-}
-
 void ABBAurora::setup() 
 {
     ESP_LOGD(TAG, "Setup");

@@ -21,7 +21,13 @@ class ABBAurora : public uart::UARTDevice, public PollingComponent
 {
 
 protected:
-    ABBAurora() : PollingComponent(15000) {}
+    ABBAurora() : PollingComponent(15000) 
+    {
+    	SendStatus = false;
+    	ReceiveStatus = false;
+    	clearReceiveData();
+    }
+
 
 private:
 
@@ -63,7 +69,7 @@ public:
     sensor::Sensor *cumulated_energy_today = new sensor::Sensor();
     sensor::Sensor *cumulated_energy_total = new sensor::Sensor();
 
-    void set_address(uint8_t address);
+    void set_address(uint8_t address) {  Address = address; }
 
     void setup() override;
     void update() override;

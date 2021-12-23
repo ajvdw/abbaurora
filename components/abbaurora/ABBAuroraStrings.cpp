@@ -118,7 +118,7 @@ std::string ABBAuroraStrings::GlobalState(byte id)
     }
 }
 
-string ABBAuroraStrings::DcDcState(byte id)
+std::string ABBAuroraStrings::DcDcState(byte id)
 {
     switch (id)
     {
@@ -478,6 +478,6 @@ std::string ABBAuroraStrings::VersionPart4(byte id)
     case 'N':
         return std::string("PV version");
     default:
-        return _F("Unknown");
+        return std::string("Unknown");
     }
 }

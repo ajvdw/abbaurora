@@ -27,7 +27,7 @@ CONFIG_SCHEMA = (
         {
             cv.GenerateID(): cv.declare_id(ABBAurora),
             cv.Required(CONF_FLOW_CONTROL_PIN): pins.gpio_output_pin_schema,
-            cv.Required(CONF_ADDRESS): cv.uint8_t,
+            cv.Required(CONF_ADDRESS): cv.uint_,
         }
     )
     .extend(cv.COMPONENT_SCHEMA)

@@ -1,6 +1,6 @@
 #include "ABBAuroraStrings.h"
 
-string ABBAuroraStrings::TransmissionState(byte id)
+std::string ABBAuroraStrings::TransmissionState(byte id)
 {
     switch (id)
     {

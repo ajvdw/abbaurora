@@ -44,15 +44,9 @@ async def to_code(config):
         pin = await gpio_pin_expression(config[CONF_FLOW_CONTROL_PIN])
         cg.add(var.set_flow_control_pin(pin))
 
-def abbaurora_device_schema(default_address):
-    schema = {
-        cv.GenerateID(CONF_ABBAURORA_ID): cv.use_id(ABBAurora),
-    }
-    if default_address is None:
-        schema[cv.Required(CONF_ADDRESS)] = cv.hex_uint8_t
-    else:
-        schema[cv.Optional(CONF_ADDRESS, default=default_address)] = cv.hex_uint8_t
-    return cv.Schema(schema)
+    if CONF_ADDRESS in config:
+        cg.add(var.set_address(address))
+
 
 async def register_abbaurora_device(var, config):
     parent = await cg.get_variable(config[CONF_ABBAURORA_ID])

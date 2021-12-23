@@ -302,7 +302,7 @@ bool ABBAurora::ReadSystemPN()
 {
     SystemPN.ReadState = Send(this->Address, (byte)52, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
-    SystemPN.PN = String(String((char)ReceiveData[0]) + String((char)ReceiveData[1]) + String((char)ReceiveData[2]) + String((char)ReceiveData[3]) + String((char)ReceiveData[4]) + String((char)ReceiveData[5]));
+    SystemPN.PN = std::string(std::string((char)ReceiveData[0]) + std::string((char)ReceiveData[1]) + std::string((char)ReceiveData[2]) + std::string((char)ReceiveData[3]) + std::string((char)ReceiveData[4]) + std::string((char)ReceiveData[5]));
 
     return SystemPN.ReadState;
 }
@@ -311,7 +311,7 @@ bool ABBAurora::ReadSystemSerialNumber()
 {
     SystemSerialNumber.ReadState = Send(this->Address, (byte)63, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
-    SystemSerialNumber.SerialNumber = String(String((char)ReceiveData[0]) + String((char)ReceiveData[1]) + String((char)ReceiveData[2]) + String((char)ReceiveData[3]) + String((char)ReceiveData[4]) + String((char)ReceiveData[5]));
+    SystemSerialNumber.SerialNumber = std::string(std::string((char)ReceiveData[0]) + std::string((char)ReceiveData[1]) + std::string((char)ReceiveData[2]) + std::string((char)ReceiveData[3]) + std::string((char)ReceiveData[4]) + std::string((char)ReceiveData[5]));
 
     return SystemSerialNumber.ReadState;
 }
@@ -328,8 +328,8 @@ bool ABBAurora::ReadManufacturingWeekYear()
 
     ManufacturingWeekYear.TransmissionState = ReceiveData[0];
     ManufacturingWeekYear.GlobalState = ReceiveData[1];
-    ManufacturingWeekYear.Week = String(String((char)ReceiveData[2]) + String((char)ReceiveData[3]));
-    ManufacturingWeekYear.Year = String(String((char)ReceiveData[4]) + String((char)ReceiveData[5]));
+    ManufacturingWeekYear.Week = std::string(String((char)ReceiveData[2]) + std::string((char)ReceiveData[3]));
+    ManufacturingWeekYear.Year = std::string(std::string((char)ReceiveData[4]) + std::string((char)ReceiveData[5]));
 
     return ManufacturingWeekYear.ReadState;
 }
@@ -346,7 +346,7 @@ bool ABBAurora::ReadFirmwareRelease()
 
     FirmwareRelease.TransmissionState = ReceiveData[0];
     FirmwareRelease.GlobalState = ReceiveData[1];
-    FirmwareRelease.Release = String(String((char)ReceiveData[2]) + "." + String((char)ReceiveData[3]) + "." + String((char)ReceiveData[4]) + "." + String((char)ReceiveData[5]));
+    FirmwareRelease.Release = std::string(std::string((char)ReceiveData[2]) + "." + std::string((char)ReceiveData[3]) + "." + std::string((char)ReceiveData[4]) + "." + std::string((char)ReceiveData[5]));
 
     return FirmwareRelease.ReadState;
 }

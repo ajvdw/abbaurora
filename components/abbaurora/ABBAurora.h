@@ -1,13 +1,16 @@
 #pragma once
 
-#include "ABBAuroraEnums.h"
-#include "ABBAuroraStrings.h"
+
 #include "esphome/core/component.h"
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/text_sensor/text_sensor.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/core/log.h"
+#include "esphome/core/helpers.h"
 #include "esphome/core/defines.h"
+
+#include "ABBAuroraEnums.h"
+#include "ABBAuroraStrings.h"
 
 #define CONNECTED "CONNECTED"
 #define DISCONNECTED "DISCONNECTED"
@@ -99,11 +102,11 @@ public:
     {
         byte TransmissionState;
         byte GlobalState;
-        string Par1;
-        string Par2;
-        string Par3;
-        string Par4;
-        bool ReadState;
+        std::string Par1;
+        std::string Par2;
+        std::string Par3;
+        std::string Par4;
+        std::string ReadState;
     } DataVersion;
 
     DataVersion Version;
@@ -156,7 +159,7 @@ public:
     // Inverters
     typedef struct
     {
-        String PN;
+        std::string PN;
         bool ReadState;
     } DataSystemPN;
 
@@ -166,7 +169,7 @@ public:
 
     typedef struct
     {
-        string SerialNumber;
+        std::string SerialNumber;
         bool ReadState;
     } DataSystemSerialNumber;
 
@@ -178,8 +181,8 @@ public:
     {
         byte TransmissionState;
         byte GlobalState;
-        String Week;
-        String Year;
+        std::string Week;
+        std::string Year;
         bool ReadState;
     } DataManufacturingWeekYear;
 
@@ -191,7 +194,7 @@ public:
     {
         byte TransmissionState;
         byte GlobalState;
-        String Release;
+        std::string Release;
         bool ReadState;
     } DataFirmwareRelease;
 

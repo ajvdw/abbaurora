@@ -13,7 +13,7 @@ from esphome.const import (
     STATE_CLASS_TOTAL_INCREASING,
     STATE_CLASS_NONE,
     UNIT_AMPERE,
-    UNIT_CELCIUS,
+    UNIT_CELSIUS,
     UNIT_EMPTY,
     UNIT_VOLT,
     UNIT_WATT_HOURS,
@@ -53,7 +53,7 @@ CONFIG_SCHEMA = cv.Schema(
             UNIT_WATT, ICON_EMPTY, 1, DEVICE_CLASS_POWER, STATE_CLASS_MEASUREMENT
 	),
         cv.Optional("temperature_inverter"): sensor.sensor_schema(
-            UNIT_CELCIUS, ICON_EMPTY, 1, DEVICE_CLASS_TEMPERATURE, STATE_CLASS_MEASUREMENT
+            UNIT_CELSIUS, ICON_EMPTY, 1, DEVICE_CLASS_TEMPERATURE, STATE_CLASS_MEASUREMENT
         ),
         cv.Optional("temperature_booster"): sensor.sensor_schema(
             UNIT_CELSIUS, ICON_EMPTY, 1, DEVICE_CLASS_TEMPERATURE, STATE_CLASS_MEASUREMENT

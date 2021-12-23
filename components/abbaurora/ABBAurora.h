@@ -21,12 +21,7 @@ class ABBAurora : public uart::UARTDevice, public PollingComponent
 {
 
 protected:
-    ABBAurora() : PollingComponent(15000) 
-    {
-    	SendStatus = false;
-    	ReceiveStatus = false;
-    	clearReceiveData();
-    }
+    ABBAurora() : PollingComponent(15000) {}
 
 protected:
     GPIOPin *flow_control_pin_{nullptr};
@@ -54,6 +49,9 @@ private:
 
 
 public:
+    void setup() override;
+    void update() override;
+
     text_sensor::TextSensor *connection_status = new text_sensor::TextSensor();
     text_sensor::TextSensor *version = new text_sensor::TextSensor();
 
@@ -73,8 +71,7 @@ public:
 
     void set_address(uint8_t address) {  Address = address; }
 
-    void setup() override;
-    void update() override;
+
 
     bool SendStatus = false;
     bool ReceiveStatus = false;

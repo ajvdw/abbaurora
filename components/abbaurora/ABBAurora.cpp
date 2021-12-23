@@ -13,13 +13,17 @@ void ABBAurora::setup()
     if (this->flow_control_pin_ != nullptr)
         this->flow_control_pin_->setup();
 
+    SendStatus = false;
+    ReceiveStatus = false;
+    clearReceiveData();
+
     connection_status->publish_state(DISCONNECTED);
 }
 
 void ABBAurora::update()
 {
     //If inverter is connected
-    if (inverter->ReadState())
+    if (this->ReadState())
     {
       if (!connection)
       {
@@ -30,70 +34,70 @@ void ABBAurora::update()
 
       ESP_LOGD(TAG, "ReadVersion" );
       if ( this->ReadVersion() )
-         version->publish_state( inverter->Version.Par1 );
+         version->publish_state( this->Version.Par1 );
       yield();
 
       ESP_LOGD(TAG, "ReadDSPValue V_IN_1");
       if (this->ReadDSPValue(V_IN_1, MODULE_MESSUREMENT))
-        v_in_1->publish_state(inverter->DSP.Value);
+        v_in_1->publish_state(this->DSP.Value);
       yield();
 
       ESP_LOGD(TAG, "ReadDSPValue V_IN_2");
       if (this->ReadDSPValue(V_IN_2, MODULE_MESSUREMENT))
-        v_in_2->publish_state(inverter->DSP.Value);
+        v_in_2->publish_state(this->DSP.Value);
       yield();
 
       ESP_LOGD(TAG, "ReadDSPValue I_IN_1");
       if (this->ReadDSPValue(I_IN_1, MODULE_MESSUREMENT))
-        i_in_1->publish_state(inverter->DSP.Value);
+        i_in_1->publish_state(this->DSP.Value);
       yield();
 
       ESP_LOGD(TAG, "ReadDSPValue I_IN_2");
       if (this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
-        i_in_2->publish_state(inverter->DSP.Value);
+        i_in_2->publish_state(this->DSP.Value);
       yield();
 
 
       ESP_LOGD(TAG, "ReadDSPValue POWER_IN_1");
       if (this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
-        power_in_1->publish_state(inverter->DSP.Value);
+        power_in_1->publish_state(this->DSP.Value);
       yield();
 
       ESP_LOGD(TAG, "ReadDSPValue POWER_IN_2");
       if (this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
-        power_in_2->publish_state(inverter->DSP.Value);
+        power_in_2->publish_state(this->DSP.Value);
       yield();
 
       power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
 
       ESP_LOGD(TAG, "ReadDSPValue GRID_VOLTAGE");
       if (this->ReadDSPValue(GRID_VOLTAGE, MODULE_MESSUREMENT))
-        grid_voltage->publish_state(inverter->DSP.Value);
+        grid_voltage->publish_state(this->DSP.Value);
       yield();
 
       ESP_LOGD(TAG, "ReadDSPValue GRID_POWER");
       if (this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
-        grid_power->publish_state(inverter->DSP.Value);
+        grid_power->publish_state(this->DSP.Value);
       yield();
 
       ESP_LOGD(TAG, "ReadDSPValue TEMPERATURE_INVERTER");
       if (this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
-        temperature_inverter->publish_state(inverter->DSP.Value);
+        temperature_this->publish_state(this->DSP.Value);
       yield();
 
       ESP_LOGD(TAG, "ReadDSPValue TEMPERATURE_BOOSTER");
       if (this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))
-        temperature_booster->publish_state(inverter->DSP.Value);
+        temperature_booster->publish_state(this->DSP.Value);
       yield();
 
       ESP_LOGD(TAG, "ReadCumulatedEnergy CUMULATED_ENERGY_CURRENT_DAY");
       if (this->ReadCumulatedEnergy(CURRENT_DAY))
-        cumulated_energy_today->publish_state(inverter->CumulatedEnergy.Energy);
+        cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
       yield();
 
       ESP_LOGD(TAG, "ReadCumulatedEnergy CUMULATED_ENERGY_TOTAL");
       if (this->ReadCumulatedEnergy(TOTAL))
-        cumulated_energy_total->publish_state(inverter->CumulatedEnergy.Energy);
+        cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
       yield();
 
     }

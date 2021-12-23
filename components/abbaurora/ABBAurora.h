@@ -62,7 +62,7 @@ public:
     sensor::Sensor *power_in_1 = new sensor::Sensor();
     sensor::Sensor *power_in_2 = new sensor::Sensor();
     sensor::Sensor *power_in_total = new sensor::Sensor();
-    sensor::Sensor *power_out_total = new sensor::Sensor();
+    sensor::Sensor *grid_power = new sensor::Sensor();
     sensor::Sensor *temperature_inverter = new sensor::Sensor();
     sensor::Sensor *temperature_booster = new sensor::Sensor();
     sensor::Sensor *grid_voltage = new sensor::Sensor();

@@ -82,7 +82,7 @@ void ABBAurora::update()
 
       ESP_LOGD(TAG, "ReadDSPValue TEMPERATURE_INVERTER");
       if (this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
-        temperature_this->publish_state(this->DSP.Value);
+        temperature_inverter->publish_state(this->DSP.Value);
       yield();
 
       ESP_LOGD(TAG, "ReadDSPValue TEMPERATURE_BOOSTER");

@@ -65,7 +65,7 @@ CONFIG_SCHEMA = cv.Schema(
             UNIT_WATT_HOURS, ICON_EMPTY, 0, DEVICE_CLASS_ENERGY, STATE_CLASS_MEASUREMENT
         ),
         cv.Optional("cumulated_energy_total"): sensor.sensor_schema( 
-            UNIT_WATT_HOURS, ICON_EMPTY, 0, DEVICE_CLASS_ENERGY, STATE_CLASS_TOTAL_INCREASING,
+            UNIT_WATT_HOURS, ICON_EMPTY, 0, DEVICE_CLASS_ENERGY, STATE_CLASS_TOTAL_INCREASING
         ),
     }
 ).extend(cv.COMPONENT_SCHEMA)

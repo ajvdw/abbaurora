@@ -40,7 +40,7 @@ CONFIG_SCHEMA = cv.Schema(
         cv.Optional("i_in_2"): sensor.sensor_schema(
             UNIT_AMPERE, ICON_EMPTY, 1, DEVICE_CLASS_CURRENT, STATE_CLASS_MEASUREMENT
         ),
-        cv.Optional("power_in_1): sensor.sensor_schema(
+        cv.Optional("power_in_1"): sensor.sensor_schema(
             UNIT_WATT, ICON_EMPTY, 1, DEVICE_CLASS_POWER, STATE_CLASS_MEASUREMENT
         ),
         cv.Optional("power_in_2"): sensor.sensor_schema(

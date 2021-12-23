@@ -25,12 +25,9 @@ class ABBAurora : public uart::UARTDevice, public PollingComponent
 
 protected:
     ABBAurora() : PollingComponent(15000) {}
-
-protected:
     GPIOPin *flow_control_pin_{nullptr};
 
 private:
-
     uint8_t connection = 0;
     int MaxAttempt = 1;
 
@@ -54,6 +51,8 @@ private:
 public:
     void setup() override;
     void update() override;
+    void set_address(uint8_t address) {  Address = address; }
+    bool ReadVersion();
 
     text_sensor::TextSensor *connection_status = new text_sensor::TextSensor();
     text_sensor::TextSensor *version = new text_sensor::TextSensor();
@@ -72,10 +71,7 @@ public:
     sensor::Sensor *cumulated_energy_today = new sensor::Sensor();
     sensor::Sensor *cumulated_energy_total = new sensor::Sensor();
 
-    void set_address(uint8_t address) {  Address = address; }
-
-
-
+ 
     bool SendStatus = false;
     bool ReceiveStatus = false;
     byte Address = 0; // Default 2 ??

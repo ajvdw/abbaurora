@@ -1,5 +1,5 @@
 #include "ABBAurora.h"
-#include "ABBAuroraStrings.h"
+
 
 
 namespace esphome {

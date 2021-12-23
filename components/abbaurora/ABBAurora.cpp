@@ -1,15 +1,9 @@
 #include "ABBAurora.h"
 #include "ABBAuroraStrings.h"
 
-ABBAurora *ABBAurora::instance_ = nullptr;
 
-ABBAurora *ABBAurora::get_instance()
-{
-  if (instance_ == nullptr)
-    instance_ = newABBAurora();
-  return instance_;
-}
-
+namespace esphome {
+namespace abbaurora {
 
 ABBAurora::ABBAurora()
 {
@@ -497,3 +491,5 @@ bool ABBAurora::ReadVersion()
 
     return Version.ReadState;
 }
+} // namespace abbaurora
+} // namespace esphome

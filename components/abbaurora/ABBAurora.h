@@ -1,24 +1,33 @@
-#include "esphome.h"
+#pragma once
 
 #include "ABBAuroraEnums.h"
 #include "ABBAuroraStrings.h"
 
-using namespace esphome;
-using namespace text_sensor;
-using namespace sensor;
+#include "esphome/core/component.h"
+
+#include "esphome/components/sensor/sensor.h"
+
+#include "esphome/components/text_sensor/text_sensor.h"
+
+#include "esphome/components/uart/uart.h"
+
+#include "esphome/core/log.h"
+
+#include "esphome/core/defines.h"
 
 #define CONNECTED "CONNECTED"
 #define DISCONNECTED "DISCONNECTED"
 
 #define TAG "ABBAurora"
 
+namespace esphome {
+Namespace abbaurora { 
+
 class ABBAurora : public uart::UARTDevice, public PollingComponent
 {
 
 protected:
     ABBAurora() : PollingComponent(15000) {}
-
-    static ABBAurora *instance_;
 
 private:
 
@@ -43,10 +52,6 @@ private:
 
 
 public:
-    ABBAurora(ABBAurora &other) = delete;
-    void operator=(const ABBAurora &) = delete;
-    static ABBAurora *get_instance();
-
     TextSensor *connection_status = new TextSensor();
     TextSensor *version = new TextSensor();
 
@@ -227,3 +232,5 @@ public:
     bool ReadSystemSerialNumberCentral();
 };
 
+} // namespace abbaurora
+} // namespace esphome

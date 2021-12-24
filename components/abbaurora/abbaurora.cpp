@@ -177,10 +177,9 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
                  
         }
 
-        char templog[80];
-        sprintf( templog, "> %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x",SendData[0], SendData[1], SendData[2], SendData[3],
+ 
+        ESP_LOGV(TAG, "> %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x",SendData[0], SendData[1], SendData[2], SendData[3],
         SendData[4], SendData[5], SendData[6], SendData[7] , SendData[8], SendData[9] );     
-        ESP_LOGV(TAG, templog );
 
         //if ( != 0) no need to check for success??
         this->write_array( (uint8_t *) SendData, sizeof(SendData));
@@ -212,10 +211,10 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
                     Tmp = New >> 4;
                     BccLo = BccLo ^ Tmp;
                 }    
-                sprintf( templog, "> %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x", 
+                ESP_LOGV(TAG, "< %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x", 
                     ReceiveData[0], ReceiveData[1], ReceiveData[2], ReceiveData[3],
                     ReceiveData[4], ReceiveData[5], ReceiveData[6], ReceiveData[7] ,(~BccHi), (~BccLo) );      
-                ESP_LOGV(TAG, templog );
+        
 
                 if(  ReceiveData[7] == (~BccHi) &&  ReceiveData[6] == (~BccLo) )
                 {

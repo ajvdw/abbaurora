@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "esphome/core/component.h"
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/text_sensor/text_sensor.h"
@@ -12,15 +11,11 @@
 #include "ABBAuroraEnums.h"
 #include "ABBAuroraStrings.h"
 
-#define CONNECTED "CONNECTED"
-#define DISCONNECTED "DISCONNECTED"
 
 #define TAG "ABBAurora"
  
 namespace esphome {
 namespace abbaurora { 
-
-using namespace ::abbaurora;
 
 class ABBAurora : public uart::UARTDevice, public PollingComponent
 {

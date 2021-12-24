@@ -1,7 +1,5 @@
 #include "ABBAurora.h"
 
-
-
 namespace esphome {
 namespace abbaurora {
 
@@ -17,7 +15,7 @@ void ABBAurora::setup()
     ReceiveStatus = false;
     clearReceiveData();
 
-    connection_status->publish_state(DISCONNECTED);
+    connection_status->publish_state("Disconnected");
 }
 
 void ABBAurora::update()
@@ -28,7 +26,7 @@ void ABBAurora::update()
       if (!connection)
       {
         connection = 1;
-        connection_status->publish_state(CONNECTED);
+        connection_status->publish_state("Connected");
       }
  
 
@@ -106,7 +104,7 @@ void ABBAurora::update()
       if (connection)
       {
         connection = 0;
-        connection_status->publish_state(DISCONNECTED);
+        connection_status->publish_state("Disconnected");
       }
       ESP_LOGD(TAG, "Inverter not conntected");
     }

@@ -316,9 +316,8 @@ bool ABBAuroraComponent::ReadSystemPN()
 {
     SystemPN.ReadState = Send(this->Address, (uint8_t)52, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
-    ReceiveData[6]=0; // terminate string
-    
-    SystemPN.PN = std::string( (char *) ReceiveData );
+    ReceiveData[6]=0; 
+    SystemPN.PN = std::string( (char *)ReceiveData );
     
     return SystemPN.ReadState;
 }
@@ -327,7 +326,8 @@ bool ABBAuroraComponent::ReadSystemSerialNumber()
 {
     SystemSerialNumber.ReadState = Send(this->Address, (uint8_t)63, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
-    SystemSerialNumber.SerialNumber = std::string(std::string((char)ReceiveData[0]) + std::string((char)ReceiveData[1]) + std::string((char)ReceiveData[2]) + std::string((char)ReceiveData[3]) + std::string((char)ReceiveData[4]) + std::string((char)ReceiveData[5]));
+    ReceiveData[6]=0;
+    SystemSerialNumber.SerialNumber = std::string( (char *)ReceiveData );
 
     return SystemSerialNumber.ReadState;
 }
@@ -344,8 +344,11 @@ bool ABBAuroraComponent::ReadManufacturingWeekYear()
 
     ManufacturingWeekYear.TransmissionState = ReceiveData[0];
     ManufacturingWeekYear.GlobalState = ReceiveData[1];
-    ManufacturingWeekYear.Week = std::string(std::string((char)ReceiveData[2]) + std::string((char)ReceiveData[3]));
-    ManufacturingWeekYear.Year = std::string(std::string((char)ReceiveData[4]) + std::string((char)ReceiveData[5]));
+
+    ReceiveData[6]=0;
+    ManufacturingWeekYear.Year = std::string( (char *) &(ReceiveData[4]) );
+    ReceiveData[4]=0;
+    ManufacturingWeekYear.Week = std::string( (char *) &(ReceiveData[2]) );
 
     return ManufacturingWeekYear.ReadState;
 }
@@ -362,7 +365,9 @@ bool ABBAuroraComponent::ReadFirmwareRelease()
 
     FirmwareRelease.TransmissionState = ReceiveData[0];
     FirmwareRelease.GlobalState = ReceiveData[1];
-    FirmwareRelease.Release = std::string(std::string((char)ReceiveData[2]) + "." + std::string((char)ReceiveData[3]) + "." + std::string((char)ReceiveData[4]) + "." + std::string((char)ReceiveData[5]));
+
+    ReceiveData[6]=0;
+    FirmwareRelease.Release = std::string( (char *) &(ReceiveData[2]) );
 
     return FirmwareRelease.ReadState;
 }

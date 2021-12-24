@@ -182,7 +182,24 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
 
             if (this->read_array( (uint8_t *)ReceiveData, sizeof(ReceiveData)) )
             {
-                if ((int)word(ReceiveData[7], ReceiveData[6]) == Crc16(ReceiveData, 0, 6))
+                BccLo = 0xFF;
+                BccHi = 0xFF;
+
+                for (int i = 0; i < 6; i++)
+                {
+                    uint8_t New = ReceiveData[i] ^ BccLo;
+                    uint8_t Tmp = New << 4;
+                    New = Tmp ^ New;
+                    Tmp = New >> 5;
+                    BccLo = BccHi;
+                    BccHi = New ^ Tmp;
+                    Tmp = New << 3;
+                    BccLo = BccLo ^ Tmp;
+                    Tmp = New >> 4;
+                    BccLo = BccLo ^ Tmp;
+                }
+                // Check CRC16
+                if(  ReceiveData[7] == (~BccHi) &&  ReceiveData[6] == (~BccLo) )
                 {
                     ReceiveStatus = true;
                     break;

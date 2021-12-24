@@ -33,6 +33,7 @@ public:
     void set_i_in_2( sensor::Sensor *sensor ) { this->i_in_2 = sensor; }
     void set_power_in_1( sensor::Sensor *sensor ) { this->power_in_1 = sensor; }
     void set_power_in_2( sensor::Sensor *sensor ) { this->power_in_2 = sensor; }
+    void set_power_in_total( sensor::Sensor *sensor ) { this->power_in_total = sensor; }
     void set_grid_power( sensor::Sensor *sensor ) { this->grid_power = sensor; }
     void set_temperature_inverter( sensor::Sensor *sensor ) { this->temperature_inverter = sensor; }
     void set_temperature_booster( sensor::Sensor *sensor ) { this->temperature_booster = sensor; }

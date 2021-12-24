@@ -488,7 +488,7 @@ bool ABBAuroraComponent::ReadVersion()
 {
     Version.ReadState = Send(this->Address, (uint8_t)58, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
-    if (Version.ReadState == false)
+    if(Version.ReadState == false)
     {
         ReceiveData[0] = 255;
         ReceiveData[1] = 255;

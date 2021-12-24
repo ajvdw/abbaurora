@@ -88,7 +88,7 @@ public:
         std::string Par2;
         std::string Par3;
         std::string Par4;
-        std::string ReadState;
+        bool ReadState;
     } DataVersion;
 
     DataVersion Version;

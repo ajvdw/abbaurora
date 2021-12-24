@@ -19,8 +19,8 @@ class ABBAurora;
 
 class ABBAurora : public UARTDevice, public PollingComponent
 {
-protected:
-    ABBAurora() : PollingComponent(15000) {}
+//protected:
+//    ABBAurora() : PollingComponent(15000) {}
     GPIOPin *flow_control_pin_{nullptr};
 
 private:

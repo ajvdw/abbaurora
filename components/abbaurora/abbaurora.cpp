@@ -5,6 +5,8 @@ namespace abbaurora {
 
 static const char *const TAG = "abbaurora";
 
+class ABBAuroraDevice;
+
 void ABBAuroraDevice::setup() 
 {
     ESP_LOGD(TAG, "Setup");

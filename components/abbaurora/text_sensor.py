@@ -19,6 +19,11 @@ TYPES = {
     CONF_ABB_IDENTIFICATION,
 }
 
+
+CONFIG_SCHEMA = ABBAURORA_COMPONENT_SCHEMA.extend(
+    {cv.Optional(type) for type, _ in TYPES.items()}
+)
+
 async def to_code(config):
     paren = await cg.get_variable(config[CONF_ABBAURORA_ID])
 

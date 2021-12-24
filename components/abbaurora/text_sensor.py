@@ -14,7 +14,7 @@ CONF_ABB_IDENTIFICATION = "identification"
 AUTO_LOAD = ["abbaurora"]
 
 TYPES = {
-    CONF_ABB_VERSION: ,
+    CONF_ABB_VERSION,
     CONF_ABB_STATUS,
     CONF_ABB_IDENTIFICATION,
 }

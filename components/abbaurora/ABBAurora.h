@@ -19,8 +19,7 @@ static const char *const TAG = "abbaurora";
 
 class ABBAurora;
 
-
-class ABBAurora : public uart::UARTDevice, public PollingComponent, 
+class ABBAurora : public uart::UARTDevice, public PollingComponent
 {
 
 protected:

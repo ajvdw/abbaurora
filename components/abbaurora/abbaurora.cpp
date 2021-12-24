@@ -125,8 +125,7 @@ void ABBAuroraComponent::clearData(uint8_t *data, uint8_t len)
 
 bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
 {
-    if( this->flow_control_pin_ == nullptr ) ESP_LOGD(TAG, "flow control not set");
-
+    
     SendStatus = false;
     ReceiveStatus = false;
 
@@ -206,6 +205,9 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
                     ReceiveStatus = true;
                     break;
                 }
+                else
+                    ESP_LOGD(TAG, "CRC error in received data");
+
             }
         }
     }

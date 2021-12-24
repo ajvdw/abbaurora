@@ -27,7 +27,7 @@ public:
     void set_address(uint8_t address) {  Address = address; }
     void set_flow_control_pin(GPIOPin *flow_control_pin) { this->flow_control_pin_ = flow_control_pin; }
     void set_cumulated_energy_total( sensor::Sensor *sensor ) { this->cumulated_energy_total = sensor; }
-    void set_version( sensor::TextSensor *sensor ) { this->version = sensor; }
+    void set_version( text_sensor::TextSensor *sensor ) { this->version = sensor; }
 
 private:
     uint8_t connection = 0;

@@ -106,15 +106,13 @@ void ABBAuroraComponent::update()
     }
     else
     {
-      if (connection)
-      {
-        connection = 0;
-        connection_status->publish_state("Disconnected");
-      }
-      ESP_LOGD(TAG, "Inverter not conntected");
+        if (connection)
+        {
+            connection = 0;
+            connection_status->publish_state("Disconnected");
+        }
+        ESP_LOGD(TAG, "Inverter not conntected");
     }
-  }
-
 }
  
 void ABBAuroraComponent::clearData(uint8_t *data, uint8_t len)

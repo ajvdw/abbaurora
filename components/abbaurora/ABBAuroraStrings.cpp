@@ -1,496 +1,483 @@
 #include "ABBAuroraStrings.h"
 
-/*
-String ABBAuroraStrings::TransmissionState(byte id)
+std::string ABBAuroraStrings::TransmissionState(uint8_t id)
 {
     switch (id)
     {
     case 0:
-        return F("Everything is OK.");
+        return std::string("Everything is OK.");
     case 51:
-        return F("Command is not implemented");
+        return std::string("Command is not implemented");
     case 52:
-        return F("Variable does not exist");
+        return std::string("Variable does not exist");
     case 53:
-        return F("Variable value is out of range");
+        return std::string("Variable value is out of range");
     case 54:
-        return F("EEprom not accessible");
+        return std::string("EEprom not accessible");
     case 55:
-        return F("Not Toggled Service Mode");
+        return std::string("Not Toggled Service Mode");
     case 56:
-        return F("Can not send the command to internal micro");
+        return std::string("Can not send the command to internal micro");
     case 57:
-        return F("Command not Executed");
+        return std::string("Command not Executed");
     case 58:
-        return F("The variable is not available, retry");
+        return std::string("The variable is not available, retry");
     default:
-        return F("Unknown");
+        return std::string("Unknown");
     }
 }
 
-String ABBAuroraStrings::GlobalState(byte id)
+std::string ABBAuroraStrings::GlobalState(uint8_t id)
 {
     switch (id)
     {
     case 0:
-        return F("Sending Parameters");
+        return std::string("Sending Parameters");
     case 1:
-        return F("Wait Sun / Grid");
+        return std::string("Wait Sun / Grid");
     case 2:
-        return F("Checking Grid");
+        return std::string("Checking Grid");
     case 3:
-        return F("Measuring Riso");
+        return std::string("Measuring Riso");
     case 4:
-        return F("DcDc Start");
+        return std::string("DcDc Start");
     case 5:
-        return F("Inverter Start");
+        return std::string("Inverter Start");
     case 6:
-        return F("Run");
+        return std::string("Run");
     case 7:
-        return F("Recovery");
+        return std::string("Recovery");
     case 8:
-        return F("Pausev");
+        return std::string("Pausev");
     case 9:
-        return F("Ground Fault");
+        return std::string("Ground Fault");
     case 10:
-        return F("OTH Fault");
+        return std::string("OTH Fault");
     case 11:
-        return F("Address Setting");
+        return std::string("Address Setting");
     case 12:
-        return F("Self Test");
+        return std::string("Self Test");
     case 13:
-        return F("Self Test Fail");
+        return std::string("Self Test Fail");
     case 14:
-        return F("Sensor Test + Meas.Riso");
+        return std::string("Sensor Test + Meas.Riso");
     case 15:
-        return F("Leak Fault");
+        return std::string("Leak Fault");
     case 16:
-        return F("Waiting for manual reset");
+        return std::string("Waiting for manual reset");
     case 17:
-        return F("Internal Error E026");
+        return std::string("Internal Error E026");
     case 18:
-        return F("Internal Error E027");
+        return std::string("Internal Error E027");
     case 19:
-        return F("Internal Error E028");
+        return std::string("Internal Error E028");
     case 20:
-        return F("Internal Error E029");
+        return std::string("Internal Error E029");
     case 21:
-        return F("Internal Error E030");
+        return std::string("Internal Error E030");
     case 22:
-        return F("Sending Wind Table");
+        return std::string("Sending Wind Table");
     case 23:
-        return F("Failed Sending table");
+        return std::string("Failed Sending table");
     case 24:
-        return F("UTH Fault");
+        return std::string("UTH Fault");
     case 25:
-        return F("Remote OFF");
+        return std::string("Remote OFF");
     case 26:
-        return F("Interlock Fail");
+        return std::string("Interlock Fail");
     case 27:
-        return F("Executing Autotest");
+        return std::string("Executing Autotest");
     case 30:
-        return F("Waiting Sun");
+        return std::string("Waiting Sun");
     case 31:
-        return F("Temperature Fault");
+        return std::string("Temperature Fault");
     case 32:
-        return F("Fan Staucked");
+        return std::string("Fan Staucked");
     case 33:
-        return F("Int.Com.Fault");
+        return std::string("Int.Com.Fault");
     case 34:
-        return F("Slave Insertion");
+        return std::string("Slave Insertion");
     case 35:
-        return F("DC Switch Open");
+        return std::string("DC Switch Open");
     case 36:
-        return F("TRAS Switch Open");
+        return std::string("TRAS Switch Open");
     case 37:
-        return F("MASTER Exclusion");
+        return std::string("MASTER Exclusion");
     case 38:
-        return F("Auto Exclusion");
+        return std::string("Auto Exclusion");
     case 98:
-        return F("Erasing Internal EEprom");
+        return std::string("Erasing Internal EEprom");
     case 99:
-        return F("Erasing External EEprom");
+        return std::string("Erasing External EEprom");
     case 100:
-        return F("Counting EEprom");
+        return std::string("Counting EEprom");
     case 101:
-        return F("Freeze");
+        return std::string("Freeze");
     default:
-        return F("Unknown");
+        return std::string("Unknown");
     }
 }
 
-String ABBAuroraStrings::DcDcState(byte id)
+std::string ABBAuroraStrings::DcDcState(uint8_t id)
 {
     switch (id)
     {
     case 0:
-        return F("DcDc OFF");
+        return std::string("DcDc OFF");
     case 1:
-        return F("Ramp Start");
+        return std::string("Ramp Start");
     case 2:
-        return F("MPPT");
+        return std::string("MPPT");
     case 3:
-        return F("Not Used");
+        return std::string("Not Used");
     case 4:
-        return F("Input OC");
+        return std::string("Input OC");
     case 5:
-        return F("Input UV");
+        return std::string("Input UV");
     case 6:
-        return F("Input OV");
+        return std::string("Input OV");
     case 7:
-        return F("Input Low");
+        return std::string("Input Low");
     case 8:
-        return F("No Parameters");
+        return std::string("No Parameters");
     case 9:
-        return F("Bulk OV");
+        return std::string("Bulk OV");
     case 10:
-        return F("Communication Error");
+        return std::string("Communication Error");
     case 11:
-        return F("Ramp Fail");
+        return std::string("Ramp Fail");
     case 12:
-        return F("Internal Error");
+        return std::string("Internal Error");
     case 13:
-        return F("Input mode Error");
+        return std::string("Input mode Error");
     case 14:
-        return F("Ground Fault");
+        return std::string("Ground Fault");
     case 15:
-        return F("Inverter Fail");
+        return std::string("Inverter Fail");
     case 16:
-        return F("DcDc IGBT Sat");
+        return std::string("DcDc IGBT Sat");
     case 17:
-        return F("DcDc ILEAK Fail");
+        return std::string("DcDc ILEAK Fail");
     case 18:
-        return F("DcDc Grid Fail");
+        return std::string("DcDc Grid Fail");
     case 19:
-        return F("DcDc Comm.Error");
+        return std::string("DcDc Comm.Error");
     default:
-        return F("Unknown");
+        return std::string("Unknown");
     }
 }
 
-String ABBAuroraStrings::InverterState(byte id)
+std::string ABBAuroraStrings::InverterState(uint8_t id)
 {
     switch (id)
     {
     case 0:
-        return F("Stand By");
+        return std::string("Stand By");
     case 1:
-        return F("Checking Grid");
+        return std::string("Checking Grid");
     case 2:
-        return F("Run");
+        return std::string("Run");
     case 3:
-        return F("Bulk OV");
+        return std::string("Bulk OV");
     case 4:
-        return F("Out OC");
+        return std::string("Out OC");
     case 5:
-        return F("IGBT Sat");
+        return std::string("IGBT Sat");
     case 6:
-        return F("Bulk UV");
+        return std::string("Bulk UV");
     case 7:
-        return F("Degauss Error");
+        return std::string("Degauss Error");
     case 8:
-        return F("No Parameters");
+        return std::string("No Parameters");
     case 9:
-        return F("Bulk Low");
+        return std::string("Bulk Low");
     case 10:
-        return F("Grid OV");
+        return std::string("Grid OV");
     case 11:
-        return F("Communication Error");
+        return std::string("Communication Error");
     case 12:
-        return F("Degaussing");
+        return std::string("Degaussing");
     case 13:
-        return F("Starting");
+        return std::string("Starting");
     case 14:
-        return F("Bulk Cap Fail");
+        return std::string("Bulk Cap Fail");
     case 15:
-        return F("Leak Fail");
+        return std::string("Leak Fail");
     case 16:
-        return F("DcDc Fail");
+        return std::string("DcDc Fail");
     case 17:
-        return F("Ileak Sensor Fail");
+        return std::string("Ileak Sensor Fail");
     case 18:
-        return F("SelfTest: relay inverter");
+        return std::string("SelfTest: relay inverter");
     case 19:
-        return F("SelfTest : wait for sensor test");
+        return std::string("SelfTest : wait for sensor test");
     case 20:
-        return F("SelfTest : test relay DcDc + sensor");
+        return std::string("SelfTest : test relay DcDc + sensor");
     case 21:
-        return F("SelfTest : relay inverter fail");
+        return std::string("SelfTest : relay inverter fail");
     case 22:
-        return F("SelfTest timeout fail");
+        return std::string("SelfTest timeout fail");
     case 23:
-        return F("SelfTest : relay DcDc fail");
+        return std::string("SelfTest : relay DcDc fail");
     case 24:
-        return F("Self Test 1");
+        return std::string("Self Test 1");
     case 25:
-        return F("Waiting self test start");
+        return std::string("Waiting self test start");
     case 26:
-        return F("Dc Injection");
+        return std::string("Dc Injection");
     case 27:
-        return F("Self Test 2");
+        return std::string("Self Test 2");
     case 28:
-        return F("Self Test 3");
+        return std::string("Self Test 3");
     case 29:
-        return F("Self Test 4");
+        return std::string("Self Test 4");
     case 30:
-        return F("Internal Error");
+        return std::string("Internal Error");
     case 31:
-        return F("Internal Error");
+        return std::string("Internal Error");
     case 40:
-        return F("Forbidden State");
+        return std::string("Forbidden State");
     case 41:
-        return F("Input UC");
+        return std::string("Input UC");
     case 42:
-        return F("Zero Power");
+        return std::string("Zero Power");
     case 43:
-        return F("Grid Not Present");
+        return std::string("Grid Not Present");
     case 44:
-        return F("Waiting Start");
+        return std::string("Waiting Start");
     case 45:
-        return F("MPPT");
+        return std::string("MPPT");
     case 46:
-        return F("Grid Fail");
+        return std::string("Grid Fail");
     case 47:
-        return F("Input OC");
+        return std::string("Input OC");
     default:
-        return F("Unknown");
+        return std::string("Unknown");
     }
 }
 
-String ABBAuroraStrings::AlarmState(byte id)
+std::string ABBAuroraStrings::AlarmState(uint8_t id)
 {
     switch (id)
     {
     case 0:
-        return F("No Alarm");
+        return std::string("No Alarm");
     case 1:
-        return F("Sun Low");
+        return std::string("Sun Low");
     case 2:
-        return F("Input OC");
+        return std::string("Input OC");
     case 3:
-        return F("Input UV");
+        return std::string("Input UV");
     case 4:
-        return F("Input OV");
+        return std::string("Input OV");
     case 5:
-        return F("Sun Low");
+        return std::string("Sun Low");
     case 6:
-        return F("No Parameters");
+        return std::string("No Parameters");
     case 7:
-        return F("Bulk OV");
+        return std::string("Bulk OV");
     case 8:
-        return F("Comm.Error");
+        return std::string("Comm.Error");
     case 9:
-        return F("Output OC");
+        return std::string("Output OC");
     case 10:
-        return F("IGBT Sat");
+        return std::string("IGBT Sat");
     case 11:
-        return F("Bulk UV");
+        return std::string("Bulk UV");
     case 12:
-        return F("Internal error");
+        return std::string("Internal error");
     case 13:
-        return F("Grid Fail");
+        return std::string("Grid Fail");
     case 14:
-        return F("Bulk Low");
+        return std::string("Bulk Low");
     case 15:
-        return F("Ramp Fail");
+        return std::string("Ramp Fail");
     case 16:
-        return F("Dc / Dc Fail");
+        return std::string("Dc / Dc Fail");
     case 17:
-        return F("Wrong Mode");
+        return std::string("Wrong Mode");
     case 18:
-        return F("Ground Fault");
+        return std::string("Ground Fault");
     case 19:
-        return F("Over Temp.");
+        return std::string("Over Temp.");
     case 20:
-        return F("Bulk Cap Fail");
+        return std::string("Bulk Cap Fail");
     case 21:
-        return F("Inverter Fail");
+        return std::string("Inverter Fail");
     case 22:
-        return F("Start Timeout");
+        return std::string("Start Timeout");
     case 23:
-        return F("Ground Fault");
+        return std::string("Ground Fault");
     case 24:
-        return F("Degauss error");
+        return std::string("Degauss error");
     case 25:
-        return F("Ileak sens.fail");
+        return std::string("Ileak sens.fail");
     case 26:
-        return F("DcDc Fail");
+        return std::string("DcDc Fail");
     case 27:
-        return F("Self Test Error 1");
+        return std::string("Self Test Error 1");
     case 28:
-        return F("Self Test Error 2");
+        return std::string("Self Test Error 2");
     case 29:
-        return F("Self Test Error 3");
+        return std::string("Self Test Error 3");
     case 30:
-        return F("Self Test Error 4");
+        return std::string("Self Test Error 4");
     case 31:
-        return F("DC inj error");
+        return std::string("DC inj error");
     case 32:
-        return F("Grid OV");
+        return std::string("Grid OV");
     case 33:
-        return F("Grid UV");
+        return std::string("Grid UV");
     case 34:
-        return F("Grid OF");
+        return std::string("Grid OF");
     case 35:
-        return F("Grid UF");
+        return std::string("Grid UF");
     case 36:
-        return F("Z grid Hi");
+        return std::string("Z grid Hi");
     case 37:
-        return F("Internal error");
+        return std::string("Internal error");
     case 38:
-        return F("Riso Low");
+        return std::string("Riso Low");
     case 39:
-        return F("Vref Error");
+        return std::string("Vref Error");
     case 40:
-        return F("Error Meas V");
+        return std::string("Error Meas V");
     case 41:
-        return F("Error Meas F");
+        return std::string("Error Meas F");
     case 42:
-        return F("Error Meas Z");
+        return std::string("Error Meas Z");
     case 43:
-        return F("Error Meas Ileak");
+        return std::string("Error Meas Ileak");
     case 44:
-        return F("Error Read V");
+        return std::string("Error Read V");
     case 45:
-        return F("Error Read I");
+        return std::string("Error Read I");
     case 46:
-        return F("Table fail");
+        return std::string("Table fail");
     case 47:
-        return F("Fan Fail");
+        return std::string("Fan Fail");
     case 48:
-        return F("UTH");
+        return std::string("UTH");
     case 49:
-        return F("Interlock fail");
+        return std::string("Interlock fail");
     case 50:
-        return F("Remote Off");
+        return std::string("Remote Off");
     case 51:
-        return F("Vout Avg errror");
+        return std::string("Vout Avg errror");
     case 52:
-        return F("Battery low");
+        return std::string("Battery low");
     case 53:
-        return F("Clk fail");
+        return std::string("Clk fail");
     case 54:
-        return F("Input UC");
+        return std::string("Input UC");
     case 55:
-        return F("Zero Power");
+        return std::string("Zero Power");
     case 56:
-        return F("Fan Stucked");
+        return std::string("Fan Stucked");
     case 57:
-        return F("DC Switch Open");
+        return std::string("DC Switch Open");
     case 58:
-        return F("Tras Switch Open");
+        return std::string("Tras Switch Open");
     case 59:
-        return F("AC Switch Open");
+        return std::string("AC Switch Open");
     case 60:
-        return F("Bulk UV");
+        return std::string("Bulk UV");
     case 61:
-        return F("Autoexclusion");
+        return std::string("Autoexclusion");
     case 62:
-        return F("Grid df / dt");
+        return std::string("Grid df / dt");
     case 63:
-        return F("Den switch Open");
+        return std::string("Den switch Open");
     case 64:
-        return F("Jbox fail");
+        return std::string("Jbox fail");
     default:
-        return F("Unknown");
+        return std::string("Unknown");
     }
 }
 
-String ABBAuroraStrings::VersionPart1(byte id)
+std::string ABBAuroraStrings::VersionPart1(uint8_t id)
 {
     switch ((char)id)
     {
     case 'i':
-        return F("Aurora 2 kW indoor");
+        return std::string("Aurora 2 kW indoor");
     case 'o':
-        return F("Aurora 2 kW outdoor");
+        return std::string("Aurora 2 kW outdoor");
     case 'r':
-        return F("ABB TRIO 5.8kW outdoor");
+        return std::string("ABB TRIO 5.8kW outdoor");
     case 'I':
-        return F("Aurora 3.6 kW indoor");
+        return std::string("Aurora 3.6 kW indoor");
     case 'O':
-        return F("Aurora 3.0 - 3.6 kW outdoor");
+        return std::string("Aurora 3.0 - 3.6 kW outdoor");
     case '5':
-        return F("Aurora 5.0 kW outdoor");
+        return std::string("Aurora 5.0 kW outdoor");
     case '6':
-        return F("Aurora 6 kW outdoor");
+        return std::string("Aurora 6 kW outdoor");
     case 'P':
-        return F("3 - phase interface (3G74)");
+        return std::string("3 - phase interface (3G74)");
     case 'C':
-        return F("Aurora 50kW module");
+        return std::string("Aurora 50kW module");
     case '4':
-        return F("Aurora 4.2kW new");
+        return std::string("Aurora 4.2kW new");
     case '3':
-        return F("Aurora 3.6kW new");
+        return std::string("Aurora 3.6kW new");
     case '2':
-        return F("Aurora 3.3kW new");
+        return std::string("Aurora 3.3kW new");
     case '1':
-        return F("Aurora 3.0kW new");
+        return std::string("Aurora 3.0kW new");
     case 'D':
-        return F("Aurora 12.0kW");
+        return std::string("Aurora 12.0kW");
     case 'X':
-        return F("Aurora 10.0kW");
+        return std::string("Aurora 10.0kW");
     default:
-        return F("Unknown");
+        return std::string("Unknown");
     }
 }
 
-String ABBAuroraStrings::VersionPart2(byte id)
+std::string ABBAuroraStrings::VersionPart2(uint8_t id)
 {
-    char *p;
-
     switch ((char)id)
     {
     case 'A':
-        return F("UL1741");
+        return std::string("UL1741");
     case 'E':
-        return F("VDE0126");
+        return std::string("VDE0126");
     case 'S':
-        return F("DR 1663 / 2000");
+        return std::string("DR 1663 / 2000");
     case 'I':
-        return F("ENEL DK 5950");
+        return std::string("ENEL DK 5950");
     case 'U':
-        return F("UK G83");
+        return std::string("UK G83");
     case 'K':
-        return F("AS 4777");
+        return std::string("AS 4777");
     default:
-        return F("Unknown");
+        return std::string("Unknown");
     }
 }
-*/
+
 std::string ABBAuroraStrings::VersionPart3(uint8_t id)
 {
-    char *p;
 
     switch ((char)id)
     {
     case 'N':
-        p = F("Transformerless Version");
-        break;
+        return std::string("Transformerless Version");
     case 'T':
-        p = F("Transformer Version");
-        break;
+        return std::string("Transformer Version");
     default:
-        p = F("Unknown");
+        return std::string("Unknown");
     }
-
-    return std::string(p);
 }
 
 std::string ABBAuroraStrings::VersionPart4(uint8_t id)
 {
-    char *p;
-
     switch ((char)id)
     {
     case 'W':
-        p = F("Wind version");
-        break;
+        return std::string("Wind version");
     case 'N':
-        p = F("PV version");
-        break;
+        return std::string("PV version");
     default:
-        p = F("Unknown");
+        return std::string("Unknown");
     }
-    return std::string(p);
 }

@@ -163,8 +163,8 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         BccLo = BccLo ^ Tmp;
     }
 
-    SendData[8] = (~BccLo);
-    SendData[9] = (~BccHi);
+    SendData[8] = (unint8_t)(~BccLo);
+    SendData[9] = (unint8_t)(~BccHi);
 
     clearReceiveData();
 
@@ -213,10 +213,9 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
                 }    
                 ESP_LOGV(TAG, "< %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x", 
                     ReceiveData[0], ReceiveData[1], ReceiveData[2], ReceiveData[3],
-                    ReceiveData[4], ReceiveData[5], ReceiveData[6], ReceiveData[7] ,(~BccHi), (~BccLo) );      
+                    ReceiveData[4], ReceiveData[5], ReceiveData[6], ReceiveData[7] ,(unint8_t)(~BccHi), (unint8_t)(~BccLo) );      
         
-
-                if(  ReceiveData[7] == (~BccHi) &&  ReceiveData[6] == (~BccLo) )
+                if(  ReceiveData[7] == (unint8_t)(~BccHi) &&  ReceiveData[6] == (unint8_t)(~BccLo) )
                 {
                     ReceiveStatus = true;
                     break;

@@ -171,7 +171,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         }
 
         //if ( != 0) no need to check for success??
-        this->write_array( (uint8_t *) SendData, sizeof(SendData)) 
+        this->write_array( (uint8_t *) SendData, sizeof(SendData));
         {
             this->flush();            
             SendStatus = true;
@@ -180,7 +180,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
                 this->flow_control_pin_->digital_write(false);
 
 
-            if (this->read_array( (uint8_t *)ReceiveData, sizeof(ReceiveData)) != 0)
+            if (this->read_array( (uint8_t *)ReceiveData, sizeof(ReceiveData)) )
             {
                 if ((int)word(ReceiveData[7], ReceiveData[6]) == Crc16(ReceiveData, 0, 6))
                 {

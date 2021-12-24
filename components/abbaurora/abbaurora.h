@@ -4,9 +4,7 @@
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/text_sensor/text_sensor.h"
 #include "esphome/components/uart/uart.h"
-#include "esphome/core/log.h"
-#include "esphome/core/helpers.h"
-#include "esphome/core/defines.h"
+
 
 #include "ABBAuroraEnums.h"
 #include "ABBAuroraStrings.h"
@@ -14,11 +12,12 @@
 namespace esphome {
 namespace abbaurora {
 
-
-class ABBAuroraDevice : public uart:: UARTDevice, public PollingComponent
+class ABBAuroraComponent : public uart:: UARTDevice, public PollingComponent
 {
+public:
+    ABBAuroraComponent() : PollingComponent(10000) {}
+
 protected:
-    ABBAuroraDevice() : PollingComponent(15000) {}
     GPIOPin *flow_control_pin_{nullptr};
 
 public:
@@ -55,23 +54,6 @@ private:
     bool Send(byte address, byte param0, byte param1, byte param2, byte param3, byte param4, byte param5, byte param6);
 
  
-    text_sensor::TextSensor *connection_status = new text_sensor::TextSensor();
-    text_sensor::TextSensor *version = new text_sensor::TextSensor();
-
-    sensor::Sensor *v_in_1 = new sensor::Sensor();
-    sensor::Sensor *v_in_2 = new sensor::Sensor();
-    sensor::Sensor *i_in_1 = new sensor::Sensor();
-    sensor::Sensor *i_in_2 = new sensor::Sensor();
-    sensor::Sensor *power_in_1 = new sensor::Sensor();
-    sensor::Sensor *power_in_2 = new sensor::Sensor();
-    sensor::Sensor *power_in_total = new sensor::Sensor();
-    sensor::Sensor *grid_power = new sensor::Sensor();
-    sensor::Sensor *temperature_inverter = new sensor::Sensor();
-    sensor::Sensor *temperature_booster = new sensor::Sensor();
-    sensor::Sensor *grid_voltage = new sensor::Sensor();
-    sensor::Sensor *cumulated_energy_today = new sensor::Sensor();
-    sensor::Sensor *cumulated_energy_total = new sensor::Sensor();
-
    union {
         byte asBytes[4];
         float asFloat;
@@ -206,7 +188,25 @@ private:
 
     DataCumulatedEnergy CumulatedEnergy;
 
+protected:
+    text_sensor::TextSensor *connection_status = new text_sensor::TextSensor();
+    text_sensor::TextSensor *version = new text_sensor::TextSensor();
 
+    sensor::Sensor *v_in_1 = new sensor::Sensor();
+    sensor::Sensor *v_in_2 = new sensor::Sensor();
+    sensor::Sensor *i_in_1 = new sensor::Sensor();
+    sensor::Sensor *i_in_2 = new sensor::Sensor();
+    sensor::Sensor *power_in_1 = new sensor::Sensor();
+    sensor::Sensor *power_in_2 = new sensor::Sensor();
+    sensor::Sensor *power_in_total = new sensor::Sensor();
+    sensor::Sensor *grid_power = new sensor::Sensor();
+    sensor::Sensor *temperature_inverter = new sensor::Sensor();
+    sensor::Sensor *temperature_booster = new sensor::Sensor();
+    sensor::Sensor *grid_voltage = new sensor::Sensor();
+    sensor::Sensor *cumulated_energy_today = new sensor::Sensor();
+    sensor::Sensor *cumulated_energy_total = new sensor::Sensor();
+
+ 
 };
 
 } // abbaurora namespace

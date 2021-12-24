@@ -7,6 +7,8 @@ from esphome.const import (
     CONF_FLOW_CONTROL_PIN,
     CONF_ID,
     CONF_ADDRESS,
+    CONF_SENSORS,
+    CONF_TEXT_SENSORS,
 )
 from esphome import pins
 

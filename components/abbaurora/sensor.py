@@ -38,7 +38,6 @@ CONF_ABB_CUMULATED_ENERGY_TOTAL = "cumulated_energy_total"
 
 AUTO_LOAD = ["abbaurora"]
 
-
 TYPES = {
     CONF_ABB_V_IN_1: sensor.sensor_schema( UNIT_VOLT, ICON_EMPTY, 1, DEVICE_CLASS_VOLTAGE, STATE_CLASS_NONE ),
     CONF_ABB_V_IN_2: sensor.sensor_schema( UNIT_VOLT, ICON_EMPTY, 1, DEVICE_CLASS_VOLTAGE, STATE_CLASS_NONE ),

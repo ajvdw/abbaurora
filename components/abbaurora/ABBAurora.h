@@ -12,9 +12,6 @@
 #include "ABBAuroraStrings.h"
 
 
-namespace esphome {
-namespace abbaurora {
-
 static const char *const TAG = "abbaurora";
 
 class ABBAurora;
@@ -229,5 +226,3 @@ public:
     bool ReadSystemSerialNumberCentral();
 };
 
-} // namespace abbaurora
-} // namespace esphome

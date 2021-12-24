@@ -17,7 +17,7 @@
 //namespace esphome {
 //namespace abbaurora { 
 
-class ABBAurora : public uart::UARTDevice, public PollingComponent
+class ABBAurora : public PollingComponent, public uart::UARTDevice
 {
 
 protected:

@@ -24,6 +24,7 @@ public:
     void setup() override;
     void update() override;
     void set_address(uint8_t address) {  Address = address; }
+    void set_flow_control_pin(GPIOPin *flow_control_pin) { this->flow_control_pin_ = flow_control_pin; }
  
 private:
     uint8_t connection = 0;

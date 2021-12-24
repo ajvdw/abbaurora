@@ -33,6 +33,7 @@ private:
     uint8_t Address = 0; // Default 2 ??
     uint8_t ReceiveData[8];
 
+public:
     bool ReadVersion();
     bool ReadState();
     bool ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global);
@@ -51,6 +52,9 @@ private:
     void clearReceiveData();
     int Crc16(uint8_t *data, int offset, int count);
     bool Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6);
+    bool ReadLastFourAlarms();
+    bool ReadJunctionBoxState(uint8_t nj);
+    bool ReadJunctionBoxVal(uint8_t nj, uint8_t par);
 
  
    union {
@@ -100,8 +104,6 @@ private:
 
     DataDSP DSP;
 
-
-
     typedef struct
     {
         uint8_t TransmissionState;
@@ -127,10 +129,6 @@ private:
 
     DataLastFourAlarms LastFourAlarms;
 
-    bool ReadLastFourAlarms();
-    bool ReadJunctionBoxState(uint8_t nj);
-    bool ReadJunctionBoxVal(uint8_t nj, uint8_t par);
-
     // Inverters
     typedef struct
     {
@@ -140,8 +138,6 @@ private:
 
     DataSystemPN SystemPN;
 
-
-
     typedef struct
     {
         std::string SerialNumber;
@@ -149,8 +145,6 @@ private:
     } DataSystemSerialNumber;
 
     DataSystemSerialNumber SystemSerialNumber;
-
-  
 
     typedef struct
     {

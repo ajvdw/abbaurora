@@ -7,14 +7,14 @@ class ABBAuroraStrings {
     private:
     
     public:
-       static std::string TransmissionState(byte id);
-       static std::string GlobalState(byte id);
-       static std::string DcDcState(byte id);
-       static std::string InverterState(byte id);
-       static std::string AlarmState(byte id);
-       static std::string VersionPart1(byte id);
-       static std::string VersionPart2(byte id);
-       static std::string VersionPart3(byte id);
-       static std::string VersionPart4(byte id);
+       static std::string TransmissionState(uint8_t id);
+       static std::string GlobalState(uint8_t id);
+       static std::string DcDcState(uint8_t id);
+       static std::string InverterState(uint8_t id);
+       static std::string AlarmState(uint8_t id);
+       static std::string VersionPart1(uint8_t id);
+       static std::string VersionPart2(uint8_t id);
+       static std::string VersionPart3(uint8_t id);
+       static std::string VersionPart4(uint8_t id);
 };
 #endif

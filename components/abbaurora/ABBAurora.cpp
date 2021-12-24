@@ -1,11 +1,11 @@
-#include "ABBAurora.h"
+#include "abbaurora.h"
 
 namespace esphome {
 namespace abbaurora {
 
 static const char *const TAG = "abbaurora";
 
-void ABBAurora::setup() 
+void ABBAuroraDevice::setup() 
 {
     ESP_LOGD(TAG, "Setup");
 
@@ -20,7 +20,7 @@ void ABBAurora::setup()
     connection_status->publish_state("Disconnected");
 }
 
-void ABBAurora::update()
+void ABBAuroraDevice::update()
 {
     //If inverter is connected
     if (this->ReadState())
@@ -114,7 +114,7 @@ void ABBAurora::update()
 
 }
  
-void ABBAurora::clearData(byte *data, byte len)
+void ABBAuroraDevice::clearData(byte *data, byte len)
 {
     for (int i = 0; i < len; i++)
     {
@@ -122,7 +122,7 @@ void ABBAurora::clearData(byte *data, byte len)
     }
 }
 
-int ABBAurora::Crc16(byte *data, int offset, int count)
+int ABBAuroraDevice::Crc16(byte *data, int offset, int count)
 {
     byte BccLo = 0xFF;
     byte BccHi = 0xFF;
@@ -144,7 +144,7 @@ int ABBAurora::Crc16(byte *data, int offset, int count)
     return (int)word(~BccHi, ~BccLo);
 }
 
-bool ABBAurora::Send(byte address, byte param0, byte param1, byte param2, byte param3, byte param4, byte param5, byte param6)
+bool ABBAuroraDevice::Send(byte address, byte param0, byte param1, byte param2, byte param3, byte param4, byte param5, byte param6)
 {
 
     SendStatus = false;
@@ -196,7 +196,7 @@ bool ABBAurora::Send(byte address, byte param0, byte param1, byte param2, byte p
     return ReceiveStatus;
 }
 
-void ABBAurora::clearReceiveData()
+void ABBAuroraDevice::clearReceiveData()
 {
     clearData(ReceiveData, 8);
 }
@@ -211,7 +211,7 @@ void ABBAurora::clearReceiveData()
  * Temperature °C 
  * 
  **/
-bool ABBAurora::ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global)
+bool ABBAuroraDevice::ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global)
 {
     if ((((int)type >= 1 && (int)type <= 9) || ((int)type >= 21 && (int)type <= 63)) && ((int)global >= 0 && (int)global <= 1))
     {
@@ -246,7 +246,7 @@ bool ABBAurora::ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global)
     return DSP.ReadState;
 }
 
-bool ABBAurora::ReadTimeDate()
+bool ABBAuroraDevice::ReadTimeDate()
 {
     TimeDate.ReadState = Send(this->Address, (byte)70, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
@@ -262,7 +262,7 @@ bool ABBAurora::ReadTimeDate()
     return TimeDate.ReadState;
 }
 
-bool ABBAurora::ReadLastFourAlarms()
+bool ABBAuroraDevice::ReadLastFourAlarms()
 {
     LastFourAlarms.ReadState = Send(this->Address, (byte)86, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
@@ -286,19 +286,19 @@ bool ABBAurora::ReadLastFourAlarms()
     return LastFourAlarms.ReadState;
 }
 
-bool ABBAurora::ReadJunctionBoxState(byte nj)
+bool ABBAuroraDevice::ReadJunctionBoxState(byte nj)
 {
     return Send(this->Address, (byte)200, nj, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 }
 
-bool ABBAurora::ReadJunctionBoxVal(byte nj, byte par)
+bool ABBAuroraDevice::ReadJunctionBoxVal(byte nj, byte par)
 {
     return Send(this->Address, (byte)201, nj, par, (byte)0, (byte)0, (byte)0, (byte)0);
 }
 
 // Inverters
 
-bool ABBAurora::ReadSystemPN()
+bool ABBAuroraDevice::ReadSystemPN()
 {
     SystemPN.ReadState = Send(this->Address, (byte)52, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
@@ -307,7 +307,7 @@ bool ABBAurora::ReadSystemPN()
     return SystemPN.ReadState;
 }
 
-bool ABBAurora::ReadSystemSerialNumber()
+bool ABBAuroraDevice::ReadSystemSerialNumber()
 {
     SystemSerialNumber.ReadState = Send(this->Address, (byte)63, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
@@ -316,7 +316,7 @@ bool ABBAurora::ReadSystemSerialNumber()
     return SystemSerialNumber.ReadState;
 }
 
-bool ABBAurora::ReadManufacturingWeekYear()
+bool ABBAuroraDevice::ReadManufacturingWeekYear()
 {
     ManufacturingWeekYear.ReadState = Send(this->Address, (byte)65, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
@@ -334,7 +334,7 @@ bool ABBAurora::ReadManufacturingWeekYear()
     return ManufacturingWeekYear.ReadState;
 }
 
-bool ABBAurora::ReadFirmwareRelease()
+bool ABBAuroraDevice::ReadFirmwareRelease()
 {
     FirmwareRelease.ReadState = Send(this->Address, (byte)72, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
@@ -351,7 +351,7 @@ bool ABBAurora::ReadFirmwareRelease()
     return FirmwareRelease.ReadState;
 }
 
-bool ABBAurora::ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par)
+bool ABBAuroraDevice::ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par)
 {
     if ((int)par >= 0 && (int)par <= 6)
     {
@@ -385,7 +385,7 @@ bool ABBAurora::ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par)
     return CumulatedEnergy.ReadState;
 }
 
-bool ABBAurora::WriteBaudRateSetting(byte baudcode)
+bool ABBAuroraDevice::WriteBaudRateSetting(byte baudcode)
 {
     if ((int)baudcode >= 0 && (int)baudcode <= 3)
     {
@@ -399,47 +399,47 @@ bool ABBAurora::WriteBaudRateSetting(byte baudcode)
 }
 
 // Central
-bool ABBAurora::ReadFlagsSwitchCentral()
+bool ABBAuroraDevice::ReadFlagsSwitchCentral()
 {
     return Send(this->Address, (byte)67, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 }
 
-bool ABBAurora::ReadCumulatedEnergyCentral(byte var, byte ndays_h, byte ndays_l, byte global)
+bool ABBAuroraDevice::ReadCumulatedEnergyCentral(byte var, byte ndays_h, byte ndays_l, byte global)
 {
     return Send(this->Address, (byte)68, var, ndays_h, ndays_l, global, (byte)0, (byte)0);
 }
 
-bool ABBAurora::ReadFirmwareReleaseCentral(byte var)
+bool ABBAuroraDevice::ReadFirmwareReleaseCentral(byte var)
 {
     return Send(this->Address, (byte)72, var, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 }
 
-bool ABBAurora::ReadBaudRateSettingCentral(byte baudcode, byte serialline)
+bool ABBAuroraDevice::ReadBaudRateSettingCentral(byte baudcode, byte serialline)
 {
     return Send(this->Address, (byte)85, baudcode, serialline, (byte)0, (byte)0, (byte)0, (byte)0);
 }
 
-bool ABBAurora::ReadSystemInfoCentral(byte var)
+bool ABBAuroraDevice::ReadSystemInfoCentral(byte var)
 {
     return Send(this->Address, (byte)101, var, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 }
 
-bool ABBAurora::ReadJunctionBoxMonitoringCentral(byte cf, byte rn, byte njt, byte jal, byte jah)
+bool ABBAuroraDevice::ReadJunctionBoxMonitoringCentral(byte cf, byte rn, byte njt, byte jal, byte jah)
 {
     return Send(this->Address, (byte)103, cf, rn, njt, jal, jah, (byte)0);
 }
 
-bool ABBAurora::ReadSystemPNCentral()
+bool ABBAuroraDevice::ReadSystemPNCentral()
 {
     return Send(this->Address, (byte)105, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 }
 
-bool ABBAurora::ReadSystemSerialNumberCentral()
+bool ABBAuroraDevice::ReadSystemSerialNumberCentral()
 {
     return Send(this->Address, (byte)107, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 }
 
-bool ABBAurora::ReadState()
+bool ABBAuroraDevice::ReadState()
 {
     State.ReadState = Send(this->Address, (byte)50, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
@@ -463,7 +463,7 @@ bool ABBAurora::ReadState()
     return State.ReadState;
 }
 
-bool ABBAurora::ReadVersion()
+bool ABBAuroraDevice::ReadVersion()
 {
     Version.ReadState = Send(this->Address, (byte)58, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 

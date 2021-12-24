@@ -59,9 +59,9 @@ async def to_code(config):
     if CONF_ADDRESS in config:
         cg.add(var.set_address(config[CONF_ADDRESS]))
 
-    if CONF_ABB_CUMULATED_ENERGY_TOTAL in config:
-        sens = await sensor.new_sensor(config[CONF_ABB_CUMULATED_ENERGY_TOTAL])
-        cg.add(var.cumulated_energy_total(sens))
+    #if CONF_ABB_CUMULATED_ENERGY_TOTAL in config:
+    sens = await sensor.new_sensor(config[CONF_ABB_CUMULATED_ENERGY_TOTAL])
+    cg.add(var.cumulated_energy_total(sens))
 
 #CONF_ABB_V_IN_1 = "v_in_1"
 #CONF_ABB_V_IN_2 = "v_in_2"

@@ -39,7 +39,7 @@ public:
     void set_grid_voltage( sensor::Sensor *sensor ) { this->grid_voltage = sensor; }
     void set_cumulated_energy_today( sensor::Sensor *sensor ) { this->cumulated_energy_today = sensor; }
     void set_version( text_sensor::TextSensor *sensor ) { this->version = sensor; }
-    void set_status( text_sensor::TextSensor *sensor ) { this->status = sensor; }
+    void set_connection_status( text_sensor::TextSensor *sensor ) { this->connection_status = sensor; }
     void set_identification( text_sensor::TextSensor *sensor ) { this->identification = sensor; }
 
 private:
@@ -199,6 +199,7 @@ public:
 protected:
     text_sensor::TextSensor *connection_status{nullptr};
     text_sensor::TextSensor *version{nullptr};
+    text_sensor::TextSensor *identification{nullptr};
     sensor::Sensor *cumulated_energy_total{nullptr};   
     sensor::Sensor *v_in_1{nullptr}; 
     sensor::Sensor *v_in_2{nullptr}; 

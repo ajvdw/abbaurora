@@ -9,7 +9,7 @@ from esphome.const import (
 from . import CONF_ABBAURORA_ID, ABBAurora, ABBAURORA_COMPONENT_SCHEMA
 
 CONF_ABB_VERSION = "version"
-CONF_ABB_STATUS = "status"
+CONF_ABB_STATUS = "connection_status"
 CONF_ABB_IDENTIFICATION = "identification"
 AUTO_LOAD = ["abbaurora"]
 

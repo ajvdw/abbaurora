@@ -458,7 +458,7 @@ String ABBAuroraStrings::VersionPart2(byte id)
     }
 }
 */
-std::string ABBAuroraStrings::VersionPart3(byte id)
+std::string ABBAuroraStrings::VersionPart3(uint8_t id)
 {
     char *p;
 
@@ -477,7 +477,7 @@ std::string ABBAuroraStrings::VersionPart3(byte id)
     return std::string(p);
 }
 
-std::string ABBAuroraStrings::VersionPart4(byte id)
+std::string ABBAuroraStrings::VersionPart4(uint8_t id)
 {
     char *p;
 

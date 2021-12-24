@@ -6,7 +6,7 @@ from esphome.const import (
     CONF_SENSOR,
     ICON_EMPTY,
 )
-from . import ABBAurora, CONF_ABBAURORA_ID
+from . import CONF_ABBAURORA_ID, ABBAurora
 
 CONF_ABB_VERSION = "version"
 CONF_ABB_STATUS = "status"
@@ -16,7 +16,7 @@ AUTO_LOAD = ["abbaurora"]
 TYPES = {
     CONF_ABB_VERSION,
     CONF_ABB_STATUS,
-    CONR_ABB_IDENTIFICATION,
+    CONF_ABB_IDENTIFICATION,
 }
 
 async def to_code(config):

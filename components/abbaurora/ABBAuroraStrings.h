@@ -1,10 +1,11 @@
 #ifndef ABBAuroraStrings_h
 #define ABBAuroraStrings_h
 
+#include "esphome/core/helpers.h"
+
 class ABBAuroraStrings {
     private:
-        
-
+    
     public:
        static std::string TransmissionState(byte id);
        static std::string GlobalState(byte id);

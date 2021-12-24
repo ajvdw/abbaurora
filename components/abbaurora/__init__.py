@@ -10,7 +10,6 @@ from esphome.const import (
 )
 from esphome import pins
 
-
 DEPENDENCIES = ["uart"]
 
 AUTO_LOAD = ["sensor", "text_sensor"]
@@ -45,3 +44,23 @@ async def to_code(config):
 
     if CONF_ADDRESS in config:
         cg.add(var.set_address(config[CONF_ADDRESS]))
+
+    if CONF_ABB_CUMULATED_ENERGY_TOTAL in config:
+        sens = await sensor.new_sensor(config[CONF_ABB_CUMULATED_ENERGY_TOTAL])
+        cg.add(var.cumulated_energy_total(sens))
+
+#CONF_ABB_V_IN_1 = "v_in_1"
+#CONF_ABB_V_IN_2 = "v_in_2"
+#CONF_ABB_I_IN_1 = "i_in_1"
+#CONF_ABB_I_IN_2 = "i_in_2"
+#CONF_ABB_POWER_IN_1 = "power_in_1"
+#CONF_ABB_POWER_IN_2 = "power_in_2"
+#CONF_ABB_POWER_IN_TOTAL = "power_in_total"
+#CONF_ABB_GRID_POWER = "grid_power"
+#CONF_ABB_TEMPERATURE_INVERTER= "temperature_inverter"
+#CONF_ABB_TEMPERATURE_BOOSTER = "temperature_booster"
+#CONF_ABB_GRID_VOLTAGE = "grid_voltage"
+#CONF_ABB_CUMULATED_ENERGY_TODAY = "cumulated_energy_today" 
+
+   
+

@@ -105,10 +105,12 @@ void ABBAuroraComponent::update()
       yield();
 
       ESP_LOGD(TAG, "ReadCumulatedEnergy CUMULATED_ENERGY_TOTAL");
-      if (this->ReadCumulatedEnergy(TOTAL))
-        cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
-      yield();
-
+      if( this->cumulated_energy_total_ )
+      {
+        if(this->ReadCumulatedEnergy(TOTAL))
+            cumulated_energy_total_->publish_state(this->CumulatedEnergy.Energy);
+        yield();
+      }
     }
     else
     {

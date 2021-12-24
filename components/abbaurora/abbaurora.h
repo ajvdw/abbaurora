@@ -26,7 +26,8 @@ public:
     void dump_config() override;
     void set_address(uint8_t address) {  Address = address; }
     void set_flow_control_pin(GPIOPin *flow_control_pin) { this->flow_control_pin_ = flow_control_pin; }
- 
+    void set_cumulated_energy_total_sensor(sensor::Sensor *cumulated_energy_total) { this->cumulated_energy_total_ = cumulated_energy_total; }
+
 private:
     uint8_t connection = 0;
     int MaxAttempt = 1;
@@ -186,6 +187,7 @@ protected:
     text_sensor::TextSensor *connection_status = new text_sensor::TextSensor();
     text_sensor::TextSensor *version = new text_sensor::TextSensor();
 
+    sensor::Sensor *cumulated_energy_total_{nullptr};       
     sensor::Sensor *v_in_1 = new sensor::Sensor();
     sensor::Sensor *v_in_2 = new sensor::Sensor();
     sensor::Sensor *i_in_1 = new sensor::Sensor();
@@ -198,7 +200,7 @@ protected:
     sensor::Sensor *temperature_booster = new sensor::Sensor();
     sensor::Sensor *grid_voltage = new sensor::Sensor();
     sensor::Sensor *cumulated_energy_today = new sensor::Sensor();
-    sensor::Sensor *cumulated_energy_total = new sensor::Sensor();
+  
 
  
 };

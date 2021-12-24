@@ -46,7 +46,7 @@ CONFIG_SCHEMA = (
 )
 
 async def to_code(config):
-#    cg.add_global(abbaurora_ns.using)
+    cg.add_global(abbaurora_ns.using)
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
 
@@ -60,8 +60,8 @@ async def to_code(config):
         cg.add(var.set_address(config[CONF_ADDRESS]))
 
     #if CONF_ABB_CUMULATED_ENERGY_TOTAL in config:
-    sens = await sensor.new_sensor(config[CONF_ABB_CUMULATED_ENERGY_TOTAL])
-    cg.add(var.cumulated_energy_total(sens))
+    sens = await sensor(config[CONF_ABB_CUMULATED_ENERGY_TOTAL])
+    cg.add(var.set_cumulated_energy_total_sensor(sens))
 
 #CONF_ABB_V_IN_1 = "v_in_1"
 #CONF_ABB_V_IN_2 = "v_in_2"

@@ -26,7 +26,7 @@ public:
     void dump_config() override;
     void set_address(uint8_t address) {  Address = address; }
     void set_flow_control_pin(GPIOPin *flow_control_pin) { this->flow_control_pin_ = flow_control_pin; }
-    void set_cumulated_energy_total_sensor(sensor::Sensor *cumulated_energy_total) { this->cumulated_energy_total_ = cumulated_energy_total; this->register_sensor(this->cumulated_energy_total_)  }
+    void set_cumulated_energy_total_sensor(sensor::Sensor *cumulated_energy_total) { this->cumulated_energy_total_ = cumulated_energy_total;  }
 
 private:
     uint8_t connection = 0;

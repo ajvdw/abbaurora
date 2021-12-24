@@ -123,30 +123,6 @@ void ABBAuroraComponent::clearData(uint8_t *data, uint8_t len)
     }
 }
 
-int ABBAuroraComponent::Crc16(uint8_t *data, int offset, int count)
-{
-    uint8_t BccLo = 0xFF;
-    uint8_t BccHi = 0xFF;
-
-    for (int i = offset; i < (offset + count); i++)
-    {
-        uint8_t New = data[offset + i] ^ BccLo;
-        uint8_t Tmp = New << 4;
-        New = Tmp ^ New;
-        Tmp = New >> 5;
-        BccLo = BccHi;
-        BccHi = New ^ Tmp;
-        Tmp = New << 3;
-        BccLo = BccLo ^ Tmp;
-        Tmp = New >> 4;
-        BccLo = BccLo ^ Tmp;
-    }
-
-    return (int)((~BccHi) << 8 ) | (~BccLo);
-
-    
-}
-
 bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
 {
 
@@ -163,9 +139,26 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     SendData[6] = param5;
     SendData[7] = param6;
 
-    int crc = Crc16(SendData, 0, 8);
-    SendData[8] = crc & 0xff;
-    SendData[9] = crc >> 8;
+   // Calculate CRC16
+    uint8_t BccLo = 0xFF;
+    uint8_t BccHi = 0xFF;
+
+    for (int i = 0; i < count; i++)
+    {
+        uint8_t New = SendData[i] ^ BccLo;
+        uint8_t Tmp = New << 4;
+        New = Tmp ^ New;
+        Tmp = New >> 5;
+        BccLo = BccHi;
+        BccHi = New ^ Tmp;
+        Tmp = New << 3;
+        BccLo = BccLo ^ Tmp;
+        Tmp = New >> 4;
+        BccLo = BccLo ^ Tmp;
+    }
+
+    SendData[8] = (~BccLo);
+    SendData[9] = (~BccHi)
 
     clearReceiveData();
 

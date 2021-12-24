@@ -23,10 +23,11 @@ void ABBAuroraComponent::setup()
     connection_status->publish_state("Disconnected");
 }
 
-void ABBAuroraComponent::dump_config() {
-  ESP_LOGCONFIG(TAG, "config");
-  LOG_SENSOR("  ", "Inverter", this->version);
-  LOG_SENSOR("  ", "Connection", this->connection_status);
+void ABBAuroraComponent::dump_config() 
+{
+  if (this->flow_control_pin_ != nullptr) {
+    LOG_PIN("  Flow control Pin: ", this->flow_control_pin_);
+  }
 }
 void ABBAuroraComponent::update()
 {

@@ -10,20 +10,6 @@ from esphome.const import (
 )
 from esphome import pins
 
-CONF_ABB_V_IN_1 = "v_in_1"
-CONF_ABB_V_IN_2 = "v_in_2"
-CONF_ABB_I_IN_1 = "i_in_1"
-CONF_ABB_I_IN_2 = "i_in_2"
-CONF_ABB_POWER_IN_1 = "power_in_1"
-CONF_ABB_POWER_IN_2 = "power_in_2"
-CONF_ABB_POWER_IN_TOTAL = "power_in_total"
-CONF_ABB_GRID_POWER = "grid_power"
-CONF_ABB_TEMPERATURE_INVERTER= "temperature_inverter"
-CONF_ABB_TEMPERATURE_BOOSTER = "temperature_booster"
-CONF_ABB_GRID_VOLTAGE = "grid_voltage"
-CONF_ABB_CUMULATED_ENERGY_TODAY = "cumulated_energy_today" 
-CONF_ABB_CUMULATED_ENERGY_TOTAL = "cumulated_energy_total"
-
 DEPENDENCIES = ["uart"]
 
 AUTO_LOAD = ["sensor", "text_sensor"]
@@ -32,6 +18,13 @@ CONF_ABBAURORA_ID = "abbaurora_id"
 
 abbaurora_ns = cg.esphome_ns.namespace("esphome::abbaurora")
 ABBAurora = abbaurora_ns.class_("ABBAuroraComponent", uart.UARTDevice, cg.PollingComponent )
+
+
+ABBAURORA_COMPONENT_SCHEMA = cv.COMPONENT_SCHEMA.extend(
+    {
+        cv.Required(CONF_ABBAURORA_ID): cv.use_id(ABBAuroraComponent),
+    }
+)
 
 CONFIG_SCHEMA = (
     cv.Schema(
@@ -58,20 +51,4 @@ async def to_code(config):
 
     if CONF_ADDRESS in config:
         cg.add(var.set_address(config[CONF_ADDRESS]))
-
-
-#CONF_ABB_V_IN_1 = "v_in_1"
-#CONF_ABB_V_IN_2 = "v_in_2"
-#CONF_ABB_I_IN_1 = "i_in_1"
-#CONF_ABB_I_IN_2 = "i_in_2"
-#CONF_ABB_POWER_IN_1 = "power_in_1"
-#CONF_ABB_POWER_IN_2 = "power_in_2"
-#CONF_ABB_POWER_IN_TOTAL = "power_in_total"
-#CONF_ABB_GRID_POWER = "grid_power"
-#CONF_ABB_TEMPERATURE_INVERTER= "temperature_inverter"
-#CONF_ABB_TEMPERATURE_BOOSTER = "temperature_booster"
-#CONF_ABB_GRID_VOLTAGE = "grid_voltage"
-#CONF_ABB_CUMULATED_ENERGY_TODAY = "cumulated_energy_today" 
-
-   
 

@@ -1,7 +1,5 @@
 #include "ABBAurora.h"
 
-namespace esphome {
-namespace abbaurora {
 
 void ABBAurora::setup() 
 {
@@ -481,6 +479,3 @@ bool ABBAurora::ReadVersion()
 
     return Version.ReadState;
 };
-
-} // namespace abbaurora
-} // namespace esphome

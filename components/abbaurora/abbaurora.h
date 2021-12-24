@@ -35,6 +35,20 @@ private:
     byte ReceiveData[8];
 
     bool ReadVersion();
+    bool ReadState();
+    bool ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global);
+    bool ReadSystemSerialNumber();
+    bool ReadSystemPN();    bool ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par);
+    bool WriteBaudRateSetting(byte baudcode);
+    bool ReadFlagsSwitchCentral();
+    bool ReadCumulatedEnergyCentral(byte var, byte ndays_h, byte ndays_l, byte global);
+    bool ReadFirmwareReleaseCentral(byte var);
+    bool ReadBaudRateSettingCentral(byte baudcode, byte serialline);
+    bool ReadSystemInfoCentral(byte var);
+    bool ReadJunctionBoxMonitoringCentral(byte cf, byte rn, byte njt, byte jal, byte jah);
+    bool ReadSystemPNCentral();
+    bool ReadSystemSerialNumberCentral();
+
     void clearData(byte *data, byte len);
     void clearReceiveData();
     int Crc16(byte *data, int offset, int count);
@@ -82,8 +96,6 @@ private:
 
     DataState State;
 
-    bool ReadState();
-
     typedef struct
     {
         byte TransmissionState;
@@ -97,8 +109,6 @@ private:
 
     DataVersion Version;
 
-    bool ReadVersion();
-
     typedef struct
     {
         byte TransmissionState;
@@ -109,7 +119,7 @@ private:
 
     DataDSP DSP;
 
-    bool ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global);
+
 
     typedef struct
     {
@@ -149,7 +159,7 @@ private:
 
     DataSystemPN SystemPN;
 
-    bool ReadSystemPN();
+
 
     typedef struct
     {
@@ -159,7 +169,7 @@ private:
 
     DataSystemSerialNumber SystemSerialNumber;
 
-    bool ReadSystemSerialNumber();
+  
 
     typedef struct
     {
@@ -196,18 +206,7 @@ private:
 
     DataCumulatedEnergy CumulatedEnergy;
 
-    bool ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par);
-    bool WriteBaudRateSetting(byte baudcode);
 
-    // Central
-    bool ReadFlagsSwitchCentral();
-    bool ReadCumulatedEnergyCentral(byte var, byte ndays_h, byte ndays_l, byte global);
-    bool ReadFirmwareReleaseCentral(byte var);
-    bool ReadBaudRateSettingCentral(byte baudcode, byte serialline);
-    bool ReadSystemInfoCentral(byte var);
-    bool ReadJunctionBoxMonitoringCentral(byte cf, byte rn, byte njt, byte jal, byte jah);
-    bool ReadSystemPNCentral();
-    bool ReadSystemSerialNumberCentral();
 };
 
 } // abbaurora namespace

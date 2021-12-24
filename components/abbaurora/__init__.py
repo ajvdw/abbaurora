@@ -7,8 +7,6 @@ from esphome.const import (
     CONF_FLOW_CONTROL_PIN,
     CONF_ID,
     CONF_ADDRESS,
-    CONF_SENSOR,
-    CONF_TEXT_SENSOR,
 )
 from esphome import pins
 
@@ -65,12 +63,7 @@ async def to_code(config):
         sens = await sensor(config[CONF_ABB_CUMULATED_ENERGY_TOTAL])
         cg.add(var.set_cumulated_energy_total_sensor(sens))
 
-    for conf in config[CONF_SENSOR]:
-        var = cg.new_Pvariable(conf[CONF_ID])
-        await cg.register_component(var, conf)
-        await sensor.register_sensor(var, conf)
-
-    for conf in config[CONF_TEXT_SENSOR]:
+    for conf in config[CONF_ABB_CUMULATED_ENERGY_TOTAL]:
         var = cg.new_Pvariable(conf[CONF_ID])
         await cg.register_component(var, conf)
         await text_sensor.register_text_sensor(var, conf)

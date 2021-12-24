@@ -44,81 +44,54 @@ void ABBAuroraComponent::update()
             connection_status->publish_state("Connected");
         }
 
-        switch( rotaterequests % 7)
+        switch( rotaterequests % 10)
         {
             case 1:           
-                ESP_LOGD(TAG, "ReadVersion" );
                 if ( this->ReadVersion() )
                     version->publish_state( this->Version.Par1 );
                 yield();
                 break;
             case 2:
-                ESP_LOGD(TAG, "ReadDSPValue V_IN_1");
                 if (this->ReadDSPValue(V_IN_1, MODULE_MESSUREMENT))
                     v_in_1->publish_state(this->DSP.Value);
-                yield();
-
-                ESP_LOGD(TAG, "ReadDSPValue V_IN_2");
                 if (this->ReadDSPValue(V_IN_2, MODULE_MESSUREMENT))
                     v_in_2->publish_state(this->DSP.Value);
-                yield();
                 break;
             case 3:
-                ESP_LOGD(TAG, "ReadDSPValue I_IN_1");
                 if (this->ReadDSPValue(I_IN_1, MODULE_MESSUREMENT))
                     i_in_1->publish_state(this->DSP.Value);
-                yield();
-
-                ESP_LOGD(TAG, "ReadDSPValue I_IN_2");
                 if (this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
                     i_in_2->publish_state(this->DSP.Value);
-                yield();
                 break;
             case 4:
-                ESP_LOGD(TAG, "ReadDSPValue POWER_IN_1");
                 if (this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
                     power_in_1->publish_state(this->DSP.Value);
-                yield();
-
-                ESP_LOGD(TAG, "ReadDSPValue POWER_IN_2");
                 if (this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
                     power_in_2->publish_state(this->DSP.Value);
-                yield();
-
-                power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
                 break;
             case 5:
-                ESP_LOGD(TAG, "ReadDSPValue GRID_VOLTAGE");
                 if (this->ReadDSPValue(GRID_VOLTAGE, MODULE_MESSUREMENT))
                     grid_voltage->publish_state(this->DSP.Value);
-                yield();
                 break;
             case 6:
-                ESP_LOGD(TAG, "ReadDSPValue TEMPERATURE_INVERTER");
                 if (this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
                     temperature_inverter->publish_state(this->DSP.Value);
-                yield();
-
-                ESP_LOGD(TAG, "ReadDSPValue TEMPERATURE_BOOSTER");
                 if (this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))
                     temperature_booster->publish_state(this->DSP.Value);
-                yield();
                 break;
-            case 0:
-                ESP_LOGD(TAG, "ReadCumulatedEnergy CUMULATED_ENERGY_CURRENT_DAY");
+            case 7:
                 if (this->ReadCumulatedEnergy(CURRENT_DAY))
                     cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
-                yield();
+                break;
+            case 8:
+                if (this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
+                    grid_power->publish_state(this->DSP.Value);
+                break;
+            case 9:
+                if(this->ReadCumulatedEnergy(TOTAL))
+                    cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
                 break;
         }
-        ESP_LOGD(TAG, "ReadDSPValue GRID_POWER");
-        if (this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
-            grid_power->publish_state(this->DSP.Value);
-        yield();
-        ESP_LOGD(TAG, "ReadCumulatedEnergy CUMULATED_ENERGY_TOTAL");
-        if(this->ReadCumulatedEnergy(TOTAL))
-            cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
-        yield();
 
     }
     else

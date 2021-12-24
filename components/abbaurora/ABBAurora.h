@@ -11,7 +11,6 @@
 #include "ABBAuroraEnums.h"
 #include "ABBAuroraStrings.h"
 
-
 namespace esphome {
 namespace abbaurora {
 
@@ -19,37 +18,30 @@ class ABBAurora;
 
 class ABBAurora : public UARTDevice, public PollingComponent
 {
-//protected:
-//    ABBAurora() : PollingComponent(15000) {}
+protected:
+    ABBAurora() : PollingComponent(15000) {}
     GPIOPin *flow_control_pin_{nullptr};
-
-private:
-    uint8_t connection = 0;
-    int MaxAttempt = 1;
-
-    void clearData(byte *data, byte len);
-
-    int Crc16(byte *data, int offset, int count);
-
-    bool Send(byte address, byte param0, byte param1, byte param2, byte param3, byte param4, byte param5, byte param6);
-
-    union {
-        byte asBytes[4];
-        float asFloat;
-    } foo;
-
-    union {
-        byte asBytes[4];
-        unsigned long asUlong;
-    } ulo;
-
 
 public:
     void setup() override;
     void update() override;
     void set_address(uint8_t address) {  Address = address; }
-    bool ReadVersion();
+ 
+private:
+    uint8_t connection = 0;
+    int MaxAttempt = 1;
+    bool SendStatus = false;
+    bool ReceiveStatus = false;
+    byte Address = 0; // Default 2 ??
+    byte ReceiveData[8];
 
+    bool ReadVersion();
+    void clearData(byte *data, byte len);
+    void clearReceiveData();
+    int Crc16(byte *data, int offset, int count);
+    bool Send(byte address, byte param0, byte param1, byte param2, byte param3, byte param4, byte param5, byte param6);
+
+ 
     text_sensor::TextSensor *connection_status = new text_sensor::TextSensor();
     text_sensor::TextSensor *version = new text_sensor::TextSensor();
 
@@ -67,13 +59,16 @@ public:
     sensor::Sensor *cumulated_energy_today = new sensor::Sensor();
     sensor::Sensor *cumulated_energy_total = new sensor::Sensor();
 
- 
-    bool SendStatus = false;
-    bool ReceiveStatus = false;
-    byte Address = 0; // Default 2 ??
-    byte ReceiveData[8];
+   union {
+        byte asBytes[4];
+        float asFloat;
+    } foo;
 
-    void clearReceiveData();
+    union {
+        byte asBytes[4];
+        unsigned long asUlong;
+    } ulo;
+
 
     typedef struct
     {
@@ -143,9 +138,7 @@ public:
     DataLastFourAlarms LastFourAlarms;
 
     bool ReadLastFourAlarms();
-
     bool ReadJunctionBoxState(byte nj);
-
     bool ReadJunctionBoxVal(byte nj, byte par);
 
     // Inverters
@@ -205,24 +198,16 @@ public:
     DataCumulatedEnergy CumulatedEnergy;
 
     bool ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par);
-
     bool WriteBaudRateSetting(byte baudcode);
 
     // Central
     bool ReadFlagsSwitchCentral();
-
     bool ReadCumulatedEnergyCentral(byte var, byte ndays_h, byte ndays_l, byte global);
-
     bool ReadFirmwareReleaseCentral(byte var);
-
     bool ReadBaudRateSettingCentral(byte baudcode, byte serialline);
-
     bool ReadSystemInfoCentral(byte var);
-
     bool ReadJunctionBoxMonitoringCentral(byte cf, byte rn, byte njt, byte jal, byte jah);
-
     bool ReadSystemPNCentral();
-
     bool ReadSystemSerialNumberCentral();
 };
 

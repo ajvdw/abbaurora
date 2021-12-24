@@ -85,13 +85,5 @@ CONFIG_SCHEMA = cv.Schema(
     }
 ).extend(cv.COMPONENT_SCHEMA)
 
-async def to_code(config):
-    hub = await cg.get_variable(config[CONF_ABBAURORA_ID])
-    var = cg.new_Pvariable(config[CONF_ID], hub)
-    await cg.register_component(var, config)
-    await text_sensor.register_text_sensor(var, config)
-
-    cg.add(hub.register_textsensor_component(var))
-
 
 

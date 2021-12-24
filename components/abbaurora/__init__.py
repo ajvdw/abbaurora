@@ -63,6 +63,16 @@ async def to_code(config):
         sens = await sensor(config[CONF_ABB_CUMULATED_ENERGY_TOTAL])
         cg.add(var.set_cumulated_energy_total_sensor(sens))
 
+    for conf in config[CONF_SENSORS]:
+        var = cg.new_Pvariable(conf[CONF_ID])
+        await cg.register_component(var, conf)
+        await text_sensor.register_sensor(var, conf)
+
+    for conf in config[CONF_TEXT_SENSORS]:
+        var = cg.new_Pvariable(conf[CONF_ID])
+        await cg.register_component(var, conf)
+        await text_sensor.register_text_sensor(var, conf)
+
 #CONF_ABB_V_IN_1 = "v_in_1"
 #CONF_ABB_V_IN_2 = "v_in_2"
 #CONF_ABB_I_IN_1 = "i_in_1"

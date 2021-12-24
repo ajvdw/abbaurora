@@ -20,6 +20,8 @@
 namespace esphome {
 namespace abbaurora { 
 
+using namespace ::abbaurora;
+
 class ABBAurora : public uart::UARTDevice, public PollingComponent
 {
 

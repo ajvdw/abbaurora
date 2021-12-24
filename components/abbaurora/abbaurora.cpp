@@ -24,9 +24,7 @@ void ABBAuroraComponent::setup()
 }
 
 void ABBAuroraComponent::dump_config() {
-  ESP_LOGCONFIG(TAG, "inverter:");
-  LOG_UART_DEVICE(this);
-
+  ESP_LOGCONFIG(TAG, "config");
   LOG_SENSOR("  ", "Inverter", this->version);
   LOG_SENSOR("  ", "Connection", this->connection_status);
 }

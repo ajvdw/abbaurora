@@ -11,13 +11,13 @@
 #include "ABBAuroraEnums.h"
 #include "ABBAuroraStrings.h"
 
-
 #define TAG "ABBAurora"
- 
-//namespace esphome {
-//namespace abbaurora { 
 
-class ABBAurora : public PollingComponent, public uart::UARTDevice
+
+class ABBAurora;
+
+
+class ABBAurora : public uart::UARTDevice, public PollingComponent, 
 {
 
 protected:

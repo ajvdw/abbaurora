@@ -27,9 +27,5 @@ CONFIG_SCHEMA = ABBAURORA_COMPONENT_SCHEMA.extend(
     }
 )
 
-async def to_code(config):
-    for type, _ in TYPES.items():
-        if type in config:
-            conf = config[type]
-            sens = await text_sensor.new_text_sensor(conf)
+#async def to_code(config):
   

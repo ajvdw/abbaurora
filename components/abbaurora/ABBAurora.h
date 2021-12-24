@@ -11,14 +11,10 @@
 #include "ABBAuroraEnums.h"
 #include "ABBAuroraStrings.h"
 
-
 static const char *const TAG = "abbaurora";
-
-class ABBAurora;
 
 class ABBAurora : public UARTDevice, public PollingComponent
 {
-
 protected:
     ABBAurora() : PollingComponent(15000) {}
     GPIOPin *flow_control_pin_{nullptr};

@@ -164,8 +164,8 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     SendData[7] = param6;
 
     int crc = Crc16(SendData, 0, 8);
-    SendData[8] = lowuint8_t(crc);
-    SendData[9] = highuint8_t(crc);
+    SendData[8] = crc & 0xff;
+    SendData[9] = crc >> 8;
 
     clearReceiveData();
 

@@ -30,48 +30,48 @@ private:
     int MaxAttempt = 1;
     bool SendStatus = false;
     bool ReceiveStatus = false;
-    byte Address = 0; // Default 2 ??
-    byte ReceiveData[8];
+    uint8_t Address = 0; // Default 2 ??
+    uint8_t ReceiveData[8];
 
     bool ReadVersion();
     bool ReadState();
     bool ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global);
     bool ReadSystemSerialNumber();
     bool ReadSystemPN();    bool ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par);
-    bool WriteBaudRateSetting(byte baudcode);
+    bool WriteBaudRateSetting(uint8_t baudcode);
     bool ReadFlagsSwitchCentral();
-    bool ReadCumulatedEnergyCentral(byte var, byte ndays_h, byte ndays_l, byte global);
-    bool ReadFirmwareReleaseCentral(byte var);
-    bool ReadBaudRateSettingCentral(byte baudcode, byte serialline);
-    bool ReadSystemInfoCentral(byte var);
-    bool ReadJunctionBoxMonitoringCentral(byte cf, byte rn, byte njt, byte jal, byte jah);
+    bool ReadCumulatedEnergyCentral(uint8_t var, uint8_t ndays_h, uint8_t ndays_l, uint8_t global);
+    bool ReadFirmwareReleaseCentral(uint8_t var);
+    bool ReadBaudRateSettingCentral(uint8_t baudcode, uint8_t serialline);
+    bool ReadSystemInfoCentral(uint8_t var);
+    bool ReadJunctionBoxMonitoringCentral(uint8_t cf, uint8_t rn, uint8_t njt, uint8_t jal, uint8_t jah);
     bool ReadSystemPNCentral();
     bool ReadSystemSerialNumberCentral();
-    void clearData(byte *data, byte len);
+    void clearData(uint8_t *data, uint8_t len);
     void clearReceiveData();
-    int Crc16(byte *data, int offset, int count);
-    bool Send(byte address, byte param0, byte param1, byte param2, byte param3, byte param4, byte param5, byte param6);
+    int Crc16(uint8_t *data, int offset, int count);
+    bool Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6);
 
  
    union {
-        byte asBytes[4];
+        uint8_t asBytes[4];
         float asFloat;
     } foo;
 
     union {
-        byte asBytes[4];
+        uint8_t asBytes[4];
         unsigned long asUlong;
     } ulo;
 
 
     typedef struct
     {
-        byte TransmissionState;
-        byte GlobalState;
-        byte InverterState;
-        byte Channel1State;
-        byte Channel2State;
-        byte AlarmState;
+        uint8_t TransmissionState;
+        uint8_t GlobalState;
+        uint8_t InverterState;
+        uint8_t Channel1State;
+        uint8_t Channel2State;
+        uint8_t AlarmState;
         bool ReadState;
     } DataState;
 
@@ -79,8 +79,8 @@ private:
 
     typedef struct
     {
-        byte TransmissionState;
-        byte GlobalState;
+        uint8_t TransmissionState;
+        uint8_t GlobalState;
         std::string Par1;
         std::string Par2;
         std::string Par3;
@@ -92,8 +92,8 @@ private:
 
     typedef struct
     {
-        byte TransmissionState;
-        byte GlobalState;
+        uint8_t TransmissionState;
+        uint8_t GlobalState;
         float Value;
         bool ReadState;
     } DataDSP;
@@ -104,8 +104,8 @@ private:
 
     typedef struct
     {
-        byte TransmissionState;
-        byte GlobalState;
+        uint8_t TransmissionState;
+        uint8_t GlobalState;
         unsigned long Seconds;
         bool ReadState;
     } DataTimeDate;
@@ -116,20 +116,20 @@ private:
 
     typedef struct
     {
-        byte TransmissionState;
-        byte GlobalState;
-        byte Alarms1;
-        byte Alarms2;
-        byte Alarms3;
-        byte Alarms4;
+        uint8_t TransmissionState;
+        uint8_t GlobalState;
+        uint8_t Alarms1;
+        uint8_t Alarms2;
+        uint8_t Alarms3;
+        uint8_t Alarms4;
         bool ReadState;
     } DataLastFourAlarms;
 
     DataLastFourAlarms LastFourAlarms;
 
     bool ReadLastFourAlarms();
-    bool ReadJunctionBoxState(byte nj);
-    bool ReadJunctionBoxVal(byte nj, byte par);
+    bool ReadJunctionBoxState(uint8_t nj);
+    bool ReadJunctionBoxVal(uint8_t nj, uint8_t par);
 
     // Inverters
     typedef struct
@@ -154,8 +154,8 @@ private:
 
     typedef struct
     {
-        byte TransmissionState;
-        byte GlobalState;
+        uint8_t TransmissionState;
+        uint8_t GlobalState;
         std::string Week;
         std::string Year;
         bool ReadState;
@@ -167,8 +167,8 @@ private:
 
     typedef struct
     {
-        byte TransmissionState;
-        byte GlobalState;
+        uint8_t TransmissionState;
+        uint8_t GlobalState;
         std::string Release;
         bool ReadState;
     } DataFirmwareRelease;
@@ -179,8 +179,8 @@ private:
 
     typedef struct
     {
-        byte TransmissionState;
-        byte GlobalState;
+        uint8_t TransmissionState;
+        uint8_t GlobalState;
         unsigned long Energy;
         bool ReadState;
     } DataCumulatedEnergy;

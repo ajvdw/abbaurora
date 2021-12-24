@@ -44,7 +44,7 @@ void ABBAuroraComponent::update()
             connection_status->publish_state("Connected");
         }
 
-        switch( rotaterequests % 7):
+        switch( rotaterequests % 7)
         {
             case 1:           
                 ESP_LOGD(TAG, "ReadVersion" );

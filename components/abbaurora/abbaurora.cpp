@@ -170,7 +170,8 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
             delay(5);
         }
 
-        if (this->write_array( (uint8_t *) SendData, sizeof(SendData)) != 0)
+        //if ( != 0) no need to check for success??
+        this->write_array( (uint8_t *) SendData, sizeof(SendData)) 
         {
             this->flush();            
             SendStatus = true;

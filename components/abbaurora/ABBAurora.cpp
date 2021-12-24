@@ -1,5 +1,9 @@
 #include "ABBAurora.h"
 
+namespace esphome {
+namespace abbaurora {
+
+static const char *const TAG = "abbaurora";
 
 void ABBAurora::setup() 
 {
@@ -479,3 +483,6 @@ bool ABBAurora::ReadVersion()
 
     return Version.ReadState;
 };
+
+}
+}

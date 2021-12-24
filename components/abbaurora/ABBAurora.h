@@ -11,7 +11,11 @@
 #include "ABBAuroraEnums.h"
 #include "ABBAuroraStrings.h"
 
-static const char *const TAG = "abbaurora";
+
+namespace esphome {
+namespace abbaurora {
+
+class ABBAurora;
 
 class ABBAurora : public UARTDevice, public PollingComponent
 {
@@ -222,3 +226,5 @@ public:
     bool ReadSystemSerialNumberCentral();
 };
 
+}
+}

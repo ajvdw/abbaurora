@@ -192,6 +192,8 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
 
             if (this->read_array( (uint8_t *)ReceiveData, sizeof(ReceiveData)) )
             {
+                ESP_LOGD(TAG, "Data received, processing");
+
                 BccLo = 0xFF;
                 BccHi = 0xFF;
 

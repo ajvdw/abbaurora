@@ -23,7 +23,7 @@ void ABBAuroraComponent::setup()
     connection_status->publish_state("Disconnected");
 }
 
-void AHT10ABBAuroraComponentComponent::dump_config() {
+void AuroraComponentComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "inverter:");
   LOG_UART_DEVICE(this);
 

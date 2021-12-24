@@ -318,7 +318,7 @@ bool ABBAuroraComponent::ReadSystemPN()
 
     ReceiveData[6]=0; // terminate string
     
-    SystemPN.PN = std::string( ReceiveData );
+    SystemPN.PN = std::string( (char *) ReceiveData );
     
     return SystemPN.ReadState;
 }

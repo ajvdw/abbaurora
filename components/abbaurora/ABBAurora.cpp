@@ -484,5 +484,5 @@ bool ABBAuroraDevice::ReadVersion()
     return Version.ReadState;
 };
 
-}
-}
+} // abbaurora namespace
+} // esphome namespace

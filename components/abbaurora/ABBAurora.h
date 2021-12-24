@@ -210,5 +210,5 @@ private:
     bool ReadSystemSerialNumberCentral();
 };
 
-}
-}
+} // abbaurora namespace
+} // esphome namespace

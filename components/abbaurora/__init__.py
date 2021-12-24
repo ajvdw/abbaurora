@@ -18,7 +18,7 @@ AUTO_LOAD = ["sensor", "text_sensor"]
 CONF_ABBAURORA_ID = "abbaurora_id"
 
 abbaurora_ns = cg.esphome_ns.namespace("esphome::abbaurora")
-ABBAuroraDevice = abbaurora_ns.class_("ABBAuroraDevice", uart.UARTDevice, cg.PollingComponent )
+ABBAurora = abbaurora_ns.class_("ABBAuroraDevice", uart.UARTDevice, cg.PollingComponent )
 
 CONFIG_SCHEMA = (
     cv.Schema(

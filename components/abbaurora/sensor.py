@@ -20,7 +20,7 @@ from esphome.const import (
     UNIT_WATT,
 )
 from esphome.const import CONF_ID
-from . import CONF_ABBAURORA_ID, ABBAurora
+from . import CONF_ABBAURORA_ID, ABBAurora, ABBAURORA_COMPONENT_SCHEMA
 
 CONF_ABB_V_IN_1 = "v_in_1"
 CONF_ABB_V_IN_2 = "v_in_2"

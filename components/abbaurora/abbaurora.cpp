@@ -173,12 +173,10 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         if (this->flow_control_pin_ != nullptr)
 	    {
             this->flow_control_pin_->digital_write(true);
-            delay(5);
+            //delay(5);
                  
         }
-
- 
-        ESP_LOGV(TAG, "> %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x",SendData[0], SendData[1], SendData[2], SendData[3],
+        //ESP_LOGV(TAG, "> %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x",SendData[0], SendData[1], SendData[2], SendData[3],
         SendData[4], SendData[5], SendData[6], SendData[7] , SendData[8], SendData[9] );     
 
         //if ( != 0) no need to check for success??
@@ -211,7 +209,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
                     Tmp = New >> 4;
                     BccLo = BccLo ^ Tmp;
                 }    
-                ESP_LOGV(TAG, "< %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x", 
+                //ESP_LOGV(TAG, "< %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x", 
                     ReceiveData[0], ReceiveData[1], ReceiveData[2], ReceiveData[3],
                     ReceiveData[4], ReceiveData[5], ReceiveData[6], ReceiveData[7] ,(uint8_t)(~BccHi), (uint8_t)(~BccLo) );      
         

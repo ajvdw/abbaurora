@@ -23,6 +23,13 @@ void ABBAuroraComponent::setup()
     connection_status->publish_state("Disconnected");
 }
 
+void AHT10ABBAuroraComponentComponent::dump_config() {
+  ESP_LOGCONFIG(TAG, "inverter:");
+  LOG_UART_DEVICE(this);
+
+  LOG_SENSOR("  ", "Inverter", this->version);
+  LOG_SENSOR("  ", "Connection", this->connection_status);
+}
 void ABBAuroraComponent::update()
 {
     //If inverter is connected
@@ -157,8 +164,11 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         BccLo = BccLo ^ Tmp;
     }
 
-    SendData[8] = (~BccLo);
-    SendData[9] = (~BccHi);
+   // SendData[8] = (~BccLo);
+   // SendData[9] = (~BccHi);
+
+    SendData[8] = (~BccHi);
+    SendData[9] = (~BccLo);
 
     clearReceiveData();
 

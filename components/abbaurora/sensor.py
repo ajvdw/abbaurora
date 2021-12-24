@@ -19,7 +19,7 @@ from esphome.const import (
     UNIT_WATT_HOURS,
     UNIT_WATT,
 )
-from . import ABBAurora, CONF_ABBAURORA_ID
+from . import CONF_ABBAURORA_ID
 
 CONF_ABB_V_IN_1 = "v_in_1"
 CONF_ABB_V_IN_2 = "v_in_2"
@@ -83,4 +83,14 @@ CONFIG_SCHEMA = cv.Schema(
         ),
     }
 ).extend(cv.COMPONENT_SCHEMA)
+
+async def to_code(config):
+    hub = await cg.get_variable(config[CONF_ABBAURORA_ID])
+    var = cg.new_Pvariable(config[CONF_ID], hub)
+    await cg.register_component(var, config)
+    await text_sensor.register_text_sensor(var, config)
+
+    cg.add(hub.register_textsensor_component(var))
+
+
 

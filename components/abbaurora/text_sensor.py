@@ -6,7 +6,7 @@ from esphome.const import (
     CONF_SENSOR,
     ICON_EMPTY,
 )
-from . import CONF_ABBAURORA_ID, ABBAurora
+from . import CONF_ABBAURORA_ID, ABBAurora, ABBAURORA_COMPONENT_SCHEMA
 
 CONF_ABB_VERSION = "version"
 CONF_ABB_STATUS = "status"

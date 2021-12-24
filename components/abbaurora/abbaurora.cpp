@@ -44,7 +44,7 @@ void ABBAuroraComponent::update()
             connection_status->publish_state("Connected");
         }
 
-        switch( rotaterequest % 10):
+        switch( rotaterequests % 7):
         {
             case 1:           
                 ESP_LOGD(TAG, "ReadVersion" );
@@ -104,7 +104,7 @@ void ABBAuroraComponent::update()
                     temperature_booster->publish_state(this->DSP.Value);
                 yield();
                 break;
-            case 7:
+            case 0:
                 ESP_LOGD(TAG, "ReadCumulatedEnergy CUMULATED_ENERGY_CURRENT_DAY");
                 if (this->ReadCumulatedEnergy(CURRENT_DAY))
                     cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);

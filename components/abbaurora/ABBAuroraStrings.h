@@ -1,6 +1,5 @@
 #ifndef ABBAuroraStrings_h
 #define ABBAuroraStrings_h
-#include <Arduino.h>
 
 class ABBAuroraStrings {
     private:

@@ -47,7 +47,6 @@ private:
     bool ReadJunctionBoxMonitoringCentral(byte cf, byte rn, byte njt, byte jal, byte jah);
     bool ReadSystemPNCentral();
     bool ReadSystemSerialNumberCentral();
-
     void clearData(byte *data, byte len);
     void clearReceiveData();
     int Crc16(byte *data, int offset, int count);

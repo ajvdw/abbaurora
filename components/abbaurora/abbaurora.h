@@ -15,7 +15,7 @@ namespace abbaurora {
 class ABBAuroraComponent : public uart:: UARTDevice, public PollingComponent
 {
 public:
-    ABBAuroraComponent() : PollingComponent(10000) {}
+    ABBAuroraComponent() : PollingComponent(1000) {}
 
 protected:
     GPIOPin *flow_control_pin_{nullptr};
@@ -27,7 +27,20 @@ public:
     void set_address(uint8_t address) {  Address = address; }
     void set_flow_control_pin(GPIOPin *flow_control_pin) { this->flow_control_pin_ = flow_control_pin; }
     void set_cumulated_energy_total( sensor::Sensor *sensor ) { this->cumulated_energy_total = sensor; }
+    void set_v_in_1( sensor::Sensor *sensor ) { this->v_in_1 = sensor; }
+    void set_v_in_2( sensor::Sensor *sensor ) { this->v_in_2 = sensor; }
+    void set_i_in_1( sensor::Sensor *sensor ) { this->i_in_1 = sensor; }
+    void set_i_in_2( sensor::Sensor *sensor ) { this->i_in_2 = sensor; }
+    void set_power_in_1( sensor::Sensor *sensor ) { this->power_in_1 = sensor; }
+    void set_power_in_2( sensor::Sensor *sensor ) { this->power_in_2 = sensor; }
+    void set_grid_power( sensor::Sensor *sensor ) { this->grid_power = sensor; }
+    void set_temperature_inverter( sensor::Sensor *sensor ) { this->temperature_inverter = sensor; }
+    void set_temperature_booster( sensor::Sensor *sensor ) { this->temperature_booster = sensor; }
+    void set_grid_voltage( sensor::Sensor *sensor ) { this->grid_voltage = sensor; }
+    void set_cumulated_energy_today( sensor::Sensor *sensor ) { this->cumulated_energy_today = sensor; }
     void set_version( text_sensor::TextSensor *sensor ) { this->version = sensor; }
+    void set_status( text_sensor::TextSensor *sensor ) { this->status = sensor; }
+    void set_identification( text_sensor::TextSensor *sensor ) { this->identification = sensor; }
 
 private:
     uint8_t connection = 0;
@@ -59,7 +72,6 @@ public:
     bool ReadJunctionBoxState(uint8_t nj);
     bool ReadJunctionBoxVal(uint8_t nj, uint8_t par);
 
- 
    union {
         uint8_t asBytes[4];
         float asFloat;
@@ -185,25 +197,21 @@ public:
     DataCumulatedEnergy CumulatedEnergy;
 
 protected:
-    text_sensor::TextSensor *connection_status = new text_sensor::TextSensor();
+    text_sensor::TextSensor *connection_status{nullptr};
     text_sensor::TextSensor *version{nullptr};
-
     sensor::Sensor *cumulated_energy_total{nullptr};   
-    sensor::Sensor *v_in_1 = new sensor::Sensor();
-    sensor::Sensor *v_in_2 = new sensor::Sensor();
-    sensor::Sensor *i_in_1 = new sensor::Sensor();
-    sensor::Sensor *i_in_2 = new sensor::Sensor();
-    sensor::Sensor *power_in_1 = new sensor::Sensor();
-    sensor::Sensor *power_in_2 = new sensor::Sensor();
-    sensor::Sensor *power_in_total = new sensor::Sensor();
-    sensor::Sensor *grid_power = new sensor::Sensor();
-    sensor::Sensor *temperature_inverter = new sensor::Sensor();
-    sensor::Sensor *temperature_booster = new sensor::Sensor();
-    sensor::Sensor *grid_voltage = new sensor::Sensor();
-    sensor::Sensor *cumulated_energy_today = new sensor::Sensor();
-  
-
- 
+    sensor::Sensor *v_in_1{nullptr}; 
+    sensor::Sensor *v_in_2{nullptr}; 
+    sensor::Sensor *i_in_1{nullptr}; 
+    sensor::Sensor *i_in_2{nullptr}; 
+    sensor::Sensor *power_in_1{nullptr}; 
+    sensor::Sensor *power_in_2{nullptr}; 
+    sensor::Sensor *power_in_total{nullptr}; 
+    sensor::Sensor *grid_power{nullptr}; 
+    sensor::Sensor *temperature_inverter{nullptr}; 
+    sensor::Sensor *temperature_booster{nullptr}; 
+    sensor::Sensor *grid_voltage{nullptr}; 
+    sensor::Sensor *cumulated_energy_today{nullptr};  
 };
 
 } // abbaurora namespace

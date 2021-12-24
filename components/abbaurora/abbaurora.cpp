@@ -117,7 +117,7 @@ void ABBAuroraComponent::update()
 
 }
  
-void ABBAuroraComponent::clearData(byte *data, byte len)
+void ABBAuroraComponent::clearData(uint8_t *data, uint8_t len)
 {
     for (int i = 0; i < len; i++)
     {
@@ -125,15 +125,15 @@ void ABBAuroraComponent::clearData(byte *data, byte len)
     }
 }
 
-int ABBAuroraComponent::Crc16(byte *data, int offset, int count)
+int ABBAuroraComponent::Crc16(uint8_t *data, int offset, int count)
 {
-    byte BccLo = 0xFF;
-    byte BccHi = 0xFF;
+    uint8_t BccLo = 0xFF;
+    uint8_t BccHi = 0xFF;
 
     for (int i = offset; i < (offset + count); i++)
     {
-        byte New = data[offset + i] ^ BccLo;
-        byte Tmp = New << 4;
+        uint8_t New = data[offset + i] ^ BccLo;
+        uint8_t Tmp = New << 4;
         New = Tmp ^ New;
         Tmp = New >> 5;
         BccLo = BccHi;
@@ -147,13 +147,13 @@ int ABBAuroraComponent::Crc16(byte *data, int offset, int count)
     return (int)word(~BccHi, ~BccLo);
 }
 
-bool ABBAuroraComponent::Send(byte address, byte param0, byte param1, byte param2, byte param3, byte param4, byte param5, byte param6)
+bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
 {
 
     SendStatus = false;
     ReceiveStatus = false;
 
-    byte SendData[10];
+    uint8_t SendData[10];
     SendData[0] = address;
     SendData[1] = param0;
     SendData[2] = param1;
@@ -164,8 +164,8 @@ bool ABBAuroraComponent::Send(byte address, byte param0, byte param1, byte param
     SendData[7] = param6;
 
     int crc = Crc16(SendData, 0, 8);
-    SendData[8] = lowByte(crc);
-    SendData[9] = highByte(crc);
+    SendData[8] = lowuint8_t(crc);
+    SendData[9] = highuint8_t(crc);
 
     clearReceiveData();
 
@@ -218,7 +218,7 @@ bool ABBAuroraComponent::ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global)
 {
     if ((((int)type >= 1 && (int)type <= 9) || ((int)type >= 21 && (int)type <= 63)) && ((int)global >= 0 && (int)global <= 1))
     {
-        DSP.ReadState = Send(this->Address, (byte)59, type, global, (byte)0, (byte)0, (byte)0, (byte)0);
+        DSP.ReadState = Send(this->Address, (uint8_t)59, type, global, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
         if (DSP.ReadState == false)
         {
@@ -251,7 +251,7 @@ bool ABBAuroraComponent::ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global)
 
 bool ABBAuroraComponent::ReadTimeDate()
 {
-    TimeDate.ReadState = Send(this->Address, (byte)70, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    TimeDate.ReadState = Send(this->Address, (uint8_t)70, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (TimeDate.ReadState == false)
     {
@@ -267,7 +267,7 @@ bool ABBAuroraComponent::ReadTimeDate()
 
 bool ABBAuroraComponent::ReadLastFourAlarms()
 {
-    LastFourAlarms.ReadState = Send(this->Address, (byte)86, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    LastFourAlarms.ReadState = Send(this->Address, (uint8_t)86, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (LastFourAlarms.ReadState == false)
     {
@@ -289,21 +289,21 @@ bool ABBAuroraComponent::ReadLastFourAlarms()
     return LastFourAlarms.ReadState;
 }
 
-bool ABBAuroraComponent::ReadJunctionBoxState(byte nj)
+bool ABBAuroraComponent::ReadJunctionBoxState(uint8_t nj)
 {
-    return Send(this->Address, (byte)200, nj, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    return Send(this->Address, (uint8_t)200, nj, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadJunctionBoxVal(byte nj, byte par)
+bool ABBAuroraComponent::ReadJunctionBoxVal(uint8_t nj, uint8_t par)
 {
-    return Send(this->Address, (byte)201, nj, par, (byte)0, (byte)0, (byte)0, (byte)0);
+    return Send(this->Address, (uint8_t)201, nj, par, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
 // Inverters
 
 bool ABBAuroraComponent::ReadSystemPN()
 {
-    SystemPN.ReadState = Send(this->Address, (byte)52, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    SystemPN.ReadState = Send(this->Address, (uint8_t)52, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     SystemPN.PN = std::string(std::string((char)ReceiveData[0]) + std::string((char)ReceiveData[1]) + std::string((char)ReceiveData[2]) + std::string((char)ReceiveData[3]) + std::string((char)ReceiveData[4]) + std::string((char)ReceiveData[5]));
 
@@ -312,7 +312,7 @@ bool ABBAuroraComponent::ReadSystemPN()
 
 bool ABBAuroraComponent::ReadSystemSerialNumber()
 {
-    SystemSerialNumber.ReadState = Send(this->Address, (byte)63, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    SystemSerialNumber.ReadState = Send(this->Address, (uint8_t)63, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     SystemSerialNumber.SerialNumber = std::string(std::string((char)ReceiveData[0]) + std::string((char)ReceiveData[1]) + std::string((char)ReceiveData[2]) + std::string((char)ReceiveData[3]) + std::string((char)ReceiveData[4]) + std::string((char)ReceiveData[5]));
 
@@ -321,7 +321,7 @@ bool ABBAuroraComponent::ReadSystemSerialNumber()
 
 bool ABBAuroraComponent::ReadManufacturingWeekYear()
 {
-    ManufacturingWeekYear.ReadState = Send(this->Address, (byte)65, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    ManufacturingWeekYear.ReadState = Send(this->Address, (uint8_t)65, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (ManufacturingWeekYear.ReadState == false)
     {
@@ -339,7 +339,7 @@ bool ABBAuroraComponent::ReadManufacturingWeekYear()
 
 bool ABBAuroraComponent::ReadFirmwareRelease()
 {
-    FirmwareRelease.ReadState = Send(this->Address, (byte)72, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    FirmwareRelease.ReadState = Send(this->Address, (uint8_t)72, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (FirmwareRelease.ReadState == false)
     {
@@ -358,7 +358,7 @@ bool ABBAuroraComponent::ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par)
 {
     if ((int)par >= 0 && (int)par <= 6)
     {
-        CumulatedEnergy.ReadState = Send(this->Address, (byte)78, par, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+        CumulatedEnergy.ReadState = Send(this->Address, (uint8_t)78, par, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
         if (CumulatedEnergy.ReadState == false)
         {
@@ -388,11 +388,11 @@ bool ABBAuroraComponent::ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par)
     return CumulatedEnergy.ReadState;
 }
 
-bool ABBAuroraComponent::WriteBaudRateSetting(byte baudcode)
+bool ABBAuroraComponent::WriteBaudRateSetting(uint8_t baudcode)
 {
     if ((int)baudcode >= 0 && (int)baudcode <= 3)
     {
-        return Send(this->Address, (byte)85, baudcode, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+        return Send(this->Address, (uint8_t)85, baudcode, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
     }
     else
     {
@@ -404,47 +404,47 @@ bool ABBAuroraComponent::WriteBaudRateSetting(byte baudcode)
 // Central
 bool ABBAuroraComponent::ReadFlagsSwitchCentral()
 {
-    return Send(this->Address, (byte)67, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    return Send(this->Address, (uint8_t)67, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadCumulatedEnergyCentral(byte var, byte ndays_h, byte ndays_l, byte global)
+bool ABBAuroraComponent::ReadCumulatedEnergyCentral(uint8_t var, uint8_t ndays_h, uint8_t ndays_l, uint8_t global)
 {
-    return Send(this->Address, (byte)68, var, ndays_h, ndays_l, global, (byte)0, (byte)0);
+    return Send(this->Address, (uint8_t)68, var, ndays_h, ndays_l, global, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadFirmwareReleaseCentral(byte var)
+bool ABBAuroraComponent::ReadFirmwareReleaseCentral(uint8_t var)
 {
-    return Send(this->Address, (byte)72, var, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    return Send(this->Address, (uint8_t)72, var, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadBaudRateSettingCentral(byte baudcode, byte serialline)
+bool ABBAuroraComponent::ReadBaudRateSettingCentral(uint8_t baudcode, uint8_t serialline)
 {
-    return Send(this->Address, (byte)85, baudcode, serialline, (byte)0, (byte)0, (byte)0, (byte)0);
+    return Send(this->Address, (uint8_t)85, baudcode, serialline, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadSystemInfoCentral(byte var)
+bool ABBAuroraComponent::ReadSystemInfoCentral(uint8_t var)
 {
-    return Send(this->Address, (byte)101, var, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    return Send(this->Address, (uint8_t)101, var, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadJunctionBoxMonitoringCentral(byte cf, byte rn, byte njt, byte jal, byte jah)
+bool ABBAuroraComponent::ReadJunctionBoxMonitoringCentral(uint8_t cf, uint8_t rn, uint8_t njt, uint8_t jal, uint8_t jah)
 {
-    return Send(this->Address, (byte)103, cf, rn, njt, jal, jah, (byte)0);
+    return Send(this->Address, (uint8_t)103, cf, rn, njt, jal, jah, (uint8_t)0);
 }
 
 bool ABBAuroraComponent::ReadSystemPNCentral()
 {
-    return Send(this->Address, (byte)105, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    return Send(this->Address, (uint8_t)105, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
 bool ABBAuroraComponent::ReadSystemSerialNumberCentral()
 {
-    return Send(this->Address, (byte)107, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    return Send(this->Address, (uint8_t)107, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
 bool ABBAuroraComponent::ReadState()
 {
-    State.ReadState = Send(this->Address, (byte)50, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    State.ReadState = Send(this->Address, (uint8_t)50, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (State.ReadState == false)
     {
@@ -468,7 +468,7 @@ bool ABBAuroraComponent::ReadState()
 
 bool ABBAuroraComponent::ReadVersion()
 {
-    Version.ReadState = Send(this->Address, (byte)58, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+    Version.ReadState = Send(this->Address, (uint8_t)58, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (Version.ReadState == false)
     {

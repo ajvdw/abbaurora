@@ -143,7 +143,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     uint8_t BccLo = 0xFF;
     uint8_t BccHi = 0xFF;
 
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < 8; i++)
     {
         uint8_t New = SendData[i] ^ BccLo;
         uint8_t Tmp = New << 4;
@@ -298,8 +298,10 @@ bool ABBAuroraComponent::ReadSystemPN()
 {
     SystemPN.ReadState = Send(this->Address, (uint8_t)52, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
-    SystemPN.PN = std::string(std::string((char)ReceiveData[0]) + std::string((char)ReceiveData[1]) + std::string((char)ReceiveData[2]) + std::string((char)ReceiveData[3]) + std::string((char)ReceiveData[4]) + std::string((char)ReceiveData[5]));
-
+    ReceiveData[6]=0; // terminate string
+    
+    SystemPN.PN = std::string( ReceiveData );
+    
     return SystemPN.ReadState;
 }
 
@@ -324,7 +326,7 @@ bool ABBAuroraComponent::ReadManufacturingWeekYear()
 
     ManufacturingWeekYear.TransmissionState = ReceiveData[0];
     ManufacturingWeekYear.GlobalState = ReceiveData[1];
-    ManufacturingWeekYear.Week = std::string(String((char)ReceiveData[2]) + std::string((char)ReceiveData[3]));
+    ManufacturingWeekYear.Week = std::string(std::string((char)ReceiveData[2]) + std::string((char)ReceiveData[3]));
     ManufacturingWeekYear.Year = std::string(std::string((char)ReceiveData[4]) + std::string((char)ReceiveData[5]));
 
     return ManufacturingWeekYear.ReadState;

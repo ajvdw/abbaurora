@@ -166,19 +166,21 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     SendData[8] = (~BccLo);
     SendData[9] = (~BccHi);
 
-  //  SendData[8] = (~BccHi);
-  //  SendData[9] = (~BccLo);
-
     clearReceiveData();
 
     for (int i = 0; i < this->MaxAttempt; i++)
     {
         if (this->flow_control_pin_ != nullptr)
-	{
+	    {
             this->flow_control_pin_->digital_write(true);
             delay(5);
                  
         }
+
+        char templog[80];
+        sprintf( templog, "> %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x",SendData[0], SendData[1], SendData[2], SendData[3],
+        SendData[4], SendData[5], SendData[6], SendData[7] , SendData[8], SendData[9] );     
+        ESP_LOGV(TAG, templog );
 
         //if ( != 0) no need to check for success??
         this->write_array( (uint8_t *) SendData, sizeof(SendData));
@@ -209,12 +211,11 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
                     BccLo = BccLo ^ Tmp;
                     Tmp = New >> 4;
                     BccLo = BccLo ^ Tmp;
-                }
-                // Check CRC16
-                if(  ReceiveData[6] == (~BccHi) &&  ReceiveData[7] == (~BccLo) )
-                    ESP_LOGD(TAG, "CRC swapped");
-
-                   
+                }    
+                sprintf( templog, "> %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x", 
+                    ReceiveData[0], ReceiveData[1], ReceiveData[2], ReceiveData[3],
+                    ReceiveData[4], ReceiveData[5], ReceiveData[6], ReceiveData[7] ,(~BccHi), (~BccLo) );      
+                ESP_LOGV(TAG, templog );
 
                 if(  ReceiveData[7] == (~BccHi) &&  ReceiveData[6] == (~BccLo) )
                 {

@@ -11,8 +11,11 @@
 #include "ABBAuroraEnums.h"
 #include "ABBAuroraStrings.h"
 
-#define TAG "ABBAurora"
 
+namespace esphome {
+namespace abbaurora {
+
+static const char *const TAG = "abbaurora";
 
 class ABBAurora;
 
@@ -227,5 +230,5 @@ public:
     bool ReadSystemSerialNumberCentral();
 };
 
-//} // namespace abbaurora
-//} // namespace esphome
+} // namespace abbaurora
+} // namespace esphome

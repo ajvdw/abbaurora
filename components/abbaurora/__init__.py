@@ -22,7 +22,7 @@ ABBAurora = abbaurora_ns.class_("ABBAuroraComponent", uart.UARTDevice, cg.Pollin
 
 ABBAURORA_COMPONENT_SCHEMA = cv.COMPONENT_SCHEMA.extend(
     {
-        cv.Required(CONF_ABBAURORA_ID): cv.use_id(ABBAuroraComponent),
+        cv.Required(CONF_ABBAURORA_ID): cv.use_id(ABBAurora),
     }
 )
 

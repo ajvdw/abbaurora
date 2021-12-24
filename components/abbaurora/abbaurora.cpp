@@ -211,6 +211,11 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
                     BccLo = BccLo ^ Tmp;
                 }
                 // Check CRC16
+                if(  ReceiveData[6] == (~BccHi) &&  ReceiveData[7] == (~BccLo) )
+                    ESP_LOGD(TAG, "CRC swapped");
+
+                   
+
                 if(  ReceiveData[7] == (~BccHi) &&  ReceiveData[6] == (~BccLo) )
                 {
                     ReceiveStatus = true;

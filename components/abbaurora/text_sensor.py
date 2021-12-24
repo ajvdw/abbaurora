@@ -21,7 +21,12 @@ TYPES = {
 
 
 CONFIG_SCHEMA = ABBAURORA_COMPONENT_SCHEMA.extend(
-    {cv.Optional(type) for type, _ in TYPES.items()}
+    {
+        cv.Optional(type): text_sensor.TEXT_SENSOR_SCHEMA.extend(
+            {cv.GenerateID(): cv.declare_id(text_sensor)}
+        )
+        for type in TYPES
+    }
 )
 
 async def to_code(config):

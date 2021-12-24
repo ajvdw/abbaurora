@@ -142,7 +142,9 @@ int ABBAuroraComponent::Crc16(uint8_t *data, int offset, int count)
         BccLo = BccLo ^ Tmp;
     }
 
-    return (int)word(~BccHi, ~BccLo);
+    return (int)((~BccHi) << 8 ) | (~BccLo);
+
+    
 }
 
 bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)

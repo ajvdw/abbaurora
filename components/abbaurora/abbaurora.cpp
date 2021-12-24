@@ -158,7 +158,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     }
 
     SendData[8] = (~BccLo);
-    SendData[9] = (~BccHi)
+    SendData[9] = (~BccHi);
 
     clearReceiveData();
 

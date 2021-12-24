@@ -14,8 +14,8 @@
 
 #define TAG "ABBAurora"
  
-namespace esphome {
-namespace abbaurora { 
+//namespace esphome {
+//namespace abbaurora { 
 
 class ABBAurora : public uart::UARTDevice, public PollingComponent
 {
@@ -227,5 +227,5 @@ public:
     bool ReadSystemSerialNumberCentral();
 };
 
-} // namespace abbaurora
-} // namespace esphome
+//} // namespace abbaurora
+//} // namespace esphome

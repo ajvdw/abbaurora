@@ -68,7 +68,7 @@ async def to_code(config):
     for conf in config[CONF_SENSORS]:
         var = cg.new_Pvariable(conf[CONF_ID])
         await cg.register_component(var, conf)
-        await text_sensor.register_sensor(var, conf)
+        await sensor.register_sensor(var, conf)
 
     for conf in config[CONF_TEXT_SENSORS]:
         var = cg.new_Pvariable(conf[CONF_ID])

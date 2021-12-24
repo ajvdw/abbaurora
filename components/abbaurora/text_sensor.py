@@ -14,7 +14,7 @@ CONF_ABB_IDENTIFICATION = "identification"
 AUTO_LOAD = ["abbaurora"]
 
 TYPES = {
-    CONF_ABB_VERSION,
+    CONF_ABB_VERSION: ,
     CONF_ABB_STATUS,
     CONF_ABB_IDENTIFICATION,
 }
@@ -22,18 +22,14 @@ TYPES = {
 
 CONFIG_SCHEMA = ABBAURORA_COMPONENT_SCHEMA.extend(
     {
-        cv.Optional(type): text_sensor.TEXT_SENSOR_SCHEMA.extend(
-            {cv.GenerateID(): cv.declare_id(text_sensor)}
-        )
+        cv.Optional( type ): text_sensor.TEXT_SENSOR_SCHEMA.extend( { cv.GenerateID(): cv.declare_id(text_sensor.TextSensor) } )
         for type in TYPES
     }
 )
 
 async def to_code(config):
-    paren = await cg.get_variable(config[CONF_ABBAURORA_ID])
-
     for type, _ in TYPES.items():
         if type in config:
             conf = config[type]
             sens = await text_sensor.new_text_sensor(conf)
-            cg.add(getattr(paren, f"set_{type}")(sens))
+  

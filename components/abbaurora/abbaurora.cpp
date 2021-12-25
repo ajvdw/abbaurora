@@ -121,7 +121,7 @@ void ABBAuroraComponent::update()
                 break;
             case 13:
                 if(identification)
-                    if( this->ReadSystemSerialNumber()) )
+                    if( this->ReadSystemSerialNumber() )
                         identification->publish_state(this->SystemSerialNumber.SerialNumber);
         }
     }

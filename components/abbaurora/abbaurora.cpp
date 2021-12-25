@@ -45,7 +45,7 @@ void ABBAuroraComponent::update()
             connection_status->publish_state("Connected");
         }
 
-        switch( rotaterequests % 13)
+        switch( rotaterequests % 14)
         {
             case 0:
                 if(cumulated_energy_total) 

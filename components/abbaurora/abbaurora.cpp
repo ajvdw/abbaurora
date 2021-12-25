@@ -45,39 +45,43 @@ void ABBAuroraComponent::update()
             connection_status->publish_state("Connected");
         }
 
-        switch( rotaterequests % 14)
-        {
+        switch( rotaterequests % 26)
+        {  
             case 0:
-                if(cumulated_energy_total) 
-                    if( this->ReadCumulatedEnergy(TOTAL))
-                        cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
-                break;
-            case 1:           
+                if(identification)
+                    if(this->ReadSystemSerialNumber() )
+                        identification->publish_state(this->SystemSerialNumber.SerialNumber);
+            case 2:           
                 if(version)
                     if( this->ReadVersion() )
                         version->publish_state( this->Version.Par1 );
                 break;
-            case 2:
+            case 4:
+                if(cumulated_energy_total) 
+                    if( this->ReadCumulatedEnergy(TOTAL))
+                        cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
+                break;
+            case 6:
                 if(v_in_1)
                     if(this->ReadDSPValue(V_IN_1, MODULE_MESSUREMENT))
                         v_in_1->publish_state(this->DSP.Value);
                 break;
-            case 3:
+            case 8:
                 if(v_in_2)
                     if(this->ReadDSPValue(V_IN_2, MODULE_MESSUREMENT))
                         v_in_2->publish_state(this->DSP.Value);
                 break;
-            case 4:
+            case 10:
                 if(i_in_1) 
                     if(this->ReadDSPValue(I_IN_1, MODULE_MESSUREMENT))
                         i_in_1->publish_state(this->DSP.Value);
                 break;
-            case 5:
+            case 12:
                 if(i_in_2) 
                     if(this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
                         i_in_2->publish_state(this->DSP.Value);
                break;
-            case 6:
+            case 14:
                 if(power_in_1)
                 {
                     if(this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
@@ -86,7 +90,7 @@ void ABBAuroraComponent::update()
                         power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
                 }
                 break;
-            case 7:
+            case 16:
                 if(power_in_2)
                 {
                     if(this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
@@ -95,35 +99,31 @@ void ABBAuroraComponent::update()
                         power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
                 }
                 break;
-            case 8:
+            case 18:
                 if(grid_voltage)
                     if(this->ReadDSPValue(GRID_VOLTAGE, MODULE_MESSUREMENT))
                         grid_voltage->publish_state(this->DSP.Value);
                 break;
-            case 9:
+            case 20:
                 if(temperature_inverter)
                     if(this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
                         temperature_inverter->publish_state(this->DSP.Value);
                 break;
-            case 10:
+            case 22:
                 if(temperature_booster)
                     if(this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))
                         temperature_booster->publish_state(this->DSP.Value);
                 break;
-            case 11:
+            case 24:
                 if(cumulated_energy_today)
                     if(this->ReadCumulatedEnergy(CURRENT_DAY))
                         cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
                 break;
-            case 12:
+            case else:
                 if(grid_power)
                     if(this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
                         grid_power->publish_state(this->DSP.Value);
                 break;
-            case 13:
-                if(identification)
-                    if(this->ReadSystemSerialNumber() )
-                        identification->publish_state(this->SystemSerialNumber.SerialNumber);
         }
     }
     else
@@ -201,8 +201,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
 
             if (this->flow_control_pin_ != nullptr)
                 this->flow_control_pin_->digital_write(false);
-
-
+                
             if (this->read_array( (uint8_t *)ReceiveData, sizeof(ReceiveData)) )
             {
                 BccLo = 0xFF;

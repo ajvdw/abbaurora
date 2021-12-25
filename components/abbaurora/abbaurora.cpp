@@ -84,6 +84,7 @@ void ABBAuroraComponent::update()
                         power_in_1->publish_state(this->DSP.Value);
                     if(power_in_total && power_in_2)
                         power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
+                }
                 break;
             case 7:
                 if(power_in_2)
@@ -121,7 +122,7 @@ void ABBAuroraComponent::update()
                 break;
             case 13:
                 if(identification)
-                    if( this->ReadSystemSerialNumber() )
+                    if(this->ReadSystemSerialNumber() )
                         identification->publish_state(this->SystemSerialNumber.SerialNumber);
         }
     }

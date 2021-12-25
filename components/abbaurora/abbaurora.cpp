@@ -119,7 +119,7 @@ void ABBAuroraComponent::update()
                     if(this->ReadCumulatedEnergy(CURRENT_DAY))
                         cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
                 break;
-            case else:
+            default:
                 if(grid_power)
                     if(this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
                         grid_power->publish_state(this->DSP.Value);
@@ -201,7 +201,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
 
             if (this->flow_control_pin_ != nullptr)
                 this->flow_control_pin_->digital_write(false);
-                
+
             if (this->read_array( (uint8_t *)ReceiveData, sizeof(ReceiveData)) )
             {
                 BccLo = 0xFF;

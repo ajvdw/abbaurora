@@ -56,7 +56,8 @@ public:
     bool ReadState();
     bool ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global);
     bool ReadSystemSerialNumber();
-    bool ReadSystemPN();    bool ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par);
+    bool ReadSystemPN();    
+    bool ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par);
     bool WriteBaudRateSetting(uint8_t baudcode);
     bool ReadFlagsSwitchCentral();
     bool ReadCumulatedEnergyCentral(uint8_t var, uint8_t ndays_h, uint8_t ndays_l, uint8_t global);

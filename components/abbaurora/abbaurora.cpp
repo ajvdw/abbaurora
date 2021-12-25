@@ -29,6 +29,7 @@ void ABBAuroraComponent::dump_config()
     LOG_PIN("  Flow control Pin: ", this->flow_control_pin_);
   }
 }
+
 void ABBAuroraComponent::update()
 {
     static int rotaterequests = 0;
@@ -75,16 +76,23 @@ void ABBAuroraComponent::update()
                 if(i_in_2) 
                     if(this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
                         i_in_2->publish_state(this->DSP.Value);
-                break;
+               break;
             case 6:
                 if(power_in_1)
+                {
                     if(this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
                         power_in_1->publish_state(this->DSP.Value);
+                    if(power_in_total && power_in_2)
+                        power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
                 break;
             case 7:
                 if(power_in_2)
+                {
                     if(this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
                         power_in_2->publish_state(this->DSP.Value);
+                    if(power_in_total && power_in_1 )
+                        power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
+                }
                 break;
             case 8:
                 if(grid_voltage)
@@ -111,6 +119,10 @@ void ABBAuroraComponent::update()
                     if(this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
                         grid_power->publish_state(this->DSP.Value);
                 break;
+            case 13:
+                if(identification)
+                    if( this->ReadSystemSerialNumber()) )
+                        identification->publish_state(this->SystemSerialNumber.SerialNumber);
         }
     }
     else

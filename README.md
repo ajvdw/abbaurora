@@ -1,4 +1,4 @@
-# abbaurora
+# ABB Aurora (ESPHOME)
  
 This is an ESPHome component for the ABB Aurora SOLAR inverter.
 It is connected via RS485 to an ESP8266 (Wemos D1 mini).

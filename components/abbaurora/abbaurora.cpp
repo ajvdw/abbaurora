@@ -122,7 +122,7 @@ void ABBAuroraComponent::update()
             default:
                 if(grid_power)
                     if(this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
-                        grid_power->publish_state( round(this->DSP.Value/10)/100 );
+                        grid_power->publish_state( this->DSP.Value );
                 break;
         }
     }

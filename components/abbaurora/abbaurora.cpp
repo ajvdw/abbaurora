@@ -45,7 +45,7 @@ void ABBAuroraComponent::update()
             connection_status->publish_state("Connected");
         }
 
-        switch( rotaterequests % 26)
+        switch( rotaterequests % 24)
         {  
             case 0,10:
                 if(power_in_1)

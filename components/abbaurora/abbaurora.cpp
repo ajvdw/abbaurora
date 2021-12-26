@@ -67,45 +67,45 @@ void ABBAuroraComponent::update()
                         power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
                 }
                 break;
-            case 4:
+            case 6:
+                if(identification)
+                    if(this->ReadSystemSerialNumber() )
+                        identification->publish_state(this->SystemSerialNumber.SerialNumber);
+            case 8:           
+                if(version)
+                    if( this->ReadVersion() )
+                        version->publish_state( this->Version.Par1 );
+                break;        case 4:
                 if(temperature_inverter)
                     if(this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
                         temperature_inverter->publish_state(this->DSP.Value);
                 break;
-            case 6:
+            case 14:
                 if(v_in_1)
                     if(this->ReadDSPValue(V_IN_1, MODULE_MESSUREMENT))
                         v_in_1->publish_state(this->DSP.Value);
                 break;
-            case 8:
+            case 16:
                 if(v_in_2)
                     if(this->ReadDSPValue(V_IN_2, MODULE_MESSUREMENT))
                         v_in_2->publish_state(this->DSP.Value);
                 break;
-            case 14:
+            case 18:
                 if(i_in_1) 
                     if(this->ReadDSPValue(I_IN_1, MODULE_MESSUREMENT))
                         i_in_1->publish_state(this->DSP.Value);
                 break;
-            case 16:
+            case 20:
                 if(i_in_2) 
                     if(this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
                         i_in_2->publish_state(this->DSP.Value);
                break;
-            case 18:
+            case 22:
                 if(temperature_booster)
                     if(this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))
                         temperature_booster->publish_state(this->DSP.Value);
                 break;
-            case 20:
-                if(identification)
-                    if(this->ReadSystemSerialNumber() )
-                        identification->publish_state(this->SystemSerialNumber.SerialNumber);
-            case 22:           
-                if(version)
-                    if( this->ReadVersion() )
-                        version->publish_state( this->Version.Par1 );
-                break;
+
             case 1:
             case 9:
             case 17:

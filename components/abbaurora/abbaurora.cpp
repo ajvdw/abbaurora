@@ -47,19 +47,28 @@ void ABBAuroraComponent::update()
 
         switch( rotaterequests % 26)
         {  
-            case 0:
-                if(identification)
-                    if(this->ReadSystemSerialNumber() )
-                        identification->publish_state(this->SystemSerialNumber.SerialNumber);
-            case 2:           
-                if(version)
-                    if( this->ReadVersion() )
-                        version->publish_state( this->Version.Par1 );
+            case 0,10:
+                if(power_in_1)
+                {
+                    if(this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
+                        power_in_1->publish_state(this->DSP.Value);
+                    if(power_in_total && power_in_2)
+                        power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
+                }
+                break;
+            case 2,12:
+                if(power_in_2)
+                {
+                    if(this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
+                        power_in_2->publish_state(this->DSP.Value);
+                    if(power_in_total && power_in_1 )
+                        power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
+                }
                 break;
             case 4:
-                if(cumulated_energy_total) 
-                    if( this->ReadCumulatedEnergy(TOTAL))
-                        cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
+                if(temperature_inverter)
+                    if(this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
+                        temperature_inverter->publish_state(this->DSP.Value);
                 break;
             case 6:
                 if(v_in_1)
@@ -71,59 +80,52 @@ void ABBAuroraComponent::update()
                     if(this->ReadDSPValue(V_IN_2, MODULE_MESSUREMENT))
                         v_in_2->publish_state(this->DSP.Value);
                 break;
-            case 10:
+            case 14:
                 if(i_in_1) 
                     if(this->ReadDSPValue(I_IN_1, MODULE_MESSUREMENT))
                         i_in_1->publish_state(this->DSP.Value);
                 break;
-            case 12:
+            case 16:
                 if(i_in_2) 
                     if(this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
                         i_in_2->publish_state(this->DSP.Value);
                break;
-            case 14:
-                if(power_in_1)
-                {
-                    if(this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
-                        power_in_1->publish_state(this->DSP.Value);
-                    if(power_in_total && power_in_2)
-                        power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
-                }
-                break;
-            case 16:
-                if(power_in_2)
-                {
-                    if(this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
-                        power_in_2->publish_state(this->DSP.Value);
-                    if(power_in_total && power_in_1 )
-                        power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
-                }
-                break;
             case 18:
-                if(grid_voltage)
-                    if(this->ReadDSPValue(GRID_VOLTAGE, MODULE_MESSUREMENT))
-                        grid_voltage->publish_state(this->DSP.Value);
-                break;
-            case 20:
-                if(temperature_inverter)
-                    if(this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
-                        temperature_inverter->publish_state(this->DSP.Value);
-                break;
-            case 22:
                 if(temperature_booster)
                     if(this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))
                         temperature_booster->publish_state(this->DSP.Value);
                 break;
-            case 24:
-                if(cumulated_energy_today)
-                    if(this->ReadCumulatedEnergy(CURRENT_DAY))
-                        cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
+            case 20:
+                if(identification)
+                    if(this->ReadSystemSerialNumber() )
+                        identification->publish_state(this->SystemSerialNumber.SerialNumber);
+            case 22:           
+                if(version)
+                    if( this->ReadVersion() )
+                        version->publish_state( this->Version.Par1 );
                 break;
-            default:
+            case 1,9,17:
                 if(grid_power)
                     if(this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
                         grid_power->publish_state( this->DSP.Value );
                 break;
+            case 3,11,19:
+                if(grid_voltage)
+                    if(this->ReadDSPValue(GRID_VOLTAGE, MODULE_MESSUREMENT))
+                        grid_voltage->publish_state(this->DSP.Value);
+                break;
+            case 5,13,21:
+                if(cumulated_energy_total) 
+                    if( this->ReadCumulatedEnergy(TOTAL))
+                        cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
+                break;
+            case 7,15,23:
+                if(cumulated_energy_today)
+                    if(this->ReadCumulatedEnergy(CURRENT_DAY))
+                        cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
+                break;
+         
+            
         }
     }
     else

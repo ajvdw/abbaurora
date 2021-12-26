@@ -67,15 +67,17 @@ void ABBAuroraComponent::update()
                         power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
                 }
                 break;
-            case 6:
+            case 4:
                 if(identification)
                     if(this->ReadSystemSerialNumber() )
                         identification->publish_state(this->SystemSerialNumber.SerialNumber);
-            case 8:           
+                break;
+            case 6:           
                 if(version)
                     if( this->ReadVersion() )
                         version->publish_state( this->Version.Par1 );
-                break;        case 4:
+                break;        
+            case 8:
                 if(temperature_inverter)
                     if(this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
                         temperature_inverter->publish_state(this->DSP.Value);

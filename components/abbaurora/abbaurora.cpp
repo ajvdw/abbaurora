@@ -149,8 +149,9 @@ void ABBAuroraComponent::update()
        //     App.reboot();  
        // }
     }
+    */
 }
-*/
+
 
 void ABBAuroraComponent::clearData(uint8_t *data, uint8_t len)
 {

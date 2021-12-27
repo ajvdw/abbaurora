@@ -219,37 +219,40 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
             delay(2);  
         }
 
-        if (this->read_array( (uint8_t *)ReceiveData, sizeof(ReceiveData)) )
+        if( this->available() )
         {
-            BccLo = 0xFF;
-            BccHi = 0xFF;
+            if (this->read_array( (uint8_t *)ReceiveData, sizeof(ReceiveData)) )
+            {
+                BccLo = 0xFF;
+                BccHi = 0xFF;
 
-            for (int i = 0; i < 6; i++)
-            {
-                uint8_t New = ReceiveData[i] ^ BccLo;
-                uint8_t Tmp = New << 4;
-                New = Tmp ^ New;
-                Tmp = New >> 5;
-                BccLo = BccHi;
-                BccHi = New ^ Tmp;
-                Tmp = New << 3;
-                BccLo = BccLo ^ Tmp;
-                Tmp = New >> 4;
-                BccLo = BccLo ^ Tmp;
-            }    
-            //ESP_LOGV(TAG, "< %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x", 
-                //   ReceiveData[0], ReceiveData[1], ReceiveData[2], ReceiveData[3],
-                //   ReceiveData[4], ReceiveData[5], ReceiveData[6], ReceiveData[7] ,(uint8_t)(~BccHi), (uint8_t)(~BccLo) );      
-    
-            if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
-            {
-                ReceiveStatus = true;
-                break;
+                for (int i = 0; i < 6; i++)
+                {
+                    uint8_t New = ReceiveData[i] ^ BccLo;
+                    uint8_t Tmp = New << 4;
+                    New = Tmp ^ New;
+                    Tmp = New >> 5;
+                    BccLo = BccHi;
+                    BccHi = New ^ Tmp;
+                    Tmp = New << 3;
+                    BccLo = BccLo ^ Tmp;
+                    Tmp = New >> 4;
+                    BccLo = BccLo ^ Tmp;
+                }    
+                //ESP_LOGV(TAG, "< %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x", 
+                    //   ReceiveData[0], ReceiveData[1], ReceiveData[2], ReceiveData[3],
+                    //   ReceiveData[4], ReceiveData[5], ReceiveData[6], ReceiveData[7] ,(uint8_t)(~BccHi), (uint8_t)(~BccLo) );      
+        
+                if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
+                {
+                    ReceiveStatus = true;
+                    break;
+                }
+                else
+                    ESP_LOGD(TAG, "CRC error in received data");
             }
-            else
-                ESP_LOGD(TAG, "CRC error in received data");
+            yield();
         }
-        yield();
     }
     return ReceiveStatus;
 }

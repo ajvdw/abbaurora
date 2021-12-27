@@ -252,7 +252,7 @@ std::string ABBAuroraStrings::InverterState(uint8_t id)
     case 47:
         return std::string("Input OC");
     default:
-        return std::string("Unknown");
+        return std::string("Unknown:") + std::string(id);
     }
 }
 

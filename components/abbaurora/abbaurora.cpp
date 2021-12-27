@@ -37,32 +37,13 @@ void ABBAuroraComponent::update()
       
     rotaterequests++;
 
-    if( connection_status )
-        if( this->ReadState() ) // If inverter is connected
-          connection_status->publish_state( ABBAuroraStrings::InverterState(State.InverterState) );
-
-
+   
     switch( rotaterequests % 24)
     {  
-        case 0:
-        case 10:
-            if(power_in_1)
-            {
-                if(this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
-                    power_in_1->publish_state(this->DSP.Value);
-                if(power_in_total && power_in_2)
-                    power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
-            }
-            break;
         case 2:
-        case 12:
-            if(power_in_2)
-            {
-                if(this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
-                    power_in_2->publish_state(this->DSP.Value);
-                if(power_in_total && power_in_1 )
-                    power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
-            }
+            if(connection_status)
+                if( this->ReadState() ) // If inverter is connected
+                    connection_status->publish_state( ABBAuroraStrings::InverterState(State.InverterState) );
             break;
         case 4:
             if(identification)
@@ -78,6 +59,24 @@ void ABBAuroraComponent::update()
             if(temperature_inverter)
                 if(this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
                     temperature_inverter->publish_state(this->DSP.Value);
+            break;
+        case 10:
+            if(power_in_1)
+            {
+                if(this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
+                    power_in_1->publish_state(this->DSP.Value);
+                if(power_in_total && power_in_2)
+                    power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
+            }
+            break;
+        case 12:
+            if(power_in_2)
+            {
+                if(this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
+                    power_in_2->publish_state(this->DSP.Value);
+                if(power_in_total && power_in_1 )
+                    power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
+            }
             break;
         case 14:
             if(v_in_1)
@@ -98,7 +97,7 @@ void ABBAuroraComponent::update()
             if(i_in_2) 
                 if(this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
                     i_in_2->publish_state(this->DSP.Value);
-        break;
+            break;
         case 22:
             if(temperature_booster)
                 if(this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))

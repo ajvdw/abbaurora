@@ -32,7 +32,9 @@ void ABBAuroraComponent::dump_config()
 
 void ABBAuroraComponent::update()
 {
-    static int rotaterequests = 0;
+    const uint32_t now = millis();
+    static uint32_t last_connected = 0;
+
 
     rotaterequests++;
 
@@ -43,6 +45,7 @@ void ABBAuroraComponent::update()
         {
             connection = 1;
             connection_status->publish_state("Connected");
+            last_connected = now;
         }
 
         switch( rotaterequests % 24)
@@ -145,9 +148,17 @@ void ABBAuroraComponent::update()
         if (connection)
         {
             connection = 0;
+
+            ESP_LOGD(TAG, "Inverter not conntected");
+
             connection_status->publish_state("Disconnected");
+            if (millis() - last_connected > 30000 ) 
+            {
+                ESP_LOGE(TAG, "Can't connect to UART... Restarting...");
+                App.reboot();  
+            }
         }
-        ESP_LOGD(TAG, "Inverter not conntected");
+
     }
 }
  

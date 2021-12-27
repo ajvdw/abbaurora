@@ -20,7 +20,7 @@ void ABBAuroraComponent::setup()
     ReceiveStatus = false;
     clearReceiveData();
 
-    connection_status->publish_state("Disconnected");
+    connection_status->publish_state("Starting");
 }
 
 void ABBAuroraComponent::dump_config() 
@@ -41,10 +41,13 @@ void ABBAuroraComponent::update()
     //If inverter is connected
     if (this->ReadState())
     {
+        connection_status->publish_state( ABBAuroraStrings::InverterState(State.InverterState) );
+
         if (!connection)
         {
             connection = 1;
-            connection_status->publish_state("Connected");
+            //connection_status->publish_state("Connected");
+
             last_connected = now;
         }
 
@@ -151,7 +154,8 @@ void ABBAuroraComponent::update()
 
             ESP_LOGD(TAG, "Inverter not conntected");
 
-            connection_status->publish_state("Disconnected");
+            //connection_status->publish_state( ABBAuroraStrings::InverterState() );
+
             if (millis() - last_connected > 30000 ) // time out after 30 seconds
             {
                 ESP_LOGE(TAG, "Can't connect to UART... Restarting...");

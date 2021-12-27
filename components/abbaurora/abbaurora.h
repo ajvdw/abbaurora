@@ -18,7 +18,7 @@ namespace abbaurora {
 class ABBAuroraComponent : public uart:: UARTDevice, public PollingComponent
 {
 public:
-    ABBAuroraComponent() : PollingComponent(2000) {}
+    ABBAuroraComponent() : PollingComponent(2500) {}
 
 protected:
     GPIOPin *flow_control_pin_{nullptr};

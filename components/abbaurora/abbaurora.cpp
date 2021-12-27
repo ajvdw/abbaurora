@@ -34,7 +34,7 @@ void ABBAuroraComponent::update()
 {
     const uint32_t now = millis();
     static uint32_t last_connected = 0;
-
+    static uint32_t rotaterequests = 0;
 
     rotaterequests++;
 
@@ -152,7 +152,7 @@ void ABBAuroraComponent::update()
             ESP_LOGD(TAG, "Inverter not conntected");
 
             connection_status->publish_state("Disconnected");
-            if (millis() - last_connected > 30000 ) 
+            if (millis() - last_connected > 30000 ) // time out after 30 seconds
             {
                 ESP_LOGE(TAG, "Can't connect to UART... Restarting...");
                 App.reboot();  

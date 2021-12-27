@@ -51,7 +51,7 @@ void ABBAuroraComponent::update()
             last_connected = now;
         }
 
-        if( State.InverterState == 2 ) // run
+        if( last_inverterstate == 2 ) // run
         {
             rotaterequests++;
 
@@ -117,7 +117,6 @@ void ABBAuroraComponent::update()
                         if(this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))
                             temperature_booster->publish_state(this->DSP.Value);
                     break;
-
                 case 1:
                 case 9:
                 case 17:
@@ -146,8 +145,7 @@ void ABBAuroraComponent::update()
                         if(this->ReadCumulatedEnergy(CURRENT_DAY))
                             cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
                     break;
-            }    
-            
+            }            
         }
     }
     else
@@ -166,7 +164,6 @@ void ABBAuroraComponent::update()
                 App.reboot();  
             }
         }
-
     }
 }
  

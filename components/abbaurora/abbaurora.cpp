@@ -1,7 +1,4 @@
 #include "abbaurora.h"
-#include "esphome/core/log.h"
-#include "esphome/core/helpers.h"
-#include "esphome/core/defines.h"
 
 namespace esphome {
 namespace abbaurora {
@@ -153,11 +150,8 @@ void ABBAuroraComponent::update()
         if (connection)
         {
             connection = 0;
-
             ESP_LOGD(TAG, "Inverter not conntected");
-
             connection_status->publish_state( "Disconnected" );
-
             if (millis() - last_connected > 60000 ) // time out after 1 minute
             {
                 ESP_LOGE(TAG, "Can't connect... Restarting...");

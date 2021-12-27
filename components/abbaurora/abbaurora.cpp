@@ -154,11 +154,11 @@ void ABBAuroraComponent::update()
             connection_status->publish_state( "Disconnected" );
 
         }
-        if (millis() - last_connected > 60000 ) // time out after 1 minute
-        {
-            ESP_LOGE(TAG, "Can't connect... Restarting...");
-            App.reboot();  
-        }
+       // if (millis() - last_connected > 60000 ) // time out after 1 minute
+       // {
+       //     ESP_LOGE(TAG, "Can't connect... Restarting...");
+       //     App.reboot();  
+       // }
     }
 }
  

@@ -234,8 +234,10 @@ void ABBAuroraComponent::clearReceiveData()
 {
     uint8_t purge;
     clearData(ReceiveData, 8);
-    while( this->read_byte( &purge ) )
-    {};
+    while( this->available() )
+    {
+        this->read_byte( &purge );
+    }
 }
 
 /**

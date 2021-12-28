@@ -187,7 +187,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         if (this->flow_control_pin_ != nullptr)
 	    {
             this->flow_control_pin_->digital_write(true);
-            delay(5);      
+            delay(10);      
         }
         this->write_array( (uint8_t *)SendData, 10 );
         

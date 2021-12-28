@@ -36,7 +36,7 @@ void ABBAuroraComponent::loop()
     if( now - last_request > 1000)
     {
         last_request = now;
-    
+ 
         rotaterequests++;
 
         switch( rotaterequests % 24)
@@ -339,7 +339,6 @@ bool ABBAuroraComponent::ReadJunctionBoxVal(uint8_t nj, uint8_t par)
 }
 
 // Inverters
-
 bool ABBAuroraComponent::ReadSystemPN()
 {
     SystemPN.ReadState = Send(this->Address, (uint8_t)52, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);

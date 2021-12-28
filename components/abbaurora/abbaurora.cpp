@@ -36,100 +36,64 @@ void ABBAuroraComponent::loop()
     if( now - last_request > 1000)
     {
         last_request = now;
- 
         rotaterequests++;
-
         switch( rotaterequests % 30)
         {  
-            case 2:
-                if(connection_status)
-                    if( this->ReadState() ) // If inverter is connected
+            case 2: if(connection_status &&this->ReadState()) // If inverter is connected
                         connection_status->publish_state( ABBAuroraComponent::InverterStateText(State.InverterState) );
-                break;
-            case 4:
-                if(identification)
-                    if(this->ReadSystemSerialNumber() )
+                    break;
+            case 4: if(identification 77 this->ReadSystemSerialNumber())
                         identification->publish_state(this->SystemSerialNumber.SerialNumber);
-                break;
-            case 6:           
-                if(version)
-                    if( this->ReadVersion() )
+                    break;
+            case 6: if(version && this->ReadVersion())
                         version->publish_state( this->Version.Par1 );
                 break;        
-            case 8:
-                if(temperature_inverter)
-                    if(this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
+            case 8: if(temperature_inverter && this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
                         temperature_inverter->publish_state(this->DSP.Value);
-                break;
-            case 10:
-                if(power_in_1)
-                {
-                    if(this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
+                    break;
+            case 10:if(power_in_1 && this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
                         power_in_1->publish_state(this->DSP.Value);
-                    if(power_in_total && power_in_2)
+                    if(power_in_total && power_in_1 && power_in_2)
                         power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
-                }
-                break;
-            case 12:
-                if(power_in_2)
-                {
-                    if(this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
+                    break;
+            case 12:if(power_in_2 && this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
                         power_in_2->publish_state(this->DSP.Value);
-                    if(power_in_total && power_in_1 )
+                    if(power_in_total && power_in_1 && power_in_2)
                         power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
-                }
-                break;
-            case 14:
-                if(v_in_1)
-                    if(this->ReadDSPValue(V_IN_1, MODULE_MESSUREMENT))
+                    break;
+            case 14:if(v_in_1 && this->ReadDSPValue(V_IN_1, MODULE_MESSUREMENT))
                         v_in_1->publish_state(this->DSP.Value);
-                break;
-            case 16:
-                if(v_in_2)
-                    if(this->ReadDSPValue(V_IN_2, MODULE_MESSUREMENT))
+                    break;
+            case 16:if(v_in_2 && this->ReadDSPValue(V_IN_2, MODULE_MESSUREMENT))
                         v_in_2->publish_state(this->DSP.Value);
-                break;
-            case 18:
-                if(i_in_1) 
-                    if(this->ReadDSPValue(I_IN_1, MODULE_MESSUREMENT))
+                    break;
+            case 18:if(i_in_1 && this->ReadDSPValue(I_IN_1, MODULE_MESSUREMENT))
                         i_in_1->publish_state(this->DSP.Value);
-                break;
-            case 20:
-                if(i_in_2) 
-                    if(this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
+                    break;
+            case 20:if(i_in_2 && this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
                         i_in_2->publish_state(this->DSP.Value);
                 break;
-            case 22:
-                if(temperature_booster)
-                    if(this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))
+            case 22:if(temperature_booster && this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))
                         temperature_booster->publish_state(this->DSP.Value);
-                break;
+                    break;
             case 1:
             case 11:
-            case 21:
-                if(grid_power)
-                    if(this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
+            case 21:if(grid_power && this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
                         grid_power->publish_state( this->DSP.Value );
-                break;
+                    break;
             case 3:
             case 13:
-            case 23:
-                if(grid_voltage)
-                    if(this->ReadDSPValue(GRID_VOLTAGE, MODULE_MESSUREMENT))
+            case 23:if(grid_voltage && this->ReadDSPValue(GRID_VOLTAGE, MODULE_MESSUREMENT))
                         grid_voltage->publish_state(this->DSP.Value);
                 break;
             case 5:
             case 15:
-            case 25:
-                if(cumulated_energy_total) 
-                    if( this->ReadCumulatedEnergy(TOTAL))
+            case 25:if(cumulated_energy_total && this->ReadCumulatedEnergy(TOTAL))
                         cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
                 break;
             case 7:
             case 17:
-            case 27:
-                if(cumulated_energy_today)
-                    if(this->ReadCumulatedEnergy(CURRENT_DAY))
+            case 27:if(cumulated_energy_today && this->ReadCumulatedEnergy(CURRENT_DAY))
                         cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
                 break;
         }            
@@ -352,7 +316,6 @@ bool ABBAuroraComponent::ReadManufacturingWeekYear()
     ManufacturingWeekYear.TransmissionState = ReceiveData[0];
     ManufacturingWeekYear.GlobalState = ReceiveData[1];
 
-
     ManufacturingWeekYear.Week.assign(1,(char)ReceiveData[2]);  
     ManufacturingWeekYear.Week += (char)ReceiveData[3];
     ManufacturingWeekYear.Year.assign(1,(char)ReceiveData[4]);  
@@ -407,6 +370,7 @@ bool ABBAuroraComponent::ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par)
 
     CumulatedEnergy.TransmissionState = ReceiveData[0];
     CumulatedEnergy.GlobalState = ReceiveData[1];
+    
     if (CumulatedEnergy.ReadState == true)
     {
         ulo.asBytes[0] = ReceiveData[5];

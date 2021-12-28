@@ -203,7 +203,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         if (this->flow_control_pin_ != nullptr)
 	    {
             this->flow_control_pin_->digital_write(true);
-            delay(2);      
+            delay(5);      
         }
         //ESP_LOGV(TAG, "> %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x",SendData[0], SendData[1], SendData[2], SendData[3],
           //SendData[4], SendData[5], SendData[6], SendData[7] , SendData[8], SendData[9] );     
@@ -216,7 +216,6 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         if (this->flow_control_pin_ != nullptr)
         {
             this->flow_control_pin_->digital_write(false);
-            delay(2);  
         }
 
         if( this->available() )
@@ -363,8 +362,12 @@ bool ABBAuroraComponent::ReadSystemPN()
 {
     SystemPN.ReadState = Send(this->Address, (uint8_t)52, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
-    ReceiveData[6]=0; 
-    SystemPN.PN = std::string( (char *)ReceiveData );
+    SystemPN.PN.assign(1, (char)ReceiveData[0] );
+    SystemPN.PN += (char)ReceiveData[1];
+    SystemPN.PN += (char)ReceiveData[2]; 
+    SystemPN.PN += (char)ReceiveData[3];
+    SystemPN.PN += (char)ReceiveData[4]; 
+    SystemPN.PN += (char)ReceiveData[5]; 
     
     return SystemPN.ReadState;
 }
@@ -373,8 +376,12 @@ bool ABBAuroraComponent::ReadSystemSerialNumber()
 {
     SystemSerialNumber.ReadState = Send(this->Address, (uint8_t)63, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
-    ReceiveData[6]=0;
-    SystemSerialNumber.SerialNumber = std::string( (char *)ReceiveData );
+    SystemSerialNumber.SerialNumber.assign(1,(char)ReceiveData[0]);
+    SystemSerialNumber.SerialNumber += (char)ReceiveData[1];
+    SystemSerialNumber.SerialNumber += (char)ReceiveData[2]; 
+    SystemSerialNumber.SerialNumber += (char)ReceiveData[3];
+    SystemSerialNumber.SerialNumber += (char)ReceiveData[4]; 
+    SystemSerialNumber.SerialNumber += (char)ReceiveData[5]; 
 
     return SystemSerialNumber.ReadState;
 }
@@ -392,10 +399,11 @@ bool ABBAuroraComponent::ReadManufacturingWeekYear()
     ManufacturingWeekYear.TransmissionState = ReceiveData[0];
     ManufacturingWeekYear.GlobalState = ReceiveData[1];
 
-    ReceiveData[6]=0;
-    ManufacturingWeekYear.Year = std::string( (char *) &(ReceiveData[4]) );
-    ReceiveData[4]=0;
-    ManufacturingWeekYear.Week = std::string( (char *) &(ReceiveData[2]) );
+
+    ManufacturingWeekYear.Week.assign(1,(char)ReceiveData[2]);  
+    ManufacturingWeekYear.Week += (char)ReceiveData[3];
+    ManufacturingWeekYear.Year.assign(1,(char)ReceiveData[4]);  
+    ManufacturingWeekYear.Year += (char)ReceiveData[5];  
 
     return ManufacturingWeekYear.ReadState;
 }
@@ -413,8 +421,13 @@ bool ABBAuroraComponent::ReadFirmwareRelease()
     FirmwareRelease.TransmissionState = ReceiveData[0];
     FirmwareRelease.GlobalState = ReceiveData[1];
 
-    ReceiveData[6]=0;
-    FirmwareRelease.Release = std::string( (char *) &(ReceiveData[2]) );
+    FirmwareRelease.Release.assign(1,(char)ReceiveData[2]);
+    FirmwareRelease.Release += '.';
+    FirmwareRelease.Release += (char)ReceiveData[3];  
+    FirmwareRelease.Release += '.';
+    FirmwareRelease.Release += (char)ReceiveData[4];  
+    FirmwareRelease.Release += '.';
+    FirmwareRelease.Release += (char)ReceiveData[5];  
 
     return FirmwareRelease.ReadState;
 }

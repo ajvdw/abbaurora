@@ -19,7 +19,6 @@ CONF_ABBAURORA_ID = "abbaurora_id"
 abbaurora_ns = cg.esphome_ns.namespace("esphome::abbaurora")
 ABBAurora = abbaurora_ns.class_("ABBAuroraComponent", uart.UARTDevice, cg.Component )
 
-
 ABBAURORA_COMPONENT_SCHEMA = cv.COMPONENT_SCHEMA.extend(
     {
         cv.Required(CONF_ABBAURORA_ID): cv.use_id(ABBAurora),

@@ -39,7 +39,7 @@ void ABBAuroraComponent::loop()
  
         rotaterequests++;
 
-        switch( rotaterequests % 24)
+        switch( rotaterequests % 30)
         {  
             case 2:
                 if(connection_status)
@@ -105,29 +105,29 @@ void ABBAuroraComponent::loop()
                         temperature_booster->publish_state(this->DSP.Value);
                 break;
             case 1:
-            case 9:
-            case 17:
+            case 11:
+            case 21:
                 if(grid_power)
                     if(this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
                         grid_power->publish_state( this->DSP.Value );
                 break;
             case 3:
-            case 11:
-            case 19:
+            case 13:
+            case 23:
                 if(grid_voltage)
                     if(this->ReadDSPValue(GRID_VOLTAGE, MODULE_MESSUREMENT))
                         grid_voltage->publish_state(this->DSP.Value);
                 break;
             case 5:
-            case 13:
-            case 21:
+            case 15:
+            case 25:
                 if(cumulated_energy_total) 
                     if( this->ReadCumulatedEnergy(TOTAL))
                         cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
                 break;
             case 7:
-            case 15:
-            case 23:
+            case 17:
+            case 27:
                 if(cumulated_energy_today)
                     if(this->ReadCumulatedEnergy(CURRENT_DAY))
                         cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
@@ -135,7 +135,6 @@ void ABBAuroraComponent::loop()
         }            
     }
 }
-
 
 void ABBAuroraComponent::clearData(uint8_t *data, uint8_t len)
 {
@@ -190,9 +189,6 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
             this->flow_control_pin_->digital_write(true);
             delay(5);      
         }
-        //ESP_LOGV(TAG, "> %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x",SendData[0], SendData[1], SendData[2], SendData[3],
-          //SendData[4], SendData[5], SendData[6], SendData[7] , SendData[8], SendData[9] );     
-
         this->write_array( (uint8_t *)SendData, 10 );
         
         this->flush();            
@@ -222,10 +218,6 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
                 Tmp = New >> 4;
                 BccLo = BccLo ^ Tmp;
             }    
-            //ESP_LOGV(TAG, "< %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x", 
-                //   ReceiveData[0], ReceiveData[1], ReceiveData[2], ReceiveData[3],
-                //   ReceiveData[4], ReceiveData[5], ReceiveData[6], ReceiveData[7] ,(uint8_t)(~BccHi), (uint8_t)(~BccLo) );      
-    
             if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
             {
                 ReceiveStatus = true;

@@ -105,7 +105,7 @@ public:
     static std::string GlobalStateText(uint8_t id);
     static std::string DcDcStateText(uint8_t id);
     static std::string InverterStateText(uint8_t id);
-    statid std::string AlarmStateText(uint8_t id);
+    static std::string AlarmStateText(uint8_t id);
 
     union {
         uint8_t asBytes[4];

@@ -47,7 +47,7 @@ void ABBAuroraComponent::loop()
                     break;
             case 6: if(version && this->ReadVersion())
                         version->publish_state( this->Version.Par1 );
-                break;        
+                    break;        
             case 8: if(temperature_inverter && this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
                         temperature_inverter->publish_state(this->DSP.Value);
                     break;
@@ -72,7 +72,7 @@ void ABBAuroraComponent::loop()
                     break;
             case 20:if(i_in_2 && this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
                         i_in_2->publish_state(this->DSP.Value);
-                break;
+                    break;
             case 22:if(temperature_booster && this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))
                         temperature_booster->publish_state(this->DSP.Value);
                     break;

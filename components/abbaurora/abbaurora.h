@@ -15,11 +15,10 @@
 namespace esphome {
 namespace abbaurora {
 
-class ABBAuroraComponent : public uart:: UARTDevice, Component
+class ABBAuroraComponent : public uart:: UARTDevice, public Component
 {
 public:
 //    ABBAuroraComponent() : PollingComponent(2500) {}
-    ABBAuroraComponent() : Component() {}
 protected:
     GPIOPin *flow_control_pin_{nullptr};
 

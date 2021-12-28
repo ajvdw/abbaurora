@@ -552,12 +552,12 @@ bool ABBAuroraComponent::ReadVersion()
     {
         case 'W': Version.Par4 = std::string("Wind version"); break;
         case 'N': Version.Par4 = std::string("PV version"); break;
-        default: return std::string("Unknown");
+        default: Version.Par4 = std::string("Unknown");
     }
     return Version.ReadState;
 };
 
-std::string ABBAurora::AlarmStateText(uint8_t id)
+std::string ABBAuroraComponent::AlarmStateText(uint8_t id)
 {
     switch (id)
     {
@@ -630,7 +630,7 @@ std::string ABBAurora::AlarmStateText(uint8_t id)
     }
 }
 
-std::string ABBAurora::TransmissionText(uint8_t id)
+std::string ABBAuroraComponent::TransmissionText(uint8_t id)
 {
     switch (id)
     {
@@ -647,7 +647,7 @@ std::string ABBAurora::TransmissionText(uint8_t id)
     }
 }
 
-std::string ABBAuroraStrings::GlobalStateText(uint8_t id)
+std::string ABBAuroraComponent::GlobalStateText(uint8_t id)
 {
     switch (id)
     {
@@ -696,7 +696,7 @@ std::string ABBAuroraStrings::GlobalStateText(uint8_t id)
     }
 }
 
-std::string ABBAurora::DcDcStateText(uint8_t id)
+std::string ABBAuroraComponent::DcDcStateText(uint8_t id)
 {
     switch (id)
     {
@@ -724,7 +724,7 @@ std::string ABBAurora::DcDcStateText(uint8_t id)
     }
 }
 
-std::string ABBAurora::InverterStateText(uint8_t id)
+std::string ABBAuroraComponent::InverterStateText(uint8_t id)
 {
     switch (id)
     {

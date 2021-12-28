@@ -15,7 +15,7 @@
 namespace esphome {
 namespace abbaurora {
 
-class ABBAuroraComponent : public uart:: UARTDevice //, public PollingComponent
+class ABBAuroraComponent : public uart:: UARTDevice, Component
 {
 //public:
 //    ABBAuroraComponent() : PollingComponent(2500) {}

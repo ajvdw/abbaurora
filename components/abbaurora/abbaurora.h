@@ -17,15 +17,12 @@ namespace abbaurora {
 
 class ABBAuroraComponent : public uart:: UARTDevice, public Component
 {
-public:
-//    ABBAuroraComponent() : PollingComponent(2500) {}
 protected:
     GPIOPin *flow_control_pin_{nullptr};
 
 public:
     void setup() override;
     void loop() override;
-//    void update() override;
     void dump_config() override;
     void set_address(uint8_t address) {  Address = address; }
     void set_flow_control_pin(GPIOPin *flow_control_pin) { this->flow_control_pin_ = flow_control_pin; }

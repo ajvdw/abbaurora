@@ -27,8 +27,6 @@ void ABBAuroraComponent::dump_config()
   }
 }
 
-//void ABBAuroraComponent::update()
-
 void ABBAuroraComponent::loop()
 {
     const uint32_t now = millis();
@@ -135,23 +133,6 @@ void ABBAuroraComponent::loop()
                         cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
                 break;
         }            
-    /*    
-        else
-        {
-            if (connection)
-            {
-                connection = 0;
-                ESP_LOGD(TAG, "Inverter not conntected");
-                connection_status->publish_state( "Disconnected" );
-
-            }
-        // if (millis() - last_connected > 60000 ) // time out after 1 minute
-        // {
-        //     ESP_LOGE(TAG, "Can't connect... Restarting...");
-        //     App.reboot();  
-        // }
-        }
-        */
     }
 }
 

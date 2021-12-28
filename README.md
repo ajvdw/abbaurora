@@ -4,10 +4,10 @@ This is an ESPHome component for the ABB Aurora SOLAR inverter.
 It is connected via RS485 to an ESP8266 (Wemos D1 mini).
 
 The code is based on https://github.com/jrbenito/ABBAurora 
-that was based on the work of Davide Rosa 
+that again was based on the work of Davide Rosa 
 https://www.drhack.it/arduino/32-lettura-inverte-power-one-aurora.html
 
-License  LGPL v2.1.
+The original work was made available under the LGPL v2.1 license.
 
 An example of a configuration for ESPHome:
 

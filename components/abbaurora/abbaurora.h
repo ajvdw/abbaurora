@@ -48,6 +48,7 @@ namespace abbaurora {
 class ABBAuroraComponent : public uart:: UARTDevice, public Component
 {
 protected:
+    GPIOPin *flow_control_pin_{nullptr};
     uint8_t connection = 0;
     int MaxAttempt = 1;
     bool SendStatus = false;

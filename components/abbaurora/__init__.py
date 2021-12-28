@@ -10,6 +10,8 @@ from esphome.const import (
 )
 from esphome import pins
 
+CODEOWNERS = ["@ajvdw"]
+
 DEPENDENCIES = ["uart"]
 
 AUTO_LOAD = ["sensor", "text_sensor"]

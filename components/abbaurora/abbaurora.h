@@ -48,7 +48,29 @@ namespace abbaurora {
 class ABBAuroraComponent : public uart:: UARTDevice, public Component
 {
 protected:
-    GPIOPin *flow_control_pin_{nullptr};
+    uint8_t connection = 0;
+    int MaxAttempt = 1;
+    bool SendStatus = false;
+    bool ReceiveStatus = false;
+    uint8_t Address = 0; // Default 2 ??
+    uint8_t ReceiveData[8];
+
+    text_sensor::TextSensor *connection_status{nullptr};
+    text_sensor::TextSensor *version{nullptr};
+    text_sensor::TextSensor *identification{nullptr};
+    sensor::Sensor *cumulated_energy_total{nullptr};   
+    sensor::Sensor *v_in_1{nullptr}; 
+    sensor::Sensor *v_in_2{nullptr}; 
+    sensor::Sensor *i_in_1{nullptr}; 
+    sensor::Sensor *i_in_2{nullptr}; 
+    sensor::Sensor *power_in_1{nullptr}; 
+    sensor::Sensor *power_in_2{nullptr}; 
+    sensor::Sensor *power_in_total{nullptr}; 
+    sensor::Sensor *grid_power{nullptr}; 
+    sensor::Sensor *temperature_inverter{nullptr}; 
+    sensor::Sensor *temperature_booster{nullptr}; 
+    sensor::Sensor *grid_voltage{nullptr}; 
+    sensor::Sensor *cumulated_energy_today{nullptr};  
 
 public:
     void setup() override;
@@ -73,9 +95,8 @@ public:
     void set_connection_status( text_sensor::TextSensor *sensor ) { this->connection_status = sensor; }
     void set_identification( text_sensor::TextSensor *sensor ) { this->identification = sensor; }
 
-
-
-public:
+private:
+    bool Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6);
     bool ReadVersion();
     bool ReadState();
     bool ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global);
@@ -91,12 +112,10 @@ public:
     bool ReadJunctionBoxMonitoringCentral(uint8_t cf, uint8_t rn, uint8_t njt, uint8_t jal, uint8_t jah);
     bool ReadSystemPNCentral();
     bool ReadSystemSerialNumberCentral();
-    bool Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6);
     bool ReadLastFourAlarms();
     bool ReadJunctionBoxState(uint8_t nj);
     bool ReadJunctionBoxVal(uint8_t nj, uint8_t par);
 
-private:
     static std::string TransmissionStateText(uint8_t id);
     static std::string GlobalStateText(uint8_t id);
     static std::string DcDcStateText(uint8_t id);
@@ -227,31 +246,6 @@ private:
     } DataCumulatedEnergy;
 
     DataCumulatedEnergy CumulatedEnergy;
-
-protected:
-    uint8_t connection = 0;
-    int MaxAttempt = 1;
-    bool SendStatus = false;
-    bool ReceiveStatus = false;
-    uint8_t Address = 0; // Default 2 ??
-    uint8_t ReceiveData[8];
-
-    text_sensor::TextSensor *connection_status{nullptr};
-    text_sensor::TextSensor *version{nullptr};
-    text_sensor::TextSensor *identification{nullptr};
-    sensor::Sensor *cumulated_energy_total{nullptr};   
-    sensor::Sensor *v_in_1{nullptr}; 
-    sensor::Sensor *v_in_2{nullptr}; 
-    sensor::Sensor *i_in_1{nullptr}; 
-    sensor::Sensor *i_in_2{nullptr}; 
-    sensor::Sensor *power_in_1{nullptr}; 
-    sensor::Sensor *power_in_2{nullptr}; 
-    sensor::Sensor *power_in_total{nullptr}; 
-    sensor::Sensor *grid_power{nullptr}; 
-    sensor::Sensor *temperature_inverter{nullptr}; 
-    sensor::Sensor *temperature_booster{nullptr}; 
-    sensor::Sensor *grid_voltage{nullptr}; 
-    sensor::Sensor *cumulated_energy_today{nullptr};  
 };
 
 } // abbaurora namespace

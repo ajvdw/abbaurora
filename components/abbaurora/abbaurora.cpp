@@ -136,14 +136,6 @@ void ABBAuroraComponent::loop()
     }
 }
 
-void ABBAuroraComponent::clearData(uint8_t *data, uint8_t len)
-{
-    for (int i = 0; i < len; i++)
-    {
-        data[i] = 0;
-    }
-}
-
 bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
 {
     SendStatus = false;
@@ -180,8 +172,15 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     SendData[8] = (uint8_t)(~BccLo);
     SendData[9] = (uint8_t)(~BccHi);
 
-    clearReceiveData();
-
+    // Clear data
+    for( int i=0; i<8 i++ ) ReceiveData[i]=0;
+    // Empty rx buffer
+    while( this->available() )
+    {
+        uint8_t purge;
+        this->read_byte( &purge );
+    }
+    
     for (int i = 0; i < this->MaxAttempt; i++)
     {
         if (this->flow_control_pin_ != nullptr)
@@ -228,16 +227,6 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         }
     }
     return ReceiveStatus;
-}
-
-void ABBAuroraComponent::clearReceiveData()
-{
-    uint8_t purge;
-    clearData(ReceiveData, 8);
-    while( this->available() )
-    {
-        this->read_byte( &purge );
-    }
 }
 
 /**

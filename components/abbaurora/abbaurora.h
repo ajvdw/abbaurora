@@ -67,8 +67,6 @@ public:
     bool ReadJunctionBoxMonitoringCentral(uint8_t cf, uint8_t rn, uint8_t njt, uint8_t jal, uint8_t jah);
     bool ReadSystemPNCentral();
     bool ReadSystemSerialNumberCentral();
-    void clearData(uint8_t *data, uint8_t len);
-    void clearReceiveData();
     bool Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6);
     bool ReadLastFourAlarms();
     bool ReadJunctionBoxState(uint8_t nj);

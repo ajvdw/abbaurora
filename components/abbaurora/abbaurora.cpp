@@ -232,7 +232,10 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
 
 void ABBAuroraComponent::clearReceiveData()
 {
+    uint8_t purge;
     clearData(ReceiveData, 8);
+    while( this->read_byte( &purge ) )
+    {};
 }
 
 /**

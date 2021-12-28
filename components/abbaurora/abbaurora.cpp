@@ -39,10 +39,10 @@ void ABBAuroraComponent::loop()
         rotaterequests++;
         switch( rotaterequests % 30)
         {  
-            case 2: if(connection_status &&this->ReadState()) // If inverter is connected
+            case 2: if(connection_status && this->ReadState()) // If inverter is connected
                         connection_status->publish_state( ABBAuroraComponent::InverterStateText(State.InverterState) );
                     break;
-            case 4: if(identification 77 this->ReadSystemSerialNumber())
+            case 4: if(identification && this->ReadSystemSerialNumber())
                         identification->publish_state(this->SystemSerialNumber.SerialNumber);
                     break;
             case 6: if(version && this->ReadVersion())
@@ -85,17 +85,17 @@ void ABBAuroraComponent::loop()
             case 13:
             case 23:if(grid_voltage && this->ReadDSPValue(GRID_VOLTAGE, MODULE_MESSUREMENT))
                         grid_voltage->publish_state(this->DSP.Value);
-                break;
+                    break;
             case 5:
             case 15:
             case 25:if(cumulated_energy_total && this->ReadCumulatedEnergy(TOTAL))
                         cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
-                break;
+                    break;
             case 7:
             case 17:
             case 27:if(cumulated_energy_today && this->ReadCumulatedEnergy(CURRENT_DAY))
                         cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
-                break;
+                    break;
         }            
     }
 }

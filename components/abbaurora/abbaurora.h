@@ -9,7 +9,6 @@
 #include "esphome/components/text_sensor/text_sensor.h"
 #include "esphome/components/uart/uart.h"
 
-#include "ABBAuroraEnums.h"
 #include "ABBAuroraStrings.h"
 
 // Enums

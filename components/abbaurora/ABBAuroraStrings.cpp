@@ -138,7 +138,7 @@ std::string ABBAuroraStrings::InverterState(uint8_t id)
         case 45: return std::string("MPPT");
         case 46: return std::string("Grid Fail");
         case 47: return std::string("Input OC");
-        default: return std::string("Unknown");
+        default: return std::string("Unknown:") + id;
     }
 }
 
@@ -254,7 +254,6 @@ std::string ABBAuroraStrings::VersionPart2(uint8_t id)
 
 std::string ABBAuroraStrings::VersionPart3(uint8_t id)
 {
-
     switch ((char)id)
     {
         case 'N': return std::string("Transformerless Version");

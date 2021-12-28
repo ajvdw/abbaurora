@@ -73,13 +73,7 @@ public:
     void set_connection_status( text_sensor::TextSensor *sensor ) { this->connection_status = sensor; }
     void set_identification( text_sensor::TextSensor *sensor ) { this->identification = sensor; }
 
-private:
-    uint8_t connection = 0;
-    int MaxAttempt = 1;
-    bool SendStatus = false;
-    bool ReceiveStatus = false;
-    uint8_t Address = 0; // Default 2 ??
-    uint8_t ReceiveData[8];
+
 
 public:
     bool ReadVersion();
@@ -235,6 +229,13 @@ private:
     DataCumulatedEnergy CumulatedEnergy;
 
 protected:
+    uint8_t connection = 0;
+    int MaxAttempt = 1;
+    bool SendStatus = false;
+    bool ReceiveStatus = false;
+    uint8_t Address = 0; // Default 2 ??
+    uint8_t ReceiveData[8];
+
     text_sensor::TextSensor *connection_status{nullptr};
     text_sensor::TextSensor *version{nullptr};
     text_sensor::TextSensor *identification{nullptr};

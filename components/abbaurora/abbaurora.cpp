@@ -204,7 +204,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         if (this->flow_control_pin_ != nullptr)
 	    {
             this->flow_control_pin_->digital_write(true);
-            delay(50);      
+            delay(5);      
         }
         //ESP_LOGV(TAG, "> %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x",SendData[0], SendData[1], SendData[2], SendData[3],
           //SendData[4], SendData[5], SendData[6], SendData[7] , SendData[8], SendData[9] );     

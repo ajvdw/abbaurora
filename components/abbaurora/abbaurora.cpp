@@ -15,7 +15,7 @@ void ABBAuroraComponent::setup()
 
     SendStatus = false;
     ReceiveStatus = false;
-    for( int i=0; i<8 i++ ) ReceiveData[i]=0;
+    for( int i=0; i<8; i++ ) ReceiveData[i]=0;
 
     connection_status->publish_state("Setup");
 }
@@ -165,7 +165,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     SendData[9] = (uint8_t)(~BccHi);
 
     // Clear data
-    for( int i=0; i<8 i++ ) ReceiveData[i]=0;
+    for( int i=0; i<8; i++ ) ReceiveData[i]=0;
     // Empty rx buffer
     while( this->available() )
     {
@@ -427,7 +427,7 @@ bool ABBAuroraComponent::WriteBaudRateSetting(uint8_t baudcode)
     }
     else
     {
-        for( int i=0; i<8 i++ ) ReceiveData[i]=0;
+        for( int i=0; i<8; i++ ) ReceiveData[i]=0;
         return false;
     }
 }

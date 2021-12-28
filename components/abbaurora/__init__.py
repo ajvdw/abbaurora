@@ -17,7 +17,8 @@ AUTO_LOAD = ["sensor", "text_sensor"]
 CONF_ABBAURORA_ID = "abbaurora_id"
 
 abbaurora_ns = cg.esphome_ns.namespace("esphome::abbaurora")
-ABBAurora = abbaurora_ns.class_("ABBAuroraComponent", uart.UARTDevice, cg.PollingComponent )
+ABBAurora = abbaurora_ns.class_("ABBAuroraComponent", uart.UARTDevice )
+#, cg.PollingComponent )
 
 
 ABBAURORA_COMPONENT_SCHEMA = cv.COMPONENT_SCHEMA.extend(

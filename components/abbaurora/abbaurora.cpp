@@ -15,7 +15,7 @@ void ABBAuroraComponent::setup()
 
     SendStatus = false;
     ReceiveStatus = false;
-    clearReceiveData();
+    for( int i=0; i<8 i++ ) ReceiveData[i]=0;
 
     connection_status->publish_state("Setup");
 }
@@ -240,9 +240,9 @@ bool ABBAuroraComponent::ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global)
     else
     {
         DSP.ReadState = false;
-        clearReceiveData();
-        ReceiveData[0] = 255;
-        ReceiveData[1] = 255;
+        ReceiveData[0] = 255; ReceiveData[1] = 255;
+        ReceiveData[2] = 0; ReceiveData[3] = 0; ReceiveData[4] = 0; 
+        ReceiveData[5] = 0; ReceiveData[6] = 0; ReceiveData[7] = 0;
     }
 
     DSP.TransmissionState = ReceiveData[0];
@@ -400,9 +400,9 @@ bool ABBAuroraComponent::ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par)
     else
     {
         CumulatedEnergy.ReadState = false;
-        clearReceiveData();
-        ReceiveData[0] = 255;
-        ReceiveData[1] = 255;
+        ReceiveData[0] = 255; ReceiveData[1] = 255;
+        ReceiveData[2] = 0; ReceiveData[3] = 0; ReceiveData[4] = 0; 
+        ReceiveData[5] = 0; ReceiveData[6] = 0; ReceiveData[7] = 0;
     }
 
     CumulatedEnergy.TransmissionState = ReceiveData[0];
@@ -427,7 +427,7 @@ bool ABBAuroraComponent::WriteBaudRateSetting(uint8_t baudcode)
     }
     else
     {
-        clearReceiveData();
+        for( int i=0; i<8 i++ ) ReceiveData[i]=0;
         return false;
     }
 }

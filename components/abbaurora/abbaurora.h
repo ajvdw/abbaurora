@@ -101,11 +101,14 @@ public:
     bool ReadLastFourAlarms();
     bool ReadJunctionBoxState(uint8_t nj);
     bool ReadJunctionBoxVal(uint8_t nj, uint8_t par);
+
+private:
     static std::string TransmissionStateText(uint8_t id);
     static std::string GlobalStateText(uint8_t id);
     static std::string DcDcStateText(uint8_t id);
     static std::string InverterStateText(uint8_t id);
     static std::string AlarmStateText(uint8_t id);
+    static std::string TransmissionText(uint8_t id);
 
     union {
         uint8_t asBytes[4];

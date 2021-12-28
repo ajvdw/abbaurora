@@ -151,24 +151,16 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     SendData[6] = param5;
     SendData[7] = param6;
 
-   // Calculate CRC16
-    uint8_t BccLo = 0xFF;
-    uint8_t BccHi = 0xFF;
-
+    // Calculate CRC16
+    uint8_t BccLo = 0xFF; uint8_t BccHi = 0xFF;
     for (int i = 0; i < 8; i++)
     {
         uint8_t New = SendData[i] ^ BccLo;
         uint8_t Tmp = New << 4;
-        New = Tmp ^ New;
-        Tmp = New >> 5;
-        BccLo = BccHi;
-        BccHi = New ^ Tmp;
-        Tmp = New << 3;
-        BccLo = BccLo ^ Tmp;
-        Tmp = New >> 4;
-        BccLo = BccLo ^ Tmp;
+        New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp;
+        Tmp = New << 3; BccLo = BccLo ^ Tmp; Tmp = New >> 4; BccLo = BccLo ^ Tmp;
     }
-
+    // CRC bytes
     SendData[8] = (uint8_t)(~BccLo);
     SendData[9] = (uint8_t)(~BccHi);
 
@@ -180,13 +172,13 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         uint8_t purge;
         this->read_byte( &purge );
     }
-    
+
     for (int i = 0; i < this->MaxAttempt; i++)
     {
         if (this->flow_control_pin_ != nullptr)
 	    {
             this->flow_control_pin_->digital_write(true);
-            delay(5);      
+            delay(10);      
         }
         this->write_array( (uint8_t *)SendData, 10 );
         
@@ -201,22 +193,16 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
 
         if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
         {
-            BccLo = 0xFF;
-            BccHi = 0xFF;
-
+            // Calc CRC16
+            BccLo = 0xFF; BccHi = 0xFF;
             for (int i = 0; i < 6; i++)
             {
                 uint8_t New = ReceiveData[i] ^ BccLo;
                 uint8_t Tmp = New << 4;
-                New = Tmp ^ New;
-                Tmp = New >> 5;
-                BccLo = BccHi;
-                BccHi = New ^ Tmp;
-                Tmp = New << 3;
-                BccLo = BccLo ^ Tmp;
-                Tmp = New >> 4;
-                BccLo = BccLo ^ Tmp;
-            }    
+                New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
+                Tmp = New << 3; BccLo = BccLo ^ Tmp; Tmp = New >> 4; BccLo = BccLo ^ Tmp;
+            }   
+            // Check CRC16 
             if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
             {
                 ReceiveStatus = true;

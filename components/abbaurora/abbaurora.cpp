@@ -13,8 +13,6 @@ void ABBAuroraComponent::setup()
     if (this->flow_control_pin_ != nullptr)
         this->flow_control_pin_->setup();
 
-    SendStatus = false;
-    ReceiveStatus = false;
     for( int i=0; i<8; i++ ) ReceiveData[i]=0;
 
     connection_status->publish_state("Setup");
@@ -102,9 +100,6 @@ void ABBAuroraComponent::loop()
 
 bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
 {
-    SendStatus = false;
-    ReceiveStatus = false;
-
     uint8_t SendData[10];
     SendData[0] = address;
     SendData[1] = param0;
@@ -138,16 +133,15 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     }
 
     if (this->flow_control_pin_ != nullptr) this->flow_control_pin_->digital_write(true);
-        
-    delay(10);      
+    delay(5);      
 
+    // Write data, no way to determine if it was successful
     this->write_array( (uint8_t *)SendData, 10 );
-    
     this->flush();            
-    SendStatus = true;
 
     if (this->flow_control_pin_ != nullptr) this->flow_control_pin_->digital_write(false);
-    
+    delay(5);  
+
     if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
     {
         // Calc CRC16
@@ -161,11 +155,11 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         }   
         // Check CRC16 
         if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
-            ReceiveStatus = true;
+            return true; // Success
         else
             ESP_LOGD(TAG, "CRC error in received data");
     }
-    return ReceiveStatus;
+    return false; // Error
 }
 
 /**

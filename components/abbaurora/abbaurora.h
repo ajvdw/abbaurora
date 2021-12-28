@@ -49,8 +49,6 @@ class ABBAuroraComponent : public uart:: UARTDevice, public Component
 {
 protected:
     GPIOPin *flow_control_pin_{nullptr};
-    bool SendStatus = false;
-    bool ReceiveStatus = false;
     uint8_t Address = 0; // Default 2 ??
     uint8_t ReceiveData[8];
 

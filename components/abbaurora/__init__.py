@@ -21,11 +21,11 @@ ABBAurora = abbaurora_ns.class_("ABBAuroraComponent", uart.UARTDevice )
 #, cg.PollingComponent )
 
 
-ABBAURORA_COMPONENT_SCHEMA = cv.COMPONENT_SCHEMA.extend(
-    {
-        cv.Required(CONF_ABBAURORA_ID): cv.use_id(ABBAurora),
-    }
-)
+#ABBAURORA_COMPONENT_SCHEMA = cv.COMPONENT_SCHEMA.extend(
+#    {
+#        cv.Required(CONF_ABBAURORA_ID): cv.use_id(ABBAurora),
+#    }
+#)
 
 CONFIG_SCHEMA = (
     cv.Schema(
@@ -35,7 +35,7 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_ADDRESS, default=2): cv.int_range(min=0, max=1023),
         }
     )
-    .extend(cv.COMPONENT_SCHEMA)
+#    .extend(cv.COMPONENT_SCHEMA)
     .extend(uart.UART_DEVICE_SCHEMA)
 )
 

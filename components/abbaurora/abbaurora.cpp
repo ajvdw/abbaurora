@@ -44,7 +44,7 @@ void ABBAuroraComponent::loop()
             case 2:
                 if(connection_status)
                     if( this->ReadState() ) // If inverter is connected
-                        connection_status->publish_state( this->InverterStateString(State.InverterState) );
+                        connection_status->publish_state( ABBAuroraComponent::InverterStateText(State.InverterState) );
                 break;
             case 4:
                 if(identification)

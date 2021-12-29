@@ -118,7 +118,7 @@ private:
     static std::string DcDcStateText(uint8_t id);
     static std::string InverterStateText(uint8_t id);
     static std::string AlarmStateText(uint8_t id);
-    static std::string TransmissionText(uint8_t id);
+    static std::string TransmissionStateText(uint8_t id);
 
     union {
         uint8_t asBytes[4];

@@ -101,6 +101,8 @@ void ABBAuroraComponent::loop()
 bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
 {
     uint8_t SendData[10];
+    int i;
+
     SendData[0] = address;
     SendData[1] = param0;
     SendData[2] = param1;
@@ -124,7 +126,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     SendData[9] = (uint8_t)(~BccHi);
 
     // Clear data
-    for( int i=0; i<8; i++ ) ReceiveData[i]=0;
+    for( i=0; i<8; i++ ) ReceiveData[i]=0;
     // Empty rx buffer
     while( this->available() )
     {
@@ -142,7 +144,13 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     if (this->flow_control_pin_ != nullptr) this->flow_control_pin_->digital_write(false);
     delay(5);  
 
-    if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
+    for( i=0; i<8 && this->available(); i++ )
+        read_byte( &(ReceiveData[i]) );
+    
+    if( i<8 ) return false; // incomplete data
+
+
+    //if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
     {
         // Calc CRC16
         BccLo = 0xFF; BccHi = 0xFF;

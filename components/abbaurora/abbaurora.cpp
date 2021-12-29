@@ -143,7 +143,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     delay(5);  // Give the inverter some time to respond
 
     // Read data
-    if( !read_array( (int8_t *)ReceiveData[i], 8 )
+    if( !read_array( (int8_t *)ReceiveData[i], 8 ) )
     {
         // Clear data
         for( i=0; i<8; i++ ) ReceiveData[i]=0;

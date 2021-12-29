@@ -142,11 +142,8 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     if (this->flow_control_pin_ != nullptr) this->flow_control_pin_->digital_write(false);
     delay(5);  // Give the inverter some time to respond
 
-    // Read data, only when available
-    for( i=0; i<8 && this->available(); i++ )
-        read_byte( &(ReceiveData[i]) );
-    
-    if( i<8 ) // Incomplete data
+    // Read data
+    if( !read_array( (int8_t *)ReceiveData[i], 8 )
     {
         // Clear data
         for( i=0; i<8; i++ ) ReceiveData[i]=0;

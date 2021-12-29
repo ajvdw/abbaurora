@@ -146,14 +146,16 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         this->flow_control_pin_->digital_write(false);
     }
 
+    // Wait for 100ms for data to arrive
     const uint32_t now = millis();
     bool datawaiting = false;
     while( millis() - now < 100 || !datawaiting )
         datawaiting = this->available();
 
+    ESP_LOGV( "Waited for %d ms for data to arrive", millis() - now );
+
     if( datawaiting )
     {
-
         if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
         {
             // Calc CRC16

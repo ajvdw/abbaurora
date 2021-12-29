@@ -175,7 +175,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
             ESP_LOGD(TAG, "Failed receiving data");
     }
     else
-        ESP_LOGD(TAG, "No data available");)
+        ESP_LOGD(TAG, "No data available");
         
     return false;
 }

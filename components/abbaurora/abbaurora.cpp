@@ -126,38 +126,38 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
 
     // Clear data
     for( int i=0; i<8; i++ ) ReceiveData[i]=0;
-    // Empty rx buffer
+    // Empty RX buffer
     while( this->available() )
     {
         uint8_t purge;
         this->read_byte( &purge );
     }
 
+    // Flow control to TX
     if (this->flow_control_pin_ != nullptr)
-    {
-        this->flow_control_pin_->digital_write(true);
-        //delay(50);      
-    }
+        this->flow_control_pin_->digital_write(true);     
+
+    // Send data
     this->write_array( (uint8_t *)SendData, 10 );
+    // Wait until complete
     this->flush();            
 
+    // Flow control to RX
     if (this->flow_control_pin_ != nullptr)
-    {
         this->flow_control_pin_->digital_write(false);
-    }
 
     // Wait for 100ms for data to arrive
     const uint32_t now = millis();
     bool datawaiting = false;
-    while( millis() - now < 250 && !datawaiting )
-    {
+    while( millis() - now < 100 && !datawaiting )
         datawaiting = this->available();
-    }
 
     ESP_LOGV( TAG, "Waited for %d ms for data to arrive", millis() - now );
 
+    // Data waiting?
     if( datawaiting )
     {
+        // Receive data
         if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
         {
             // Calc CRC16
@@ -272,6 +272,51 @@ bool ABBAuroraComponent::ReadLastFourAlarms()
 bool ABBAuroraComponent::ReadJunctionBoxState(uint8_t nj)
 {
     return Send(this->Address, (uint8_t)200, nj, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    /*
+    // ToDo not yet implemented
+    JunctionBoxState.state.transmissionState = receiveData[0];
+    JunctionBoxState.state.globalState = -1;
+
+    JunctionBoxState.jBoxState.burnFuseOnJBox 		= receiveData[1] & 0x01;
+    JunctionBoxState.jBoxState.jBoxNotCalibrated 	= receiveData[1] & 0x80;
+    JunctionBoxState.jBoxState.jBoxOvercurrent 		= receiveData[1] & 0x10;
+    JunctionBoxState.jBoxState.jBoxOvertemperature 	= receiveData[1] & 0x02;
+    JunctionBoxState.jBoxState.jBoxOvervoltage 		= receiveData[1] & 0x04;
+    JunctionBoxState.jBoxState.noCommunication 		= receiveData[1] & 0x40;
+    JunctionBoxState.jBoxState.powerOff 			= receiveData[1] & 0x20;
+    JunctionBoxState.jBoxState.unbalancedStringCurrent = receiveData[1] & 0x08;
+  
+    JunctionBoxState.fuseBurnt[1] = receiveData[4] & 0x04;
+    JunctionBoxState.fuseBurnt[2] = receiveData[4] & 0x01;
+    JunctionBoxState.fuseBurnt[3] = receiveData[3] & 0x40;
+    JunctionBoxState.fuseBurnt[4] = receiveData[3] & 0x10;
+    JunctionBoxState.fuseBurnt[5] = receiveData[3] & 0x04;
+    JunctionBoxState.fuseBurnt[6] = receiveData[3] & 0x01;
+    JunctionBoxState.fuseBurnt[7] = receiveData[2] & 0x40;
+    JunctionBoxState.fuseBurnt[8] = receiveData[2] & 0x10;
+    JunctionBoxState.fuseBurnt[9] = receiveData[2] & 0x04;
+    JunctionBoxState.fuseBurnt[10] = receiveData[2] & 0x01;
+    JunctionBoxState.fuseBurnt[11] = receiveData[4] & 0x08;
+    JunctionBoxState.fuseBurnt[12] = receiveData[4] & 0x02;
+    JunctionBoxState.fuseBurnt[13] = receiveData[3] & 0x80;
+    JunctionBoxState.fuseBurnt[14] = receiveData[3] & 0x20;
+    JunctionBoxState.fuseBurnt[15] = receiveData[3] & 0x08;
+    JunctionBoxState.fuseBurnt[16] = receiveData[3] & 0x02;
+    JunctionBoxState.fuseBurnt[17] = receiveData[2] & 0x80;
+    JunctionBoxState.fuseBurnt[18] = receiveData[2] & 0x20;
+    JunctionBoxState.fuseBurnt[19] = receiveData[2] & 0x08;
+    JunctionBoxState.fuseBurnt[20] = receiveData[2] & 0x02;
+    JunctionBoxState.stringCurrentUnbalanced[0] = receiveData[5] & 0x80;
+    JunctionBoxState.stringCurrentUnbalanced[1] = receiveData[5] & 0x40;
+    JunctionBoxState.stringCurrentUnbalanced[2] = receiveData[5] & 0x20;
+    JunctionBoxState.stringCurrentUnbalanced[3] = receiveData[5] & 0x10;
+    JunctionBoxState.stringCurrentUnbalanced[4] = receiveData[5] & 0x08;
+    JunctionBoxState.stringCurrentUnbalanced[5] = receiveData[5] & 0x04;
+    JunctionBoxState.stringCurrentUnbalanced[6] = receiveData[5] & 0x02;
+    JunctionBoxState.stringCurrentUnbalanced[7] = receiveData[5] & 0x01;
+    JunctionBoxState.stringCurrentUnbalanced[8] = receiveData[4] & 0x80;
+    JunctionBoxState.stringCurrentUnbalanced[9] = receiveData[4] & 0x40;
+    */
 }
 
 bool ABBAuroraComponent::ReadJunctionBoxVal(uint8_t nj, uint8_t par)

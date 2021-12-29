@@ -39,13 +39,7 @@ void ABBAuroraComponent::loop()
         switch( rotaterequests % 30)
         {  
             case 2: if(connection_status && this->ReadState()) // If inverter is connected
-                    {
                         connection_status->publish_state( ABBAuroraComponent::InverterStateText(State.InverterState) );
-                        ESP_LOGV( TAG, "TransmissionState: %s", ABBAuroraComponent::TransmissionStateText(State.TransmissionState).c_str() );
-                        ESP_LOGV( TAG, "GlobalState: %s", ABBAuroraComponent::GlobalStateText(State.GlobalState).c_str() );
-                        ESP_LOGV( TAG, "InverterState: %s", ABBAuroraComponent::InverterStateText(State.InverterState).c_str() );
-                        ESP_LOGV( TAG, "AlarmState: %s", ABBAuroraComponent::AlarmStateText(State.AlarmState).c_str() );
-                    }
                     break;
             case 4: if(identification && this->ReadSystemSerialNumber())
                         identification->publish_state(this->SystemSerialNumber.SerialNumber);
@@ -468,6 +462,13 @@ bool ABBAuroraComponent::ReadState()
     State.Channel1State = ReceiveData[3];
     State.Channel2State = ReceiveData[4];
     State.AlarmState = ReceiveData[5];
+
+    ESP_LOGV( TAG, "TransmissionState: %s", ABBAuroraComponent::TransmissionStateText(State.TransmissionState).c_str() );
+    ESP_LOGV( TAG, "GlobalState: %s", ABBAuroraComponent::GlobalStateText(State.GlobalState).c_str() );
+    ESP_LOGV( TAG, "InverterState: %s", ABBAuroraComponent::InverterStateText(State.InverterState).c_str() );
+    ESP_LOGV( TAG, "Channel1State: %s", ABBAuroraComponent::DcDcStateText(State.Channel1State).c_str() );
+    ESP_LOGV( TAG, "Channel2State: %s", ABBAuroraComponent::DcDcStateText(State.Channel2State).c_str() );
+    ESP_LOGV( TAG, "AlarmState: %s", ABBAuroraComponent::AlarmStateText(State.AlarmState).c_str() );
 
     return State.ReadState;
 }

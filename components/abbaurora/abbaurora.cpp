@@ -150,7 +150,10 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     const uint32_t now = millis();
     bool datawaiting = false;
     while( millis() - now < 250 || !datawaiting )
+    {
         datawaiting = this->available();
+        yield();
+    }
 
     ESP_LOGV( TAG, "Waited for %d ms for data to arrive", millis() - now );
 

@@ -101,8 +101,6 @@ void ABBAuroraComponent::loop()
 
 bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
 {
-    bool ReceiveStatus = false;
-
     uint8_t SendData[10];
     SendData[0] = address;
     SendData[1] = param0;
@@ -138,10 +136,9 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     if (this->flow_control_pin_ != nullptr)
     {
         this->flow_control_pin_->digital_write(true);
-        delay(50);      
+        //delay(50);      
     }
     this->write_array( (uint8_t *)SendData, 10 );
-    
     this->flush();            
 
     if (this->flow_control_pin_ != nullptr)
@@ -149,27 +146,38 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         this->flow_control_pin_->digital_write(false);
     }
 
-    if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
+    const uint32_t now = millis();
+    bool datawaiting = false;
+    while( millis() - now < 100 || !datawaiting )
+        datawaiting = this->available();
+
+    if( datawaiting )
     {
-        // Calc CRC16
-        BccLo = 0xFF; BccHi = 0xFF;
-        for (int i = 0; i < 6; i++)
+
+        if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
         {
-            uint8_t New = ReceiveData[i] ^ BccLo;
-            uint8_t Tmp = New << 4;
-            New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
-            Tmp = New << 3; BccLo = BccLo ^ Tmp; Tmp = New >> 4; BccLo = BccLo ^ Tmp;
-        }   
-        // Check CRC16 
-        if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
-            ReceiveStatus = true;
+            // Calc CRC16
+            BccLo = 0xFF; BccHi = 0xFF;
+            for (int i = 0; i < 6; i++)
+            {
+                uint8_t New = ReceiveData[i] ^ BccLo;
+                uint8_t Tmp = New << 4;
+                New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
+                Tmp = New << 3; BccLo = BccLo ^ Tmp; Tmp = New >> 4; BccLo = BccLo ^ Tmp;
+            }   
+            // Check CRC16 
+            if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
+                return true; // Checksum OK
+            else
+                ESP_LOGD(TAG, "CRC error in received data");
+        }
         else
-            ESP_LOGD(TAG, "CRC error in received data");
+            ESP_LOGD(TAG, "Failed receiving data");
     }
     else
-        ESP_LOGD(TAG, "Failed receiving data");
+        ESP_LOGD(TAG, "No data available");)
         
-    return ReceiveStatus;
+    return false;
 }
 
 /**

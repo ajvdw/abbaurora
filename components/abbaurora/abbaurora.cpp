@@ -487,6 +487,7 @@ bool ABBAuroraComponent::ReadVersion()
     switch ((char)ReceiveData[3])
     {
         case 'A': Version.Par2 = std::string("UL1741"); break;
+        case 'B': Version.Par2 = std::string("NETHERL"); break;
         case 'E': Version.Par2 = std::string("VDE0126"); break;
         case 'S': Version.Par2 = std::string("DR 1663 / 2000"); break;
         case 'I': Version.Par2 = std::string("ENEL DK 5950"); break;

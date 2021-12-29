@@ -148,7 +148,17 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         this->flow_control_pin_->digital_write(false);
     }
 
-    if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
+    i=0;
+    while (this->available() && i<8 ) 
+    {
+        uint8_t byte;
+        this->read_byte(&byte);   
+        ReceiveData[i] = byte;
+        i++;
+    }
+
+    if( i == 8 )
+    //if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
     {
         // Calc CRC16
         BccLo = 0xFF; BccHi = 0xFF;
@@ -166,8 +176,11 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
             ESP_LOGD(TAG, "CRC error in received data");
     }
     else
+    {
         ESP_LOGD(TAG, "Failed receiving data");
-        
+        for( int i=0; i<8; i++ ) ReceiveData[i]=0;
+    }
+
     return ReceiveStatus;
 }
 

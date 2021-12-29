@@ -21,9 +21,9 @@ void ABBAuroraComponent::setup()
 void ABBAuroraComponent::dump_config() 
 {
     if (this->flow_control_pin_ != nullptr) {
-        LOG_PIN("Flow control Pin: ", this->flow_control_pin_);
+        LOG_PIN("  Flow control Pin: ", this->flow_control_pin_);
     }
-    ESP_LOGCONFIG(TAG, "Inverter Address: %d", this->Address );
+    ESP_LOGCONFIG(TAG, "  Inverter Address: %d", this->Address );
 }
 
 void ABBAuroraComponent::loop()
@@ -152,7 +152,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     while( millis() - now < 100 || !datawaiting )
         datawaiting = this->available();
 
-    ESP_LOGV( "Waited for %d ms for data to arrive", millis() - now );
+    ESP_LOGV( TAG, "Waited for %d ms for data to arrive", millis() - now );
 
     if( datawaiting )
     {

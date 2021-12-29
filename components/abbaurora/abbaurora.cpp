@@ -140,10 +140,10 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     this->flush();            
 
     if (this->flow_control_pin_ != nullptr) this->flow_control_pin_->digital_write(false);
-    delay(5);  // Give the inverter some time to respond
+    //delay(5);  // Give the inverter some time to respond
 
     // Read data
-    if( !read_array( (uint8_t *)ReceiveData,8 ) )
+    if( this->read_array( (uint8_t *)ReceiveData,8 ) == false )
     {
         // Clear data
         for( i=0; i<8; i++ ) ReceiveData[i]=0;
@@ -162,8 +162,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
         Tmp = New << 3; BccLo = BccLo ^ Tmp; Tmp = New >> 4; BccLo = BccLo ^ Tmp;
     }   
-    // Check CRC16 
-        // Check CRC16 
+
     // Check CRC16 
     if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
         return true; // Success

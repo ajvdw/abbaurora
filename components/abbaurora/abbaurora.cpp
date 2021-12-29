@@ -165,6 +165,9 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         else
             ESP_LOGD(TAG, "CRC error in received data");
     }
+    else
+        ESP_LOGD(TAG, "Failed receiving data");
+        
     return ReceiveStatus;
 }
 

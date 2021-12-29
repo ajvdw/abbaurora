@@ -486,7 +486,7 @@ bool ABBAuroraComponent::ReadVersion()
         case '1': Version.Par1 = std::string("Aurora 3.0kW new"); break;
         case 'D': Version.Par1 = std::string("Aurora 12.0kW"); break;
         case 'X': Version.Par1 = std::string("Aurora 10.0kW"); break;
-        default: ESP_LOGD(TAG, "Version.par1 unknown [%c]", ReceiveData[2] );
+        default: ESP_LOGD(TAG, "Version.par1 unknown [%d]", ReceiveData[2] );
                  Version.Par1 = std::string("Unknown");
     }
  
@@ -498,7 +498,7 @@ bool ABBAuroraComponent::ReadVersion()
         case 'I': Version.Par2 = std::string("ENEL DK 5950"); break;
         case 'U': Version.Par2 = std::string("UK G83"); break;
         case 'K': Version.Par2 = std::string("AS 4777"); break;
-        default: ESP_LOGD(TAG, "Version.par2 unknown [%c]", ReceiveData[3] );
+        default: ESP_LOGD(TAG, "Version.par2 unknown [%d]", ReceiveData[3] );
                  Version.Par2 = std::string("Unknown"); 
     }
 
@@ -506,7 +506,7 @@ bool ABBAuroraComponent::ReadVersion()
     {
         case 'N': Version.Par3 = std::string("Transformerless Version"); break;
         case 'T': Version.Par3 = std::string("Transformer Version"); break;
-        default: ESP_LOGD(TAG, "Version.par3 unknown [%c]", ReceiveData[4] );
+        default: ESP_LOGD(TAG, "Version.par3 unknown [%d]", ReceiveData[4] );
                  Version.Par3 = std::string("Unknown");
     }
 
@@ -514,7 +514,7 @@ bool ABBAuroraComponent::ReadVersion()
     {
         case 'W': Version.Par4 = std::string("Wind version"); break;
         case 'N': Version.Par4 = std::string("PV version"); break;
-        default: ESP_LOGD(TAG, "Version.par4 unknown [%c]", ReceiveData[5] );
+        default: ESP_LOGD(TAG, "Version.par4 unknown [%d]", ReceiveData[5] );
                  Version.Par4 = std::string("Unknown");
     }
     return Version.ReadState;

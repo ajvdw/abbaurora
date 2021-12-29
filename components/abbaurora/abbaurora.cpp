@@ -101,7 +101,6 @@ void ABBAuroraComponent::loop()
 bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
 {
     bool ReceiveStatus = false;
-    int i;
 
     uint8_t SendData[10];
     SendData[0] = address;
@@ -115,7 +114,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
 
     // Calculate CRC16
     uint8_t BccLo = 0xFF; uint8_t BccHi = 0xFF;
-    for (i = 0; i < 8; i++)
+    for (int i = 0; i < 8; i++)
     {
         uint8_t New = SendData[i] ^ BccLo;
         uint8_t Tmp = New << 4;
@@ -149,21 +148,11 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         this->flow_control_pin_->digital_write(false);
     }
 
-    i=0;
-    while (this->available() && i<8 ) 
-    {
-        uint8_t byte;
-        this->read_byte(&byte);   
-        ReceiveData[i] = byte;
-        i++;
-    }
-
-    if( i == 8 )
-    //if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
+    if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
     {
         // Calc CRC16
         BccLo = 0xFF; BccHi = 0xFF;
-        for (i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
         {
             uint8_t New = ReceiveData[i] ^ BccLo;
             uint8_t Tmp = New << 4;
@@ -177,11 +166,8 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
             ESP_LOGD(TAG, "CRC error in received data");
     }
     else
-    {
         ESP_LOGD(TAG, "Failed receiving data");
-        for( int i=0; i<8; i++ ) ReceiveData[i]=0;
-    }
-
+        
     return ReceiveStatus;
 }
 

@@ -134,7 +134,6 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         this->read_byte( &purge );
     }
 
-
     if (this->flow_control_pin_ != nullptr)
     {
         this->flow_control_pin_->digital_write(true);
@@ -149,7 +148,6 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         this->flow_control_pin_->digital_write(false);
     }
 
-
     if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
     {
         // Calc CRC16
@@ -163,10 +161,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         }   
         // Check CRC16 
         if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
-        {
             ReceiveStatus = true;
-            break;
-        }
         else
             ESP_LOGD(TAG, "CRC error in received data");
     }

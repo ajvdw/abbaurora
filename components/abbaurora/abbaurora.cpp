@@ -100,9 +100,9 @@ void ABBAuroraComponent::loop()
 
 bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
 {
-    uint8_t SendData[10];
-    int i;
+    bool ReceiveStatus = false;
 
+    uint8_t SendData[10];
     SendData[0] = address;
     SendData[1] = param0;
     SendData[2] = param1;
@@ -125,6 +125,8 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     SendData[8] = (uint8_t)(~BccLo);
     SendData[9] = (uint8_t)(~BccHi);
 
+    // Clear data
+    for( int i=0; i<8; i++ ) ReceiveData[i]=0;
     // Empty rx buffer
     while( this->available() )
     {
@@ -132,43 +134,43 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
         this->read_byte( &purge );
     }
 
-    if (this->flow_control_pin_ != nullptr) this->flow_control_pin_->digital_write(true);
-    delay(5); // Let hardware flow control settle 
 
-    // Write data, no way to determine if it was successful
+    if (this->flow_control_pin_ != nullptr)
+    {
+        this->flow_control_pin_->digital_write(true);
+        delay(10);      
+    }
     this->write_array( (uint8_t *)SendData, 10 );
+    
     this->flush();            
 
-    if (this->flow_control_pin_ != nullptr) this->flow_control_pin_->digital_write(false);
-    //delay(5);  // Give the inverter some time to respond
-
-    // Read data
-    if( this->read_array( (uint8_t *)ReceiveData,8 ) == false )
+    if (this->flow_control_pin_ != nullptr)
     {
-        // Clear data
-        for( i=0; i<8; i++ ) ReceiveData[i]=0;
-        ESP_LOGD(TAG, "Incomplete data received");
-        return false; 
+        this->flow_control_pin_->digital_write(false);
     }
 
-    // Calc CRC16
-    BccLo = 0xFF; BccHi = 0xFF;
-    for (int i = 0; i < 6; i++)
-    {
-        uint8_t New = ReceiveData[i] ^ BccLo;
-        uint8_t Tmp = New << 4;
-        New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
-            New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
-        New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
-        Tmp = New << 3; BccLo = BccLo ^ Tmp; Tmp = New >> 4; BccLo = BccLo ^ Tmp;
-    }   
 
-    // Check CRC16 
-    if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
-        return true; // Success
-    
-    ESP_LOGD(TAG, "CRC error in received data");
-    return false; // Error
+    if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
+    {
+        // Calc CRC16
+        BccLo = 0xFF; BccHi = 0xFF;
+        for (int i = 0; i < 6; i++)
+        {
+            uint8_t New = ReceiveData[i] ^ BccLo;
+            uint8_t Tmp = New << 4;
+            New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
+            Tmp = New << 3; BccLo = BccLo ^ Tmp; Tmp = New >> 4; BccLo = BccLo ^ Tmp;
+        }   
+        // Check CRC16 
+        if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
+        {
+            ReceiveStatus = true;
+            break;
+        }
+        else
+            ESP_LOGD(TAG, "CRC error in received data");
+    }
+    return ReceiveStatus;
 }
 
 /**

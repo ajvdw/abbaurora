@@ -125,8 +125,6 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     SendData[8] = (uint8_t)(~BccLo);
     SendData[9] = (uint8_t)(~BccHi);
 
-    // Clear data
-    for( i=0; i<8; i++ ) ReceiveData[i]=0;
     // Empty rx buffer
     while( this->available() )
     {
@@ -135,38 +133,44 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     }
 
     if (this->flow_control_pin_ != nullptr) this->flow_control_pin_->digital_write(true);
-    delay(5);      
+    delay(5); // Let hardware flow control settle 
 
     // Write data, no way to determine if it was successful
     this->write_array( (uint8_t *)SendData, 10 );
     this->flush();            
 
     if (this->flow_control_pin_ != nullptr) this->flow_control_pin_->digital_write(false);
-    delay(5);  
+    delay(5);  // Give the inverter some time to respond
 
+    // Read data, only when available
     for( i=0; i<8 && this->available(); i++ )
         read_byte( &(ReceiveData[i]) );
     
-    if( i<8 ) return false; // incomplete data
-
-
-    //if (this->read_array( (uint8_t *)ReceiveData, 8 ) )
+    if( i<8 ) // Incomplete data
     {
-        // Calc CRC16
-        BccLo = 0xFF; BccHi = 0xFF;
-        for (int i = 0; i < 6; i++)
-        {
-            uint8_t New = ReceiveData[i] ^ BccLo;
-            uint8_t Tmp = New << 4;
-            New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
-            Tmp = New << 3; BccLo = BccLo ^ Tmp; Tmp = New >> 4; BccLo = BccLo ^ Tmp;
-        }   
-        // Check CRC16 
-        if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
-            return true; // Success
-        else
-            ESP_LOGD(TAG, "CRC error in received data");
+        // Clear data
+        for( i=0; i<8; i++ ) ReceiveData[i]=0;
+        return false; 
     }
+
+    // Calc CRC16
+    BccLo = 0xFF; BccHi = 0xFF;
+    for (int i = 0; i < 6; i++)
+    {
+        uint8_t New = ReceiveData[i] ^ BccLo;
+        uint8_t Tmp = New << 4;
+        New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
+            New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
+        New = Tmp ^ New; Tmp = New >> 5; BccLo = BccHi; BccHi = New ^ Tmp; 
+        Tmp = New << 3; BccLo = BccLo ^ Tmp; Tmp = New >> 4; BccLo = BccLo ^ Tmp;
+    }   
+    // Check CRC16 
+        // Check CRC16 
+    // Check CRC16 
+    if(  ReceiveData[7] == (uint8_t)(~BccHi) &&  ReceiveData[6] == (uint8_t)(~BccLo) )
+        return true; // Success
+    
+    ESP_LOGD(TAG, "CRC error in received data");
     return false; // Error
 }
 
@@ -482,7 +486,8 @@ bool ABBAuroraComponent::ReadVersion()
         case '1': Version.Par1 = std::string("Aurora 3.0kW new"); break;
         case 'D': Version.Par1 = std::string("Aurora 12.0kW"); break;
         case 'X': Version.Par1 = std::string("Aurora 10.0kW"); break;
-        default: Version.Par1 = std::string("Unknown");
+        default: ESP_LOGD(TAG, "Version.par1 unknown [%c]", ReceiveData[2] );
+                 Version.Par1 = std::string("Unknown");
     }
  
     switch ((char)ReceiveData[3])
@@ -493,21 +498,24 @@ bool ABBAuroraComponent::ReadVersion()
         case 'I': Version.Par2 = std::string("ENEL DK 5950"); break;
         case 'U': Version.Par2 = std::string("UK G83"); break;
         case 'K': Version.Par2 = std::string("AS 4777"); break;
-        default: Version.Par2 = std::string("Unknown"); 
+        default: ESP_LOGD(TAG, "Version.par2 unknown [%c]", ReceiveData[3] );
+                 Version.Par2 = std::string("Unknown"); 
     }
 
     switch ((char)ReceiveData[4])
     {
         case 'N': Version.Par3 = std::string("Transformerless Version"); break;
         case 'T': Version.Par3 = std::string("Transformer Version"); break;
-        default: Version.Par3 = std::string("Unknown");
+        default: ESP_LOGD(TAG, "Version.par3 unknown [%c]", ReceiveData[4] );
+                 Version.Par3 = std::string("Unknown");
     }
 
     switch ((char)ReceiveData[5])
     {
         case 'W': Version.Par4 = std::string("Wind version"); break;
         case 'N': Version.Par4 = std::string("PV version"); break;
-        default: Version.Par4 = std::string("Unknown");
+        default: ESP_LOGD(TAG, "Version.par4 unknown [%c]", ReceiveData[5] );
+                 Version.Par4 = std::string("Unknown");
     }
     return Version.ReadState;
 };
@@ -581,7 +589,8 @@ std::string ABBAuroraComponent::AlarmStateText(uint8_t id)
         case 62: return std::string("Grid df / dt");
         case 63: return std::string("Den switch Open");
         case 64: return std::string("Jbox fail");
-        default: return std::string("Unknown");
+        default: ESP_LOGD(TAG, "Alarm Text unknown [%d]", id );
+                 return std::string("Unknown");
     }
 }
 
@@ -598,7 +607,8 @@ std::string ABBAuroraComponent::TransmissionText(uint8_t id)
         case 56: return std::string("Can not send the command to internal micro");
         case 57: return std::string("Command not Executed");
         case 58: return std::string("The variable is not available, retry");
-        default: return std::string("Unknown");
+        default: ESP_LOGD(TAG, "Transmission Text unknown [%d]", id );
+                 return std::string("Unknown");
     }
 }
 
@@ -647,7 +657,8 @@ std::string ABBAuroraComponent::GlobalStateText(uint8_t id)
         case 99: return std::string("Erasing External EEprom");
         case 100: return std::string("Counting EEprom");
         case 101: return std::string("Freeze");
-        default: return std::string("Unknown");
+        default: ESP_LOGD(TAG, "GlobalState Text unknown [%d]", id );
+                 return std::string("Unknown");
     }
 }
 
@@ -675,7 +686,8 @@ std::string ABBAuroraComponent::DcDcStateText(uint8_t id)
         case 17: return std::string("DcDc ILEAK Fail");
         case 18: return std::string("DcDc Grid Fail");
         case 19: return std::string("DcDc Comm.Error");
-        default: return std::string("Unknown");
+        default: ESP_LOGD(TAG, "DcDcState Text unknown [%d]", id );
+                 return std::string("Unknown");
     }
 }
 
@@ -723,7 +735,8 @@ std::string ABBAuroraComponent::InverterStateText(uint8_t id)
         case 45: return std::string("MPPT");
         case 46: return std::string("Grid Fail");
         case 47: return std::string("Input OC");
-        default: return std::string("Unknown");       
+        default: ESP_LOGD(TAG, "InverterState Text unknown [%d]", id );
+                 return std::string("Unknown");       
     }
 }
 

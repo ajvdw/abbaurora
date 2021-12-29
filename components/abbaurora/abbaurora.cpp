@@ -150,6 +150,7 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
     {
         // Clear data
         for( i=0; i<8; i++ ) ReceiveData[i]=0;
+        ESP_LOGD(TAG, "Incomplete data received");
         return false; 
     }
 

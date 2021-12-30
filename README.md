@@ -8,6 +8,7 @@ that again was based on the work of Davide Rosa
 https://www.drhack.it/arduino/32-lettura-inverte-power-one-aurora.html
 
 The original work was made available under the LGPL v2.1 license.
+I published the modifications under GPL v3.
 
 An example of a configuration for ESPHome:
 

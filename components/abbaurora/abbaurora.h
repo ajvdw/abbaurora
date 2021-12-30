@@ -72,7 +72,8 @@ public:
 
 protected:
     GPIOPin *flow_control_pin_{nullptr};
-    uint8_t address_ = 0; // Default 2 ??
+    uint8_t address_ = 0; 
+
     uint8_t ReceiveData[8];
 
     text_sensor::TextSensor *connection_status{nullptr};

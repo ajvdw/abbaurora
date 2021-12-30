@@ -23,7 +23,7 @@ void ABBAuroraComponent::dump_config()
     if (this->flow_control_pin_ != nullptr) {
         LOG_PIN("  Flow control Pin: ", this->flow_control_pin_);
     }
-    ESP_LOGCONFIG(TAG, "  Inverter Address: %d", this->Address );
+    ESP_LOGCONFIG(TAG, "  Inverter Address: %d", this->address__ );
 }
 
 void ABBAuroraComponent::loop()
@@ -38,68 +38,68 @@ void ABBAuroraComponent::loop()
         rotaterequests++;
         switch( rotaterequests % 30)
         {  
-            case 2: if(connection_status && this->ReadState()) // If inverter is connected
-                        connection_status->publish_state( ABBAuroraComponent::InverterStateText(State.InverterState) );
+            case 2: if(connection_status && this->read_state()) // If inverter is connected
+                        connection_status->publish_state( ABBAuroraComponent::inverter_state_text(State.InverterState) );
                     break;
-            case 4: if(identification && this->ReadSystemSerialNumber())
+            case 4: if(identification && this->read_system_serialnumber())
                         identification->publish_state(this->SystemSerialNumber.SerialNumber);
                     break;
-            case 6: if(version && this->ReadVersion())
+            case 6: if(version && this->read_version())
                         version->publish_state( this->Version.Par1 );
                     break;        
-            case 8: if(temperature_inverter && this->ReadDSPValue(TEMPERATURE_INVERTER, MODULE_MESSUREMENT))
+            case 8: if(temperature_inverter && this->read_dsp_value(TEMPERATURE_INVERTER, MODULE_MEASUREMENT))
                         temperature_inverter->publish_state(this->DSP.Value);
                     break;
-            case 10:if(power_in_1 && this->ReadDSPValue(POWER_IN_1, MODULE_MESSUREMENT))
+            case 10:if(power_in_1 && this->read_dsp_value(POWER_IN_1, MODULE_MEASUREMENT))
                         power_in_1->publish_state(this->DSP.Value);
                     if(power_in_total && power_in_1 && power_in_2)
                         power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
                     break;
-            case 12:if(power_in_2 && this->ReadDSPValue(POWER_IN_2, MODULE_MESSUREMENT))
+            case 12:if(power_in_2 && this->read_dsp_value(POWER_IN_2, MODULE_MEASUREMENT))
                         power_in_2->publish_state(this->DSP.Value);
                     if(power_in_total && power_in_1 && power_in_2)
                         power_in_total->publish_state(power_in_1->get_state() + power_in_2->get_state());
                     break;
-            case 14:if(v_in_1 && this->ReadDSPValue(V_IN_1, MODULE_MESSUREMENT))
+            case 14:if(v_in_1 && this->read_dsp_value(V_IN_1, MODULE_MEASUREMENT))
                         v_in_1->publish_state(this->DSP.Value);
                     break;
-            case 16:if(v_in_2 && this->ReadDSPValue(V_IN_2, MODULE_MESSUREMENT))
+            case 16:if(v_in_2 && this->read_dsp_value(V_IN_2, MODULE_MEASUREMENT))
                         v_in_2->publish_state(this->DSP.Value);
                     break;
-            case 18:if(i_in_1 && this->ReadDSPValue(I_IN_1, MODULE_MESSUREMENT))
+            case 18:if(i_in_1 && this->read_dsp_value(I_IN_1, MODULE_MEASUREMENT))
                         i_in_1->publish_state(this->DSP.Value);
                     break;
-            case 20:if(i_in_2 && this->ReadDSPValue(I_IN_2, MODULE_MESSUREMENT))
+            case 20:if(i_in_2 && this->read_dsp_value(I_IN_2, MODULE_MEASUREMENT))
                         i_in_2->publish_state(this->DSP.Value);
                     break;
-            case 22:if(temperature_booster && this->ReadDSPValue(TEMPERATURE_BOOSTER, MODULE_MESSUREMENT))
+            case 22:if(temperature_booster && this->read_dsp_value(TEMPERATURE_BOOSTER, MODULE_MEASUREMENT))
                         temperature_booster->publish_state(this->DSP.Value);
                     break;
             case 1:
             case 11:
-            case 21:if(grid_power && this->ReadDSPValue(GRID_POWER, MODULE_MESSUREMENT))
+            case 21:if(grid_power && this->read_dsp_value(GRID_POWER, MODULE_MEASUREMENT))
                         grid_power->publish_state( this->DSP.Value );
                     break;
             case 3:
             case 13:
-            case 23:if(grid_voltage && this->ReadDSPValue(GRID_VOLTAGE, MODULE_MESSUREMENT))
+            case 23:if(grid_voltage && this->read_dsp_value(GRID_VOLTAGE, MODULE_MEASUREMENT))
                         grid_voltage->publish_state(this->DSP.Value);
                     break;
             case 5:
             case 15:
-            case 25:if(cumulated_energy_total && this->ReadCumulatedEnergy(TOTAL))
+            case 25:if(cumulated_energy_total && this->read_cumulated_energy(TOTAL))
                         cumulated_energy_total->publish_state(this->CumulatedEnergy.Energy);
                     break;
             case 7:
             case 17:
-            case 27:if(cumulated_energy_today && this->ReadCumulatedEnergy(CURRENT_DAY))
+            case 27:if(cumulated_energy_today && this->read_cumulated_energy(CURRENT_DAY))
                         cumulated_energy_today->publish_state(this->CumulatedEnergy.Energy);
                     break;
         }            
     }
 }
 
-bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
+bool ABBAuroraComponent::send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6)
 {
     uint8_t SendData[10];
     SendData[0] = address;
@@ -194,11 +194,11 @@ bool ABBAuroraComponent::Send(uint8_t address, uint8_t param0, uint8_t param1, u
  * Temperature °C 
  * 
  **/
-bool ABBAuroraComponent::ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global)
+bool ABBAuroraComponent::read_dsp_value(DspValueType type, DspGlobal global)
 {
     if ((((int)type >= 1 && (int)type <= 9) || ((int)type >= 21 && (int)type <= 63)) && ((int)global >= 0 && (int)global <= 1))
     {
-        DSP.ReadState = Send(this->Address, (uint8_t)59, type, global, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+        DSP.ReadState = send(this->address_, (uint8_t)59, type, global, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
         if (DSP.ReadState == false)
         {
@@ -217,12 +217,12 @@ bool ABBAuroraComponent::ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global)
     DSP.TransmissionState = ReceiveData[0];
     DSP.GlobalState = ReceiveData[1];
 
-    foo.asBytes[0] = ReceiveData[5];
-    foo.asBytes[1] = ReceiveData[4];
-    foo.asBytes[2] = ReceiveData[3];
-    foo.asBytes[3] = ReceiveData[2];
+    FloatBytes.asBytes[0] = ReceiveData[5];
+    FloatBytes.asBytes[1] = ReceiveData[4];
+    FloatBytes.asBytes[2] = ReceiveData[3];
+    FloatBytes.asBytes[3] = ReceiveData[2];
     
-    DSP.Value = foo.asFloat;
+    DSP.Value = FloatBytes.asFloat;
     if( DSP.Value > 1E10 ||  DSP.Value < 0 ) // this does not make sense
       DSP.Value = 0;
 
@@ -231,7 +231,7 @@ bool ABBAuroraComponent::ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global)
 
 bool ABBAuroraComponent::ReadTimeDate()
 {
-    TimeDate.ReadState = Send(this->Address, (uint8_t)70, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    TimeDate.ReadState = send(this->address_, (uint8_t)70, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (TimeDate.ReadState == false)
     {
@@ -245,9 +245,9 @@ bool ABBAuroraComponent::ReadTimeDate()
     return TimeDate.ReadState;
 }
 
-bool ABBAuroraComponent::ReadLastFourAlarms()
+bool ABBAuroraComponent::read_last_four_alarms()
 {
-    LastFourAlarms.ReadState = Send(this->Address, (uint8_t)86, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    LastFourAlarms.ReadState = send(this->address_, (uint8_t)86, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (LastFourAlarms.ReadState == false)
     {
@@ -269,9 +269,9 @@ bool ABBAuroraComponent::ReadLastFourAlarms()
     return LastFourAlarms.ReadState;
 }
 
-bool ABBAuroraComponent::ReadJunctionBoxState(uint8_t nj)
+bool ABBAuroraComponent::read_junctionbox_state(uint8_t nj)
 {
-    return Send(this->Address, (uint8_t)200, nj, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    return send(this->address_, (uint8_t)200, nj, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
     /*
     // ToDo not yet implemented
     JunctionBoxState.state.transmissionState = receiveData[0];
@@ -319,29 +319,29 @@ bool ABBAuroraComponent::ReadJunctionBoxState(uint8_t nj)
     */
 }
 
-bool ABBAuroraComponent::ReadJunctionBoxVal(uint8_t nj, uint8_t par)
+bool ABBAuroraComponent::read_junctionbox_value(uint8_t nj, uint8_t par)
 {
-    return Send(this->Address, (uint8_t)201, nj, par, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    return send(this->address_, (uint8_t)201, nj, par, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
 // Inverters
-bool ABBAuroraComponent::ReadSystemPN()
+bool ABBAuroraComponent::read_system_partnumber()
 {
-    SystemPN.ReadState = Send(this->Address, (uint8_t)52, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    SystemPartNumber.ReadState = send(this->address_, (uint8_t)52, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
-    SystemPN.PN.assign(1, (char)ReceiveData[0] );
-    SystemPN.PN += (char)ReceiveData[1];
-    SystemPN.PN += (char)ReceiveData[2]; 
-    SystemPN.PN += (char)ReceiveData[3];
-    SystemPN.PN += (char)ReceiveData[4]; 
-    SystemPN.PN += (char)ReceiveData[5]; 
+    SystemPartNumber.PartNumber.assign(1, (char)ReceiveData[0] );
+    SystemPartNumber.PartNumber += (char)ReceiveData[1];
+    SystemPartNumber.PartNumber += (char)ReceiveData[2]; 
+    SystemPartNumber.PartNumber += (char)ReceiveData[3];
+    SystemPartNumber.PartNumber += (char)ReceiveData[4]; 
+    SystemPartNumber.PartNumber += (char)ReceiveData[5]; 
     
-    return SystemPN.ReadState;
+    return SystemPartNumber.ReadState;
 }
 
-bool ABBAuroraComponent::ReadSystemSerialNumber()
+bool ABBAuroraComponent::read_system_serialnumber()
 {
-    SystemSerialNumber.ReadState = Send(this->Address, (uint8_t)63, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    SystemSerialNumber.ReadState = send(this->address_, (uint8_t)63, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     SystemSerialNumber.SerialNumber.assign(1,(char)ReceiveData[0]);
     SystemSerialNumber.SerialNumber += (char)ReceiveData[1];
@@ -355,7 +355,7 @@ bool ABBAuroraComponent::ReadSystemSerialNumber()
 
 bool ABBAuroraComponent::ReadManufacturingWeekYear()
 {
-    ManufacturingWeekYear.ReadState = Send(this->Address, (uint8_t)65, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    ManufacturingWeekYear.ReadState = send(this->address_, (uint8_t)65, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (ManufacturingWeekYear.ReadState == false)
     {
@@ -376,7 +376,7 @@ bool ABBAuroraComponent::ReadManufacturingWeekYear()
 
 bool ABBAuroraComponent::ReadFirmwareRelease()
 {
-    FirmwareRelease.ReadState = Send(this->Address, (uint8_t)72, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    FirmwareRelease.ReadState = send(this->address_, (uint8_t)72, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (FirmwareRelease.ReadState == false)
     {
@@ -398,11 +398,11 @@ bool ABBAuroraComponent::ReadFirmwareRelease()
     return FirmwareRelease.ReadState;
 }
 
-bool ABBAuroraComponent::ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par)
+bool ABBAuroraComponent::read_cumulated_energy(CumulatedEnergyType par)
 {
     if ((int)par >= 0 && (int)par <= 6)
     {
-        CumulatedEnergy.ReadState = Send(this->Address, (uint8_t)78, par, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+        CumulatedEnergy.ReadState = send(this->address_, (uint8_t)78, par, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
         if (CumulatedEnergy.ReadState == false)
         {
@@ -423,21 +423,21 @@ bool ABBAuroraComponent::ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par)
     
     if (CumulatedEnergy.ReadState == true)
     {
-        ulo.asBytes[0] = ReceiveData[5];
-        ulo.asBytes[1] = ReceiveData[4];
-        ulo.asBytes[2] = ReceiveData[3];
-        ulo.asBytes[3] = ReceiveData[2];
+        LongBytes.asBytes[0] = ReceiveData[5];
+        LongBytes.asBytes[1] = ReceiveData[4];
+        LongBytes.asBytes[2] = ReceiveData[3];
+        LongBytes.asBytes[3] = ReceiveData[2];
 
-        CumulatedEnergy.Energy = ulo.asUlong;
+        CumulatedEnergy.Energy = LongBytes.asUlong;
     }
     return CumulatedEnergy.ReadState;
 }
 
-bool ABBAuroraComponent::WriteBaudRateSetting(uint8_t baudcode)
+bool ABBAuroraComponent::write_baudrate_setting(uint8_t baudcode)
 {
     if ((int)baudcode >= 0 && (int)baudcode <= 3)
     {
-        return Send(this->Address, (uint8_t)85, baudcode, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+        return send(this->address_, (uint8_t)85, baudcode, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
     }
     else
     {
@@ -447,49 +447,49 @@ bool ABBAuroraComponent::WriteBaudRateSetting(uint8_t baudcode)
 }
 
 // Central
-bool ABBAuroraComponent::ReadFlagsSwitchCentral()
+bool ABBAuroraComponent::read_flags_switch_central()
 {
-    return Send(this->Address, (uint8_t)67, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    return send(this->address_, (uint8_t)67, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadCumulatedEnergyCentral(uint8_t var, uint8_t ndays_h, uint8_t ndays_l, uint8_t global)
+bool ABBAuroraComponent::read_cumulated_energy_central(uint8_t var, uint8_t ndays_h, uint8_t ndays_l, uint8_t global)
 {
-    return Send(this->Address, (uint8_t)68, var, ndays_h, ndays_l, global, (uint8_t)0, (uint8_t)0);
+    return send(this->address_, (uint8_t)68, var, ndays_h, ndays_l, global, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadFirmwareReleaseCentral(uint8_t var)
+bool ABBAuroraComponent::read_firmware_release_central(uint8_t var)
 {
-    return Send(this->Address, (uint8_t)72, var, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    return send(this->address_, (uint8_t)72, var, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadBaudRateSettingCentral(uint8_t baudcode, uint8_t serialline)
+bool ABBAuroraComponent::read_baudrate_setting_central(uint8_t baudcode, uint8_t serialline)
 {
-    return Send(this->Address, (uint8_t)85, baudcode, serialline, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    return send(this->address_, (uint8_t)85, baudcode, serialline, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadSystemInfoCentral(uint8_t var)
+bool ABBAuroraComponent::read_system_info_central(uint8_t var)
 {
-    return Send(this->Address, (uint8_t)101, var, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    return send(this->address_, (uint8_t)101, var, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadJunctionBoxMonitoringCentral(uint8_t cf, uint8_t rn, uint8_t njt, uint8_t jal, uint8_t jah)
+bool ABBAuroraComponent::read_junctionbox_monitoring_central(uint8_t cf, uint8_t rn, uint8_t njt, uint8_t jal, uint8_t jah)
 {
-    return Send(this->Address, (uint8_t)103, cf, rn, njt, jal, jah, (uint8_t)0);
+    return send(this->address_, (uint8_t)103, cf, rn, njt, jal, jah, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadSystemPNCentral()
+bool ABBAuroraComponent::read_system_partnumber_central()
 {
-    return Send(this->Address, (uint8_t)105, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    return send(this->address_, (uint8_t)105, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadSystemSerialNumberCentral()
+bool ABBAuroraComponent::read_system_serialnumber_central()
 {
-    return Send(this->Address, (uint8_t)107, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    return send(this->address_, (uint8_t)107, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 }
 
-bool ABBAuroraComponent::ReadState()
+bool ABBAuroraComponent::read_state()
 {
-    State.ReadState = Send(this->Address, (uint8_t)50, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    State.ReadState = send(this->address_, (uint8_t)50, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if (State.ReadState == false)
     {
@@ -508,19 +508,19 @@ bool ABBAuroraComponent::ReadState()
     State.Channel2State = ReceiveData[4];
     State.AlarmState = ReceiveData[5];
 
-    ESP_LOGV( TAG, "TransmissionState: %s", ABBAuroraComponent::TransmissionStateText(State.TransmissionState).c_str() );
-    ESP_LOGV( TAG, "GlobalState: %s", ABBAuroraComponent::GlobalStateText(State.GlobalState).c_str() );
-    ESP_LOGV( TAG, "InverterState: %s", ABBAuroraComponent::InverterStateText(State.InverterState).c_str() );
-    ESP_LOGV( TAG, "Channel1State: %s", ABBAuroraComponent::DcDcStateText(State.Channel1State).c_str() );
-    ESP_LOGV( TAG, "Channel2State: %s", ABBAuroraComponent::DcDcStateText(State.Channel2State).c_str() );
-    ESP_LOGV( TAG, "AlarmState: %s", ABBAuroraComponent::AlarmStateText(State.AlarmState).c_str() );
+    ESP_LOGV( TAG, "TransmissionState: %s", ABBAuroraComponent::transmission_state_text(State.TransmissionState).c_str() );
+    ESP_LOGV( TAG, "GlobalState: %s", ABBAuroraComponent::global_state_text(State.GlobalState).c_str() );
+    ESP_LOGV( TAG, "InverterState: %s", ABBAuroraComponent::inverter_state_text(State.InverterState).c_str() );
+    ESP_LOGV( TAG, "Channel1State: %s", ABBAuroraComponent::dcdc_state_text(State.Channel1State).c_str() );
+    ESP_LOGV( TAG, "Channel2State: %s", ABBAuroraComponent::dcdc_state_text(State.Channel2State).c_str() );
+    ESP_LOGV( TAG, "AlarmState: %s", ABBAuroraComponent::alarm_state_text(State.AlarmState).c_str() );
 
     return State.ReadState;
 }
 
-bool ABBAuroraComponent::ReadVersion()
+bool ABBAuroraComponent::read_version()
 {
-    Version.ReadState = Send(this->Address, (uint8_t)58, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    Version.ReadState = send(this->address_, (uint8_t)58, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
     if(Version.ReadState == false)
     {
@@ -583,7 +583,7 @@ bool ABBAuroraComponent::ReadVersion()
     return Version.ReadState;
 };
 
-std::string ABBAuroraComponent::AlarmStateText(uint8_t id)
+std::string ABBAuroraComponent::alarm_state_text(uint8_t id)
 {
     switch (id)
     {
@@ -657,7 +657,7 @@ std::string ABBAuroraComponent::AlarmStateText(uint8_t id)
     }
 }
 
-std::string ABBAuroraComponent::TransmissionStateText(uint8_t id)
+std::string ABBAuroraComponent::transmission_state_text(uint8_t id)
 {
     switch (id)
     {
@@ -675,7 +675,7 @@ std::string ABBAuroraComponent::TransmissionStateText(uint8_t id)
     }
 }
 
-std::string ABBAuroraComponent::GlobalStateText(uint8_t id)
+std::string ABBAuroraComponent::global_state_text(uint8_t id)
 {
     switch (id)
     {
@@ -725,7 +725,7 @@ std::string ABBAuroraComponent::GlobalStateText(uint8_t id)
     }
 }
 
-std::string ABBAuroraComponent::DcDcStateText(uint8_t id)
+std::string ABBAuroraComponent::dcdc_state_text(uint8_t id)
 {
     switch (id)
     {
@@ -754,7 +754,7 @@ std::string ABBAuroraComponent::DcDcStateText(uint8_t id)
     }
 }
 
-std::string ABBAuroraComponent::InverterStateText(uint8_t id)
+std::string ABBAuroraComponent::inverter_state_text(uint8_t id)
 {
     switch (id)
     {

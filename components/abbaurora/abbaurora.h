@@ -10,7 +10,7 @@
 #include "esphome/components/uart/uart.h"
 
 // Enums
-enum DSP_VALUE_TYPE
+enum DspValueType
 {
     GRID_VOLTAGE = 1, GRID_CURRENT = 2, GRID_POWER = 3, FREQUENCY = 4, V_BULK = 5, I_LEAK_DC_DC = 6, I_LEAK_INVERTER = 7,
     POWER_IN_1 = 8, POWER_IN_2 = 9, TEMPERATURE_INVERTER = 21, TEMPERATURE_BOOSTER = 22, V_IN_1 = 23, I_IN_1 = 25, 
@@ -26,13 +26,13 @@ enum DSP_VALUE_TYPE
     GRID_VOLTAGE_PHASE_R = 61, GRID_VOLTAGE_PHASE_S = 62, GRID_VOLTAGE_PHASE_T = 63
 };
 
-enum DSP_GLOBAL
+enum DspGlobal
 {
-    GLOBAL_MESSUREMENT = 1,
-    MODULE_MESSUREMENT = 0,
+    GLOBAL_MEASUREMENT = 1,
+    MODULE_MEASUREMENT = 0,
 };
 
-enum CUMULATED_ENERGY_TYPE
+enum CumulatedEnergyType
 {
     CURRENT_DAY = 0,
     CURRENT_WEEK =0,
@@ -47,9 +47,32 @@ namespace abbaurora {
 
 class ABBAuroraComponent : public uart:: UARTDevice, public Component
 {
+public:
+    void setup() override;
+    void loop() override;
+    void dump_config() override;
+    void set_address(uint8_t address) {  Address = address; }
+    void set_flow_control_pin(GPIOPin *flow_control_pin) { this->flow_control_pin_ = flow_control_pin; }
+    void set_cumulated_energy_total( sensor::Sensor *sensor ) { this->cumulated_energy_total = sensor; }
+    void set_v_in_1_sensor( sensor::Sensor *sensor ) { this->v_in_1 = sensor; }
+    void set_v_in_2_sensor( sensor::Sensor *sensor ) { this->v_in_2 = sensor; }
+    void set_i_in_1_sensor( sensor::Sensor *sensor ) { this->i_in_1 = sensor; }
+    void set_i_in_2_sensor( sensor::Sensor *sensor ) { this->i_in_2 = sensor; }
+    void set_power_in_1_sensor( sensor::Sensor *sensor ) { this->power_in_1 = sensor; }
+    void set_power_in_2_sensor( sensor::Sensor *sensor ) { this->power_in_2 = sensor; }
+    void set_power_in_total_sensor( sensor::Sensor *sensor ) { this->power_in_total = sensor; }
+    void set_grid_power_sensor( sensor::Sensor *sensor ) { this->grid_power = sensor; }
+    void set_temperature_inverter_sensor( sensor::Sensor *sensor ) { this->temperature_inverter = sensor; }
+    void set_temperature_booster_sensor( sensor::Sensor *sensor ) { this->temperature_booster = sensor; }
+    void set_grid_voltage_sensor( sensor::Sensor *sensor ) { this->grid_voltage = sensor; }
+    void set_cumulated_energy_today_sensor( sensor::Sensor *sensor ) { this->cumulated_energy_today = sensor; }
+    void set_version_text_sensor( text_sensor::TextSensor *sensor ) { this->version = sensor; }
+    void set_connection_status_text_sensor( text_sensor::TextSensor *sensor ) { this->connection_status = sensor; }
+    void set_identification_text_sensor( text_sensor::TextSensor *sensor ) { this->identification = sensor; }
+
 protected:
     GPIOPin *flow_control_pin_{nullptr};
-    uint8_t Address = 0; // Default 2 ??
+    uint8_t address_ = 0; // Default 2 ??
     uint8_t ReceiveData[8];
 
     text_sensor::TextSensor *connection_status{nullptr};
@@ -68,66 +91,42 @@ protected:
     sensor::Sensor *temperature_booster{nullptr}; 
     sensor::Sensor *grid_voltage{nullptr}; 
     sensor::Sensor *cumulated_energy_today{nullptr};  
+    
+    bool send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6);
+    bool read_version();
+    bool read_state();
+    bool read_dsp_value(DspValueType type, DspGlobal global);
+    bool read_system_serialnumber();
+    bool read_system_partnumber();    
+    bool read_cumulated_energy(CumulatedEnergyType par);
+    bool write_baudrate_setting(uint8_t baudcode);
+    bool read_flags_switch_central();
+    bool read_cumulated_energy_central(uint8_t var, uint8_t ndays_h, uint8_t ndays_l, uint8_t global);
+    bool read_firmware_release_central(uint8_t var);
+    bool read_baudrate_setting_central(uint8_t baudcode, uint8_t serialline);
+    bool read_system_info_central(uint8_t var);
+    bool read_junctionbox_monitoring_central(uint8_t cf, uint8_t rn, uint8_t njt, uint8_t jal, uint8_t jah);
+    bool read_system_partnumber_central();
+    bool read_system_serialnumber_central();
+    bool read_last_four_alarms();
+    bool read_junctionbox_state(uint8_t nj);
+    bool read_junctionbox_value(uint8_t nj, uint8_t par);
 
-public:
-    void setup() override;
-    void loop() override;
-    void dump_config() override;
-    void set_address(uint8_t address) {  Address = address; }
-    void set_flow_control_pin(GPIOPin *flow_control_pin) { this->flow_control_pin_ = flow_control_pin; }
-    void set_cumulated_energy_total( sensor::Sensor *sensor ) { this->cumulated_energy_total = sensor; }
-    void set_v_in_1( sensor::Sensor *sensor ) { this->v_in_1 = sensor; }
-    void set_v_in_2( sensor::Sensor *sensor ) { this->v_in_2 = sensor; }
-    void set_i_in_1( sensor::Sensor *sensor ) { this->i_in_1 = sensor; }
-    void set_i_in_2( sensor::Sensor *sensor ) { this->i_in_2 = sensor; }
-    void set_power_in_1( sensor::Sensor *sensor ) { this->power_in_1 = sensor; }
-    void set_power_in_2( sensor::Sensor *sensor ) { this->power_in_2 = sensor; }
-    void set_power_in_total( sensor::Sensor *sensor ) { this->power_in_total = sensor; }
-    void set_grid_power( sensor::Sensor *sensor ) { this->grid_power = sensor; }
-    void set_temperature_inverter( sensor::Sensor *sensor ) { this->temperature_inverter = sensor; }
-    void set_temperature_booster( sensor::Sensor *sensor ) { this->temperature_booster = sensor; }
-    void set_grid_voltage( sensor::Sensor *sensor ) { this->grid_voltage = sensor; }
-    void set_cumulated_energy_today( sensor::Sensor *sensor ) { this->cumulated_energy_today = sensor; }
-    void set_version( text_sensor::TextSensor *sensor ) { this->version = sensor; }
-    void set_connection_status( text_sensor::TextSensor *sensor ) { this->connection_status = sensor; }
-    void set_identification( text_sensor::TextSensor *sensor ) { this->identification = sensor; }
-
-private:
-    bool Send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6);
-    bool ReadVersion();
-    bool ReadState();
-    bool ReadDSPValue(DSP_VALUE_TYPE type, DSP_GLOBAL global);
-    bool ReadSystemSerialNumber();
-    bool ReadSystemPN();    
-    bool ReadCumulatedEnergy(CUMULATED_ENERGY_TYPE par);
-    bool WriteBaudRateSetting(uint8_t baudcode);
-    bool ReadFlagsSwitchCentral();
-    bool ReadCumulatedEnergyCentral(uint8_t var, uint8_t ndays_h, uint8_t ndays_l, uint8_t global);
-    bool ReadFirmwareReleaseCentral(uint8_t var);
-    bool ReadBaudRateSettingCentral(uint8_t baudcode, uint8_t serialline);
-    bool ReadSystemInfoCentral(uint8_t var);
-    bool ReadJunctionBoxMonitoringCentral(uint8_t cf, uint8_t rn, uint8_t njt, uint8_t jal, uint8_t jah);
-    bool ReadSystemPNCentral();
-    bool ReadSystemSerialNumberCentral();
-    bool ReadLastFourAlarms();
-    bool ReadJunctionBoxState(uint8_t nj);
-    bool ReadJunctionBoxVal(uint8_t nj, uint8_t par);
-
-    static std::string TransmissionStateText(uint8_t id);
-    static std::string GlobalStateText(uint8_t id);
-    static std::string DcDcStateText(uint8_t id);
-    static std::string InverterStateText(uint8_t id);
-    static std::string AlarmStateText(uint8_t id);
+    static std::string transmission_state_text(uint8_t id);
+    static std::string global_state_text(uint8_t id);
+    static std::string dcdc_state_text(uint8_t id);
+    static std::string inverter_state_text(uint8_t id);
+    static std::string alarm_state_text(uint8_t id);
 
     union {
         uint8_t asBytes[4];
         float asFloat;
-    } foo;
+    } FloatBytes;
 
     union {
         uint8_t asBytes[4];
         unsigned long asUlong;
-    } ulo;
+    } LongBytes;
 
 
     typedef struct
@@ -194,11 +193,11 @@ private:
     // Inverters
     typedef struct
     {
-        std::string PN;
+        std::string PartNumber;
         bool ReadState;
     } DataSystemPN;
 
-    DataSystemPN SystemPN;
+    DataSystemPN SystemPartNumber;
 
     typedef struct
     {

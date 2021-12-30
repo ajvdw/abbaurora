@@ -54,7 +54,6 @@ TYPES = {
     CONF_ABB_CUMULATED_ENERGY_TOTAL: sensor.sensor_schema( UNIT_WATT_HOURS, ICON_EMPTY, 0, DEVICE_CLASS_ENERGY, STATE_CLASS_TOTAL_INCREASING ),
 }
 
-
 CONFIG_SCHEMA = ABBAURORA_COMPONENT_SCHEMA.extend(
     {cv.Optional(type): schema for type, schema in TYPES.items()}
 )
@@ -66,7 +65,7 @@ async def to_code(config):
         if type in config:
             conf = config[type]
             sens = await sensor.new_sensor(conf)
-            cg.add(getattr(paren, f"set_{type}")(sens))
+            cg.add(getattr(paren, f"set_{type}_sensor")(sens))
 
 
 

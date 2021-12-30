@@ -53,7 +53,6 @@ public:
     void dump_config() override;
     void set_address(uint8_t address) {  this->address_ = address; }
     void set_flow_control_pin(GPIOPin *flow_control_pin) { this->flow_control_pin_ = flow_control_pin; }
-    void set_cumulated_energy_total( sensor::Sensor *sensor ) { this->cumulated_energy_total = sensor; }
     void set_v_in_1_sensor( sensor::Sensor *sensor ) { this->v_in_1 = sensor; }
     void set_v_in_2_sensor( sensor::Sensor *sensor ) { this->v_in_2 = sensor; }
     void set_i_in_1_sensor( sensor::Sensor *sensor ) { this->i_in_1 = sensor; }
@@ -66,6 +65,7 @@ public:
     void set_temperature_booster_sensor( sensor::Sensor *sensor ) { this->temperature_booster = sensor; }
     void set_grid_voltage_sensor( sensor::Sensor *sensor ) { this->grid_voltage = sensor; }
     void set_cumulated_energy_today_sensor( sensor::Sensor *sensor ) { this->cumulated_energy_today = sensor; }
+    void set_cumulated_energy_total_sensor( sensor::Sensor *sensor ) { this->cumulated_energy_total = sensor; }
     void set_version_text_sensor( text_sensor::TextSensor *sensor ) { this->version = sensor; }
     void set_connection_status_text_sensor( text_sensor::TextSensor *sensor ) { this->connection_status = sensor; }
     void set_identification_text_sensor( text_sensor::TextSensor *sensor ) { this->identification = sensor; }

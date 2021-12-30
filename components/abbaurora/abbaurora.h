@@ -51,7 +51,7 @@ public:
     void setup() override;
     void loop() override;
     void dump_config() override;
-    void set_address(uint8_t address) {  Address = address; }
+    void set_address(uint8_t address) {  this->address_ = address; }
     void set_flow_control_pin(GPIOPin *flow_control_pin) { this->flow_control_pin_ = flow_control_pin; }
     void set_cumulated_energy_total( sensor::Sensor *sensor ) { this->cumulated_energy_total = sensor; }
     void set_v_in_1_sensor( sensor::Sensor *sensor ) { this->v_in_1 = sensor; }

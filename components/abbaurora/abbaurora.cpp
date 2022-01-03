@@ -711,10 +711,10 @@ std::string ABBAuroraComponent::global_state_text_(uint8_t id)
         case 31: return std::string("Temperature Fault");
         case 32: return std::string("Fan Staucked");
         case 33: return std::string("Int.Com.Fault");
-        case 34: return std::string("Slave Insertion");
+        case 34: return std::string("SLV Insertion");
         case 35: return std::string("DC Switch Open");
         case 36: return std::string("TRAS Switch Open");
-        case 37: return std::string("MAST Exclusion");
+        case 37: return std::string("MST Exclusion");
         case 38: return std::string("Auto Exclusion");
         case 98: return std::string("Erasing Internal EEprom");
         case 99: return std::string("Erasing External EEprom");

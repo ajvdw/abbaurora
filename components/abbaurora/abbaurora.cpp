@@ -45,7 +45,7 @@ void ABBAuroraComponent::loop()
                         identification_->publish_state(this->system_serialnumber_.SerialNumber);
                     break;
             case 6: if(version_ && this->read_version_())
-                        version_->publish_state( this->version_.Par1 );
+                        version_->publish_state( this->data_version_.Par1 );
                     break;        
             case 8: if(temperature_inverter_ && this->read_dsp_value_(TEMPERATURE_INVERTER, MODULE_MEASUREMENT))
                         temperature_inverter_->publish_state(this->dsp_.Value);

@@ -4,23 +4,20 @@ from esphome.components import sensor
 from esphome.const import (
     DEVICE_CLASS_CURRENT,
     DEVICE_CLASS_TEMPERATURE,
-    DEVICE_CLASS_EMPTY,
     DEVICE_CLASS_ENERGY,
     DEVICE_CLASS_POWER,
     DEVICE_CLASS_VOLTAGE,
     ICON_EMPTY,
     STATE_CLASS_MEASUREMENT,
     STATE_CLASS_TOTAL_INCREASING,
-    STATE_CLASS_NONE,
     UNIT_AMPERE,
     UNIT_CELSIUS,
-    UNIT_EMPTY,
     UNIT_VOLT,
     UNIT_WATT_HOURS,
     UNIT_WATT,
 )
-from esphome.const import CONF_ID
-from . import CONF_ABBAURORA_ID, ABBAurora, ABBAURORA_COMPONENT_SCHEMA
+
+from . import CONF_ABBAURORA_ID, ABBAURORA_COMPONENT_SCHEMA
 
 CONF_V_IN_1 = "v_in_1"
 CONF_V_IN_2 = "v_in_2"
@@ -66,6 +63,3 @@ async def to_code(config):
             conf = config[type]
             sens = await sensor.new_sensor(conf)
             cg.add(getattr(paren, f"set_{type}_sensor")(sens))
-
-
-

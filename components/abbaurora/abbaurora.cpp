@@ -277,13 +277,13 @@ bool ABBAuroraComponent::read_junctionbox_state_(uint8_t nj)
     JunctionBoxState_.State_.transmissionState = receive_data_[0];
     JunctionBoxState_.State_.globalState = -1;
 
-    JunctionBoxState_.jBoxState_.burnFuseOnJBox 		= receive_data_[1] & 0x01;
-    JunctionBoxState_.jBoxState_.jBoxNotCalibrated 	= receive_data_[1] & 0x80;
-    JunctionBoxState_.jBoxState_.jBoxOvercurrent 		= receive_data_[1] & 0x10;
-    JunctionBoxState_.jBoxState_.jBoxOvertemperature 	= receive_data_[1] & 0x02;
-    JunctionBoxState_.jBoxState_.jBoxOvervoltage 		= receive_data_[1] & 0x04;
-    JunctionBoxState_.jBoxState_.noCommunication 		= receive_data_[1] & 0x40;
-    JunctionBoxState_.jBoxState_.powerOff 			= receive_data_[1] & 0x20;
+    JunctionBoxState_.jBoxState_.burnFuseOnJBox      = receive_data_[1] & 0x01;
+    JunctionBoxState_.jBoxState_.jBoxNotCalibrated   = receive_data_[1] & 0x80;
+    JunctionBoxState_.jBoxState_.jBoxOvercurrent     = receive_data_[1] & 0x10;
+    JunctionBoxState_.jBoxState_.jBoxOvertemperature = receive_data_[1] & 0x02;
+    JunctionBoxState_.jBoxState_.jBoxOvervoltage     = receive_data_[1] & 0x04;
+    JunctionBoxState_.jBoxState_.noCommunication     = receive_data_[1] & 0x40;
+    JunctionBoxState_.jBoxState_.powerOff            = receive_data_[1] & 0x20;
     JunctionBoxState_.jBoxState_.unbalancedStringCurrent = receive_data_[1] & 0x08;
   
     JunctionBoxState_.fuseBurnt[1] = receive_data_[4] & 0x04;
@@ -325,7 +325,7 @@ bool ABBAuroraComponent::read_junctionbox_value_(uint8_t nj, uint8_t par)
 }
 
 // Inverters
-bool ABBAuroraComponent::read_system_partnumber_(void)
+bool ABBAuroraComponent::read_system_partnumber_()
 {
     SystemPartNumber_.ReadState = send_(this->address_, (uint8_t)52, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
@@ -339,7 +339,7 @@ bool ABBAuroraComponent::read_system_partnumber_(void)
     return SystemPartNumber_.ReadState;
 }
 
-bool ABBAuroraComponent::read_system_serialnumber_(void)
+bool ABBAuroraComponent::read_system_serialnumber_()
 {
     SystemSerialNumber_.ReadState = send_(this->address_, (uint8_t)63, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
@@ -353,7 +353,7 @@ bool ABBAuroraComponent::read_system_serialnumber_(void)
     return SystemSerialNumber_.ReadState;
 }
 
-bool ABBAuroraComponent::read_manufacturing_week_year_(void)
+bool ABBAuroraComponent::read_manufacturing_week_year_()
 {
     ManufacturingWeekYear_.ReadState = send_(this->address_, (uint8_t)65, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
@@ -374,7 +374,7 @@ bool ABBAuroraComponent::read_manufacturing_week_year_(void)
     return ManufacturingWeekYear_.ReadState;
 }
 
-bool ABBAuroraComponent::read_firmware_release_(void)
+bool ABBAuroraComponent::read_firmware_release_()
 {
     FirmwareRelease_.ReadState = send_(this->address_, (uint8_t)72, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 

@@ -37,7 +37,7 @@ void ABBAuroraComponent::loop(){
         switch(rotaterequests % 30)
         {  
             case 2: if(connection_status_ && this->read_state_()) // If inverter is connected
-                        connection_status_->publish_state(ABBAuroraComponent::inverter_state_text_(state_.InverterState));
+                        connection_status_->publish_state(ABBAuroraComponent::inverter_state_text(state_.InverterState));
                     break;
             case 4: if(identification_ && this->read_system_serialnumber_())
                         identification_->publish_state(this->system_serialnumber_.SerialNumber);

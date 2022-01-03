@@ -23,7 +23,7 @@ void ABBAuroraComponent::dump_config()
     if (this->flow_control_pin_ != nullptr) {
         LOG_PIN("  Flow control Pin: ", this->flow_control_pin_);
     }
-    ESP_LOGCONFIG(TAG, "  Inverter Address: %d", this->address__);
+    ESP_LOGCONFIG(TAG, "  Inverter Address: %d", this->address_);
 }
 
 void ABBAuroraComponent::loop(){

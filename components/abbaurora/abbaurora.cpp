@@ -15,7 +15,7 @@ void ABBAuroraComponent::setup()
 
     for( int i=0; i<8; i++ ) receive_data_[i]=0;
 
-    connection_status_->publish_state_("Setup");
+    connection_status_->publish_state("Setup");
 }
 
 void ABBAuroraComponent::dump_config() 
@@ -51,7 +51,7 @@ void ABBAuroraComponent::loop()
                         temperature_inverter_->publish_state(this->DSP_.Value);
                     break;
             case 10:if(power_in_1_ && this->read_dsp_value_(POWER_IN_1, MODULE_MEASUREMENT))
-                        power_in_1_->publish_state_(this->DSP_.Value);
+                        power_in_1_->publish_state(this->DSP_.Value);
                     if(power_in_total_ && power_in_1_ && power_in_2_)
                         power_in_total_->publish_state(power_in_1_->get_state() + power_in_2_->get_state());
                     break;

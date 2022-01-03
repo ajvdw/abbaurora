@@ -163,7 +163,7 @@ protected:
         float Value;
         bool ReadState;
     } DataDSP;
-    DataDSP DSP;
+    DataDSP DSP_;
 
     typedef struct
     {
@@ -192,8 +192,8 @@ protected:
     {
         std::string PartNumber;
         bool ReadState;
-    } DataSystemPN;
-    DataSystemPN SystemPartNumber_;
+    } DataSystemPartNumber;
+    DataSystemPartNumber SystemPartNumber_;
 
     typedef struct
     {
@@ -229,7 +229,7 @@ protected:
         uint8_t GlobalState;
         unsigned long Energy;
         bool ReadState;
-    } DataCumulatedEnergy_;
+    } DataCumulatedEnergy;
 
     DataCumulatedEnergy CumulatedEnergy_;
 };

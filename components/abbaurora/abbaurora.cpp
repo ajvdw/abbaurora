@@ -66,7 +66,7 @@ void ABBAuroraComponent::loop()
             case 16:if(v_in_2_ && this->read_dsp_value_(V_IN_2, MODULE_MEASUREMENT))
                         v_in_2_->publish_state(this->DSP_.Value);
                     break;
-            case 18:if(i_in_1_§ && this->read_dsp_value_(I_IN_1, MODULE_MEASUREMENT))
+            case 18:if(i_in_1_ && this->read_dsp_value_(I_IN_1, MODULE_MEASUREMENT))
                         i_in_1_->publish_state(this->DSP_.Value);
                     break;
             case 20:if(i_in_2 && this->read_dsp_value(I_IN_2, MODULE_MEASUREMENT))

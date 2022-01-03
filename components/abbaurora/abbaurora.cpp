@@ -520,67 +520,67 @@ bool ABBAuroraComponent::read_state_()
 
 bool ABBAuroraComponent::read_version_()
 {
-    version_.ReadState = send_(this->address_, (uint8_t)58, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
+    data_version_.ReadState = send_(this->address_, (uint8_t)58, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
-    if(version_.ReadState == false)
+    if(data_version_.ReadState == false)
     {
         receive_data_[0] = 255;
         receive_data_[1] = 255;
     }
 
-    version_.TransmissionState = receive_data_[0];
-    version_.GlobalState = receive_data_[1];
+    data_version_.TransmissionState = receive_data_[0];
+    data_version_.GlobalState = receive_data_[1];
 
     switch ((char)receive_data_[2])
     {
-        case 'i': version_.Par1 = std::string("Aurora 2 kW indoor"); break;
-        case 'o': version_.Par1 = std::string("Aurora 2 kW outdoor"); break;
-        case 'r': version_.Par1 = std::string("ABB TRIO 5.8kW outdoor"); break;
-        case 'I': version_.Par1 = std::string("Aurora 3.6 kW indoor"); break;
-        case 'O': version_.Par1 = std::string("Aurora 3.0 - 3.6 kW outdoor"); break;
-        case '5': version_.Par1 = std::string("Aurora 5.0 kW outdoor"); break;
-        case '6': version_.Par1 = std::string("Aurora 6 kW outdoor"); break;
-        case 'P': version_.Par1 = std::string("3 - phase interface (3G74)"); break;
-        case 'C': version_.Par1 = std::string("Aurora 50kW module"); break;
-        case '4': version_.Par1 = std::string("Aurora 4.2kW new"); break;
-        case '3': version_.Par1 = std::string("Aurora 3.6kW new"); break;
-        case '2': version_.Par1 = std::string("Aurora 3.3kW new"); break;
-        case '1': version_.Par1 = std::string("Aurora 3.0kW new"); break;
-        case 'D': version_.Par1 = std::string("Aurora 12.0kW"); break;
-        case 'X': version_.Par1 = std::string("Aurora 10.0kW"); break;
+        case 'i': data_version_.Par1 = std::string("Aurora 2 kW indoor"); break;
+        case 'o': data_version_.Par1 = std::string("Aurora 2 kW outdoor"); break;
+        case 'r': data_version_.Par1 = std::string("ABB TRIO 5.8kW outdoor"); break;
+        case 'I': data_version_.Par1 = std::string("Aurora 3.6 kW indoor"); break;
+        case 'O': data_version_.Par1 = std::string("Aurora 3.0 - 3.6 kW outdoor"); break;
+        case '5': data_version_.Par1 = std::string("Aurora 5.0 kW outdoor"); break;
+        case '6': data_version_.Par1 = std::string("Aurora 6 kW outdoor"); break;
+        case 'P': data_version_.Par1 = std::string("3 - phase interface (3G74)"); break;
+        case 'C': data_version_.Par1 = std::string("Aurora 50kW module"); break;
+        case '4': data_version_.Par1 = std::string("Aurora 4.2kW new"); break;
+        case '3': data_version_.Par1 = std::string("Aurora 3.6kW new"); break;
+        case '2': data_version_.Par1 = std::string("Aurora 3.3kW new"); break;
+        case '1': data_version_.Par1 = std::string("Aurora 3.0kW new"); break;
+        case 'D': data_version_.Par1 = std::string("Aurora 12.0kW"); break;
+        case 'X': data_version_.Par1 = std::string("Aurora 10.0kW"); break;
         default: ESP_LOGD(TAG, "version_.par1 unknown [%d]", receive_data_[2] );
-                 version_.Par1 = std::string("Unknown");
+                 data_version_.Par1 = std::string("Unknown");
     }
  
     switch ((char)receive_data_[3])
     {
-        case 'A': version_.Par2 = std::string("UL1741"); break;
-        case 'B': version_.Par2 = std::string("NETHERL"); break;
-        case 'E': version_.Par2 = std::string("VDE0126"); break;
-        case 'S': version_.Par2 = std::string("DR 1663 / 2000"); break;
-        case 'I': version_.Par2 = std::string("ENEL DK 5950"); break;
-        case 'U': version_.Par2 = std::string("UK G83"); break;
-        case 'K': version_.Par2 = std::string("AS 4777"); break;
+        case 'A': data_version_.Par2 = std::string("UL1741"); break;
+        case 'B': data_version_.Par2 = std::string("NETHERL"); break;
+        case 'E': data_version_.Par2 = std::string("VDE0126"); break;
+        case 'S': data_version_.Par2 = std::string("DR 1663 / 2000"); break;
+        case 'I': data_version_.Par2 = std::string("ENEL DK 5950"); break;
+        case 'U': data_version_.Par2 = std::string("UK G83"); break;
+        case 'K': data_version_.Par2 = std::string("AS 4777"); break;
         default: ESP_LOGD(TAG, "version_.par2 unknown [%d]", receive_data_[3] );
-                 version_.Par2 = std::string("Unknown"); 
+                 data_version_.Par2 = std::string("Unknown"); 
     }
 
     switch ((char)receive_data_[4])
     {
-        case 'N': version_.Par3 = std::string("Transformerless Version"); break;
-        case 'T': version_.Par3 = std::string("Transformer Version"); break;
+        case 'N': data_version_.Par3 = std::string("Transformerless Version"); break;
+        case 'T': data_version_.Par3 = std::string("Transformer Version"); break;
         default: ESP_LOGD(TAG, "version_.par3 unknown [%d]", receive_data_[4] );
-                 version_.Par3 = std::string("Unknown");
+                 data_version_.Par3 = std::string("Unknown");
     }
 
     switch ((char)receive_data_[5])
     {
-        case 'W': version_.Par4 = std::string("Wind version"); break;
-        case 'N': version_.Par4 = std::string("PV version"); break;
+        case 'W': data_version_.Par4 = std::string("Wind version"); break;
+        case 'N': data_version_.Par4 = std::string("PV version"); break;
         default: ESP_LOGD(TAG, "version_.par4 unknown [%d]", receive_data_[5] );
-                 version_.Par4 = std::string("Unknown");
+                 data_version_.Par4 = std::string("Unknown");
     }
-    return version_.ReadState;
+    return data_version_.ReadState;
 };
 
 std::string ABBAuroraComponent::alarm_state_text_(uint8_t id)

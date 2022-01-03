@@ -153,7 +153,7 @@ protected:
         std::string Par4;
         bool ReadState;
     };
-    DataVersion version_;
+    DataVersion data_version_;
 
     using DataDSP = struct
     {
@@ -208,7 +208,7 @@ protected:
         std::string Year;
         bool ReadState;
     };
-    DataManufacturingWeekYear manufacturing_weekyear_;
+    DataManufacturingWeekYear manufacturing_week_year_;
 
     using DataFirmwareRelease = struct
     {

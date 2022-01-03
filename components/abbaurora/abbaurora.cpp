@@ -69,8 +69,8 @@ void ABBAuroraComponent::loop()
             case 18:if(i_in_1_ && this->read_dsp_value_(I_IN_1, MODULE_MEASUREMENT))
                         i_in_1_->publish_state(this->DSP_.Value);
                     break;
-            case 20:if(i_in_2 && this->read_dsp_value(I_IN_2, MODULE_MEASUREMENT))
-                        i_in_2->publish_state(this->DSP_.Value);
+            case 20:if(i_in_2_ && this->read_dsp_value_(I_IN_2, MODULE_MEASUREMENT))
+                        i_in_2_->publish_state(this->DSP_.Value);
                     break;
             case 22:if(temperature_booster_ && this->read_dsp_value_(TEMPERATURE_BOOSTER, MODULE_MEASUREMENT))
                         temperature_booster_->publish_state(this->DSP_.Value);
@@ -329,7 +329,7 @@ bool ABBAuroraComponent::read_system_partnumber_(void)
 {
     SystemPartNumber_.ReadState = send_(this->address_, (uint8_t)52, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
-    SystemPartNumber_.PartNumber_.assign(1, (char)receive_data_[0] );
+    SystemPartNumber_.PartNumber.assign(1, (char)receive_data_[0] );
     SystemPartNumber_.PartNumber += (char)receive_data_[1];
     SystemPartNumber_.PartNumber += (char)receive_data_[2]; 
     SystemPartNumber_.PartNumber += (char)receive_data_[3];
@@ -343,7 +343,7 @@ bool ABBAuroraComponent::read_system_serialnumber_(void)
 {
     SystemSerialNumber_.ReadState = send_(this->address_, (uint8_t)63, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0, (uint8_t)0);
 
-    SystemSerialNumber_.SerialNumber_.assign(1,(char)receive_data_[0]);
+    SystemSerialNumber_.SerialNumber.assign(1,(char)receive_data_[0]);
     SystemSerialNumber_.SerialNumber += (char)receive_data_[1];
     SystemSerialNumber_.SerialNumber += (char)receive_data_[2]; 
     SystemSerialNumber_.SerialNumber += (char)receive_data_[3];

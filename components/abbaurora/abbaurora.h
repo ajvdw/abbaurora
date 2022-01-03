@@ -152,7 +152,7 @@ protected:
         std::string Par2;
         std::string Par3;
         std::string Par4;
-        bool ReadState_;
+        bool ReadState;
     } DataVersion;
     DataVersion Version_;
 

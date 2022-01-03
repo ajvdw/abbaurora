@@ -8,15 +8,15 @@ from esphome.const import (
 )
 from . import CONF_ABBAURORA_ID, ABBAurora, ABBAURORA_COMPONENT_SCHEMA
 
-CONF_ABB_VERSION = "version_"
-CONF_ABB_STATUS = "connection_status_"
-CONF_ABB_IDENTIFICATION = "identification_"
+CONF_VERSION = "version"
+CONF_STATUS = "connection_status"
+CONF_IDENTIFICATION = "identification"
 AUTO_LOAD = ["abbaurora"]
 
 TYPES = {
-    CONF_ABB_VERSION,
-    CONF_ABB_STATUS,
-    CONF_ABB_IDENTIFICATION,
+    CONF_VERSION,
+    CONF_STATUS,
+    CONF_IDENTIFICATION,
 }
 
 CONFIG_SCHEMA = ABBAURORA_COMPONENT_SCHEMA.extend(
@@ -34,4 +34,4 @@ async def to_code(config):
             conf = config[type]
             var = cg.new_Pvariable(conf[CONF_ID])
             await text_sensor.register_text_sensor(var, conf)
-            cg.add(getattr(paren, f"set_{type}text_sensor")(var))
+            cg.add(getattr(paren, f"set_{type}_text_sensor")(var))

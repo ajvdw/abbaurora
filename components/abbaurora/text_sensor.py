@@ -19,7 +19,7 @@ TYPES = {
 
 CONFIG_SCHEMA = ABBAURORA_COMPONENT_SCHEMA.extend(
     {
-        cv.Optional( type ): text_sensor.TEXT_SENSOR_SCHEMA.extend( { cv.GenerateID(): cv.declare_id(text_sensor.TextSensor) } )
+        cv.Optional(type): text_sensor.TEXT_SENSOR_SCHEMA.extend({cv.GenerateID(): cv.declare_id(text_sensor.TextSensor)})
         for type in TYPES
     }
 )

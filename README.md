@@ -105,7 +105,7 @@ sensor:
 text_sensor:
   - platform: abbaurora
     abbaurora_id: inverter1
-    version:
+    inverter_version:
       name: "Inverter type"
     connection_status:
       name: "Inverter RS485 Status"

@@ -73,51 +73,53 @@ public:
 protected:
     GPIOPin *flow_control_pin_{nullptr};
     uint8_t address_ = 0; 
+    uint8_t receive_data_[8];
 
-    uint8_t ReceiveData[8];
-
-    text_sensor::TextSensor *connection_status{nullptr};
-    text_sensor::TextSensor *version{nullptr};
-    text_sensor::TextSensor *identification{nullptr};
-    sensor::Sensor *cumulated_energy_total{nullptr};   
-    sensor::Sensor *v_in_1{nullptr}; 
-    sensor::Sensor *v_in_2{nullptr}; 
-    sensor::Sensor *i_in_1{nullptr}; 
-    sensor::Sensor *i_in_2{nullptr}; 
-    sensor::Sensor *power_in_1{nullptr}; 
-    sensor::Sensor *power_in_2{nullptr}; 
-    sensor::Sensor *power_in_total{nullptr}; 
-    sensor::Sensor *grid_power{nullptr}; 
-    sensor::Sensor *temperature_inverter{nullptr}; 
-    sensor::Sensor *temperature_booster{nullptr}; 
-    sensor::Sensor *grid_voltage{nullptr}; 
-    sensor::Sensor *cumulated_energy_today{nullptr};  
+    text_sensor::TextSensor *connection_status_{nullptr};
+    text_sensor::TextSensor *version_{nullptr};
+    text_sensor::TextSensor *identification_{nullptr};
+    sensor::Sensor *cumulated_energy_total_{nullptr};   
+    sensor::Sensor *v_in_1_{nullptr}; 
+    sensor::Sensor *v_in_2_{nullptr}; 
+    sensor::Sensor *i_in_1_{nullptr}; 
+    sensor::Sensor *i_in_2_{nullptr}; 
+    sensor::Sensor *power_in_1_{nullptr}; 
+    sensor::Sensor *power_in_2_{nullptr}; 
+    sensor::Sensor *power_in_total_{nullptr}; 
+    sensor::Sensor *grid_power_{nullptr}; 
+    sensor::Sensor *temperature_inverter_{nullptr}; 
+    sensor::Sensor *temperature_booster_{nullptr}; 
+    sensor::Sensor *grid_voltage_{nullptr}; 
+    sensor::Sensor *cumulated_energy_today_{nullptr};  
     
-    bool send(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6);
-    bool read_version();
-    bool read_state();
-    bool read_dsp_value(DspValueType type, DspGlobal global);
-    bool read_system_serialnumber();
-    bool read_system_partnumber();    
-    bool read_cumulated_energy(CumulatedEnergyType par);
-    bool write_baudrate_setting(uint8_t baudcode);
-    bool read_flags_switch_central();
-    bool read_cumulated_energy_central(uint8_t var, uint8_t ndays_h, uint8_t ndays_l, uint8_t global);
-    bool read_firmware_release_central(uint8_t var);
-    bool read_baudrate_setting_central(uint8_t baudcode, uint8_t serialline);
-    bool read_system_info_central(uint8_t var);
-    bool read_junctionbox_monitoring_central(uint8_t cf, uint8_t rn, uint8_t njt, uint8_t jal, uint8_t jah);
-    bool read_system_partnumber_central();
-    bool read_system_serialnumber_central();
-    bool read_last_four_alarms();
-    bool read_junctionbox_state(uint8_t nj);
-    bool read_junctionbox_value(uint8_t nj, uint8_t par);
+    bool read_baudrate_setting_central_(uint8_t baudcode, uint8_t serialline);
+    bool read_cumulated_energy_(CumulatedEnergyType par);
+    bool read_cumulated_energy_central_(uint8_t var, uint8_t ndays_h, uint8_t ndays_l, uint8_t global);
+    bool read_dsp_value_(DspValueType type, DspGlobal global);
+    bool read_firmware_release_(void);
+    bool read_firmware_release_central_(uint8_t var);
+    bool read_flags_switch_central_();
+    bool read_junctionbox_monitoring_central_(uint8_t cf, uint8_t rn, uint8_t njt, uint8_t jal, uint8_t jah);
+    bool read_junctionbox_state_(uint8_t nj);
+    bool read_junctionbox_value_(uint8_t nj, uint8_t par);
+    bool read_last_four_alarms_(void);
+    bool read_manufacturing_week_year_(void);
+    bool read_state_(void);
+    bool read_system_info_central_(uint8_t var);
+    bool read_system_partnumber_(void);    
+    bool read_system_partnumber_central_();
+    bool read_system_serialnumber_(void);
+    bool read_system_serialnumber_central_();
+    bool read_timedate_(void);
+    bool read_version_(void);
+    bool send_(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4, uint8_t param5, uint8_t param6);
+    bool write_baudrate_setting_(uint8_t baudcode);
 
-    static std::string transmission_state_text(uint8_t id);
-    static std::string global_state_text(uint8_t id);
-    static std::string dcdc_state_text(uint8_t id);
-    static std::string inverter_state_text(uint8_t id);
-    static std::string alarm_state_text(uint8_t id);
+    static std::string transmission_state_text_(uint8_t id);
+    static std::string global_state_text_(uint8_t id);
+    static std::string dcdc_state_text_(uint8_t id);
+    static std::string inverter_state_text_(uint8_t id);
+    static std::string alarm_state_text_(uint8_t id);
 
     union {
         uint8_t asBytes[4];
@@ -140,8 +142,7 @@ protected:
         uint8_t AlarmState;
         bool ReadState;
     } DataState;
-
-    DataState State;
+    DataState State_;
 
     typedef struct
     {
@@ -151,10 +152,9 @@ protected:
         std::string Par2;
         std::string Par3;
         std::string Par4;
-        bool ReadState;
+        bool ReadState_;
     } DataVersion;
-
-    DataVersion Version;
+    DataVersion Version_;
 
     typedef struct
     {
@@ -163,7 +163,6 @@ protected:
         float Value;
         bool ReadState;
     } DataDSP;
-
     DataDSP DSP;
 
     typedef struct
@@ -173,10 +172,8 @@ protected:
         unsigned long Seconds;
         bool ReadState;
     } DataTimeDate;
+    DataTimeDate TimeDate_;
 
-    DataTimeDate TimeDate;
-
-    bool ReadTimeDate();
 
     typedef struct
     {
@@ -188,8 +185,7 @@ protected:
         uint8_t Alarms4;
         bool ReadState;
     } DataLastFourAlarms;
-
-    DataLastFourAlarms LastFourAlarms;
+    DataLastFourAlarms LastFourAlarms_;
 
     // Inverters
     typedef struct
@@ -197,16 +193,14 @@ protected:
         std::string PartNumber;
         bool ReadState;
     } DataSystemPN;
-
-    DataSystemPN SystemPartNumber;
+    DataSystemPN SystemPartNumber_;
 
     typedef struct
     {
         std::string SerialNumber;
         bool ReadState;
     } DataSystemSerialNumber;
-
-    DataSystemSerialNumber SystemSerialNumber;
+    DataSystemSerialNumber SystemSerialNumber_;
 
     typedef struct
     {
@@ -216,10 +210,7 @@ protected:
         std::string Year;
         bool ReadState;
     } DataManufacturingWeekYear;
-
-    DataManufacturingWeekYear ManufacturingWeekYear;
-
-    bool ReadManufacturingWeekYear();
+    DataManufacturingWeekYear ManufacturingWeekYear_;
 
     typedef struct
     {
@@ -229,19 +220,18 @@ protected:
         bool ReadState;
     } DataFirmwareRelease;
 
-    DataFirmwareRelease FirmwareRelease;
+    DataFirmwareRelease FirmwareRelease_;
 
-    bool ReadFirmwareRelease();
-
+ 
     typedef struct
     {
         uint8_t TransmissionState;
         uint8_t GlobalState;
         unsigned long Energy;
         bool ReadState;
-    } DataCumulatedEnergy;
+    } DataCumulatedEnergy_;
 
-    DataCumulatedEnergy CumulatedEnergy;
+    DataCumulatedEnergy CumulatedEnergy_;
 };
 
 } // abbaurora namespace

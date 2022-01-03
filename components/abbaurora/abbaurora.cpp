@@ -714,7 +714,7 @@ std::string ABBAuroraComponent::global_state_text_(uint8_t id)
         case 34: return std::string("Slave Insertion");
         case 35: return std::string("DC Switch Open");
         case 36: return std::string("TRAS Switch Open");
-        case 37: return std::string("MASTER Exclusion");
+        case 37: return std::string("MAST Exclusion");
         case 38: return std::string("Auto Exclusion");
         case 98: return std::string("Erasing Internal EEprom");
         case 99: return std::string("Erasing External EEprom");

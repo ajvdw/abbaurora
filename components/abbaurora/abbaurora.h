@@ -230,5 +230,5 @@ protected:
     DataCumulatedEnergy cumulated_energy_;
 };
 
-} // abbaurora namespace
-} // esphome namespace
+} // namespace abbaurora
+} // namespace esphome

@@ -9,7 +9,7 @@
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
 
-#ifdef USE_ESP32 | USE_ESP8266
+#if defined(USE_ESP32) || defined(USE_ESP8266)
 #include <esp_heap_caps.h>
 #endif
 // Enums

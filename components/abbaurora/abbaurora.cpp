@@ -35,7 +35,7 @@ void ABBAuroraComponent::loop() {
     switch (rotaterequests % 30) {
       case 2:
         if (connection_status_ && this->read_state_())  // If inverter is connected
-          connection_status_->publish_state(ABBAuroraComponent::inverter_state_text(state_.InverterState));
+          connection_status_->publish_state(ABBAuroraComponent::inverter_state_text_(state_.InverterState));
         break;
       case 4:
         if (identification_ && this->read_system_serialnumber_())
@@ -521,12 +521,12 @@ bool ABBAuroraComponent::read_state_() {
   state_.Channel2State = receive_data_[4];
   state_.AlarmState = receive_data_[5];
 
-  ESP_LOGV(TAG, "TransmissionState: %s", ABBAuroraComponent::transmission_state_text(state_.TransmissionState));
-  ESP_LOGV(TAG, "GlobalState: %s", ABBAuroraComponent::global_state_text(state_.GlobalState));
-  ESP_LOGV(TAG, "InverterState: %s", ABBAuroraComponent::inverter_state_text(state_.InverterState));
-  ESP_LOGV(TAG, "Channel1State: %s", ABBAuroraComponent::dcdc_state_text(state_.Channel1State));
-  ESP_LOGV(TAG, "Channel2State: %s", ABBAuroraComponent::dcdc_state_text(state_.Channel2State));
-  ESP_LOGV(TAG, "AlarmState: %s", ABBAuroraComponent::alarm_state_text(state_.AlarmState));
+  ESP_LOGV(TAG, "TransmissionState: %s", ABBAuroraComponent::transmission_state_text_(state_.TransmissionState));
+  ESP_LOGV(TAG, "GlobalState: %s", ABBAuroraComponent::global_state_text_(state_.GlobalState));
+  ESP_LOGV(TAG, "InverterState: %s", ABBAuroraComponent::inverter_state_text_(state_.InverterState));
+  ESP_LOGV(TAG, "Channel1State: %s", ABBAuroraComponent::dcdc_state_text_(state_.Channel1State));
+  ESP_LOGV(TAG, "Channel2State: %s", ABBAuroraComponent::dcdc_state_text_(state_.Channel2State));
+  ESP_LOGV(TAG, "AlarmState: %s", ABBAuroraComponent::alarm_state_text_(state_.AlarmState));
 
   return state_.ReadState;
 }
@@ -543,15 +543,15 @@ bool ABBAuroraComponent::read_version_() {
 
   data_version_.TransmissionState = receive_data_[0];
   data_version_.GlobalState = receive_data_[1];
-  data_version_.Par1 = inverter_version_text(receive_data_[2]);
-  data_version_.Par2 = grid_type_text(receive_data_[3]);
-  data_version_.Par3 = transformer_type_text(receive_data_[4]);
-  data_version_.Par4 = generation_type_text(receive_data_[5]);
+  data_version_.Par1 = inverter_version_text_(receive_data_[2]);
+  data_version_.Par2 = grid_type_text_(receive_data_[3]);
+  data_version_.Par3 = transformer_type_text_(receive_data_[4]);
+  data_version_.Par4 = generation_type_text_(receive_data_[5]);
 
   return data_version_.ReadState;
 }
 
-const char *ABBAuroraComponent::inverter_version_text(uint8_t id) {
+const char *ABBAuroraComponent::inverter_version_text_(uint8_t id) {
   char *id_sequence = "iorIO56PC4321DX";
   char *occur = strchr(id_sequence, (char)id);
 
@@ -560,7 +560,7 @@ const char *ABBAuroraComponent::inverter_version_text(uint8_t id) {
   return UNKNOWN_TEXT;
 }
 
-const char *ABBAuroraComponent::grid_type_text(uint8_t id) {
+const char *ABBAuroraComponent::grid_type_text_(uint8_t id) {
   char *id_sequence = "ABESIUK";
   char *occur = strchr(id_sequence, (char)id);
 
@@ -569,7 +569,7 @@ const char *ABBAuroraComponent::grid_type_text(uint8_t id) {
   return UNKNOWN_TEXT;
 }
 
-const char *ABBAuroraComponent::transfomer_type_text(uint8_t id) {
+const char *ABBAuroraComponent::transfomer_type_text_(uint8_t id) {
   char *id_sequence = "NT";
   char *occur = strchr(id_sequence, (char)id);
 
@@ -578,7 +578,7 @@ const char *ABBAuroraComponent::transfomer_type_text(uint8_t id) {
   return UNKNOWN_TEXT;
 }
 
-const char *ABBAuroraComponent::generation_type_text(uint8_t id) {
+const char *ABBAuroraComponent::generation_type_text_(uint8_t id) {
   char *id_sequence = "WN";
   char *occur = strchr(id_sequence, (char)id);
 
@@ -587,34 +587,34 @@ const char *ABBAuroraComponent::generation_type_text(uint8_t id) {
   return UNKNOWN_TEXT;
 }
 
-const char *ABBAuroraComponent::alarm_state_text(uint8_t id) {
+const char *ABBAuroraComponent::alarm_state_text_(uint8_t id) {
   if (id >= 0 && id <= 64) return ALARM_TEXT_LOOKUP[id];
 
   return UNKNOWN_TEXT;
 }
 
-const char *ABBAuroraComponent::transmission_state_text(uint8_t id) {
+const char *ABBAuroraComponent::transmission_state_text_(uint8_t id) {
   if (id >= 0 && id <= 58) {
     if (TRANSMISSION_STATE_LOOKUP[id]) return TRANSMISSION_STATE_LOOKUP[id];
   }
   return UNKNOWN_TEXT;
 }
 
-const char *ABBAuroraComponent::global_state_text(uint8_t id) {
+const char *ABBAuroraComponent::global_state_text_(uint8_t id) {
   if (id >= 0 && id <= 101) {
     if (GLOBAL_STATE_LOOKUP[id]) return GLOBAL_STATE_LOOKUP[id];
   }
   return UNKNOWN_TEXT;
 }
 
-const char *ABBAuroraComponent::dcdc_state_text(uint8_t id) {
+const char *ABBAuroraComponent::dcdc_state_text_(uint8_t id) {
   if (id >= 0 and id <= 19) {
     if (DCDC_STATE_LOOKUP[id]) return DCDC_STATE_LOOKUP[id];
   }
   return UNKNOW_TEXT;
 }
 
-const char *ABBAuroraComponent::inverter_state_text(uint8_t id) {
+const char *ABBAuroraComponent::inverter_state_text_(uint8_t id) {
   if (id >= 0 && id <= 47) {
     if (INVERTER_STATE_LOOKUP[id]) return INVERTER_STATE_LOOKUP[id];
   }

@@ -555,7 +555,7 @@ bool ABBAuroraComponent::read_version_() {
 }
 
 char *ABBAuroraComponent::inverter_version_text_(uint8_t id) {
-  char id_sequence[] = "iorIO56PC4321DX";
+  static char *id_sequence = "iorIO56PC4321DX";
   char *occur = strchr(id_sequence, (char)id);
 
   if (occur) return INVERTER_VERSION_LOOKUP[occur - id_sequence];

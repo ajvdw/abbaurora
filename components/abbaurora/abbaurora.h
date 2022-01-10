@@ -498,15 +498,15 @@ class ABBAuroraComponent : public uart::UARTDevice, public Component {
              uint8_t param5, uint8_t param6);
   bool write_baudrate_setting_(uint8_t baudcode);
 
-  static const char* transformer_type_text_(uint8_t id);
-  static const char* generation_type_text_(uint8_t id);
-  static const char* grid_type_text_(uint8_t id);
-  static const char* inverter_version_text_(uint8_t id);
-  static const char *transmission_state_text_(uint8_t id);
-  static const char *global_state_text_(uint8_t id);
-  static const char *dcdc_state_text_(uint8_t id);
-  static const char *inverter_state_text_(uint8_t id);
-  static const char *alarm_state_text_(uint8_t id);
+  static char *transformer_type_text_(uint8_t id);
+  static char *generation_type_text_(uint8_t id);
+  static char *grid_type_text_(uint8_t id);
+  static char *inverter_version_text_(uint8_t id);
+  static char *transmission_state_text_(uint8_t id);
+  static char *global_state_text_(uint8_t id);
+  static char *dcdc_state_text_(uint8_t id);
+  static char *inverter_state_text_(uint8_t id);
+  static char *alarm_state_text_(uint8_t id);
 
   union {
     uint8_t asBytes[4];

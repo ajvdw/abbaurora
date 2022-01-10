@@ -572,7 +572,7 @@ const char *ABBAuroraComponent::grid_type_text_(uint8_t id) {
   return UNKNOWN_TEXT;
 }
 
-const char *ABBAuroraComponent::transfomer_type_text_(uint8_t id) {
+const char *ABBAuroraComponent::transformer_type_text_(uint8_t id) {
   char *id_sequence = (char *) "NT";
   char *occur = strchr(id_sequence, (char)id);
 

@@ -78,10 +78,6 @@ enum CumulatedEnergyType {
   SINCE_RESET = 6
 };
 
-namespace esphome {
-namespace abbaurora {
-
-const char* UNKNOWN_TEXT PROGMEM = "Unknown";
 
 const char* INVERTER_VERSION_LOOKUP[] PROGMEM = {
   "Aurora 2 kW indoor",
@@ -427,6 +423,12 @@ const char* GLOBAL_STATE_LOOKUP[] PROGMEM = {
   "Counting EEprom",
   "Freeze"
 };
+
+namespace esphome {
+namespace abbaurora {
+
+const char* UNKNOWN_TEXT PROGMEM = "Unknown";
+
 
 class ABBAuroraComponent : public uart::UARTDevice, public Component {
  public:

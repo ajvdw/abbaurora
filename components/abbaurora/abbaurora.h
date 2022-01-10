@@ -81,6 +81,353 @@ enum CumulatedEnergyType {
 namespace esphome {
 namespace abbaurora {
 
+const char* UNKNOWN_TEXT PROGMEM = "Unknown";
+
+const char* INVERTER_VERSION_LOOKUP[] PROGMEM = {
+  "Aurora 2 kW indoor",
+  "Aurora 2 kW outdoor",
+  "ABB TRIO 5.8kW outdoor",
+  "Aurora 3.6 kW indoor",
+  "Aurora 3.0 - 3.6 kW outdoor",
+  "Aurora 5.0 kW outdoor",
+  "Aurora 6 kW outdoor",
+  "3 - phase interface (3G74)",
+  "Aurora 50kW module",
+  "Aurora 4.2kW new",
+  "Aurora 3.6kW new",
+  "Aurora 3.3kW new",
+  "Aurora 3.0kW new",
+  "Aurora 12.0kW",
+  "Aurora 10.0kW"
+};
+
+const char* GRID_TYPE_LOOKUP[] PROGMEM = {
+  "UL1741",       
+  "NETHERL", 
+  "VDE0126", 
+  "DR 1663 / 2000",
+  "ENEL DK 5950", 
+  "UK G83",  
+  "AS 4777"
+};
+
+const char* TRANSFORMER_TYPE_LOOKUP[] PROGMEM = {
+  "Transformerless Version",
+  "Transformer Version"
+};
+
+const char* GENERATION_TYPE_LOOKUP[] PROGMEM = {
+  "Wind Version", 
+  "PV Version"
+};
+
+const char* ALARM_TEXT_LOOKUP[] PROGMEM = {
+  "No Alarm",
+  "Sun Low",
+  "Input OC",
+  "Input UV",
+  "Input OV",
+  "Sun Low",
+  "No Parameters",
+  "Bulk OV",
+  "Comm.Error",
+  "Output OC",
+  "IGBT Sat",
+  "Bulk UV",
+  "Internal error",
+  "Grid Fail",
+  "Bulk Low",
+  "Ramp Fail",
+  "Dc / Dc Fail",
+  "Wrong Mode",
+  "Ground Fault",
+  "Over Temp.",
+  "Bulk Cap Fail",
+  "Inverter Fail",
+  "Start Timeout",
+  "Ground Fault",
+  "Degauss error",
+  "Ileak sens.fail",
+  "DcDc Fail",
+  "Self Test Error 1",
+  "Self Test Error 2",
+  "Self Test Error 3",
+  "Self Test Error 4",
+  "DC inj error",
+  "Grid OV",
+  "Grid UV",
+  "Grid OF",
+  "Grid UF",
+  "Z grid Hi",
+  "Internal error",
+  "Riso Low",
+  "Vref Error",
+  "Error Meas V",
+  "Error Meas F",
+  "Error Meas Z",
+  "Error Meas Ileak",
+  "Error Read V",
+  "Error Read I",
+  "Table fail",
+  "Fan Fail",
+  "UTH",
+  "Interlock fail",
+  "Remote Off",
+  "Vout Avg errror",
+  "Battery low",
+  "Clk fail",
+  "Input UC",
+  "Zero Power",
+  "Fan Stucked",
+  "DC Switch Open",
+  "Tras Switch Open",
+  "AC Switch Open",
+  "Bulk UV",
+  "Autoexclusion",
+  "Grid df / dt",
+  "Den switch Open",
+  "Jbox fail"
+};
+
+const char* TRANSMISSION_STATE_LOOKUP[] PROGMEM = {
+    "Everything is OK.",
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    "Command is not implemented",
+    "Variable does not exist",
+    "Variable value is out of range",
+    "EEprom not accessible",
+    "Not Toggled Service Mode",
+    "Can not send the command to internal micro",
+    "Command not Executed",
+    "The variable is not available, retry"
+  };
+
+const char* INVERTER_STATE_LOOKUP[] PROGMEM = {
+  "Stand By",
+  "Checking Grid",
+  "Run",
+  "Bulk OV",
+  "Out OC",
+  "IGBT Sat",
+  "Bulk UV",
+  "Degauss Error",
+  "No Parameters",
+  "Bulk Low",
+  "Grid OV",
+  "Communication Error",
+  "Degaussing",
+  "Starting",
+  "Bulk Cap Fail",
+  "Leak Fail",
+  "DcDc Fail",
+  "Ileak Sensor Fail",
+  "SelfTest: relay inverter",
+  "SelfTest : wait for sensor test",
+  "SelfTest : test relay DcDc + sensor",
+  "SelfTest : relay inverter fail",
+  "SelfTest timeout fail",
+  "SelfTest : relay DcDc fail",
+  "Self Test 1",
+  "Waiting self test start",
+  "Dc Injection",
+  "Self Test 2",
+  "Self Test 3",
+  "Self Test 4",
+  "Internal Error",
+  "Internal Error",
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  "Forbidden State",
+  "Input UC",
+  "Zero Power",
+  "Grid Not Present",
+  "Waiting Start",
+  "MPPT",
+  "Grid Fail",
+  "Input OC"
+};
+
+const char* DCDC_STATE_LOOKUP[] PROGMEM = {
+  "DcDc OFF",
+  "Ramp Start",
+  "MPPT",
+  "Not Used",
+  "Input OC",
+  "Input UV",
+  "Input OV",
+  "Input Low",
+  "No Parameters",
+  "Bulk OV",
+  "Communication Error",
+  "Ramp Fail",
+  "Internal Error",
+  "Input mode Error",
+  "Ground Fault",
+  "Inverter Fail",
+  "DcDc IGBT Sat",
+  "DcDc ILEAK Fail",
+  "DcDc Grid Fail",
+  "DcDc Comm.Error"
+};
+
+const char* GLOBAL_STATE_LOOKUP[] PROGMEM = {
+  "Sending Parameters", //0
+  "Wait Sun / Grid",
+  "Checking Grid",
+  "Measuring Riso",
+  "DcDc Start",
+  "Inverter Start",
+  "Run",
+  "Recovery",
+  "Pausev",
+  "Ground Fault",
+  "OTH Fault",  // 10
+  "Address Setting",
+  "Self Test",
+  "Self Test Fail",
+  "Sensor Test + Meas.Riso",
+  "Leak Fault",
+  "Waiting for manual reset",
+  "Internal Error E026",
+  "Internal Error E027",
+  "Internal Error E028",
+  "Internal Error E029", // 20
+  "Internal Error E030",
+  "Sending Wind Table",
+  "Failed Sending table",
+  "UTH Fault",
+  "Remote OFF",
+  "Interlock Fail",
+  "Executing Autotest",
+  "Waiting Sun",
+  "Temperature Fault",
+  "Fan Staucked", // 30
+  "Int.Com.Fault",
+  "SLV Insertion",
+  "DC Switch Open",
+  "TRAS Switch Open",
+  "MST Exclusion",
+  "Auto Exclusion",
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  "Erasing Internal EEprom",
+  "Erasing External EEprom",
+  "Counting EEprom",
+  "Freeze"
+}
+
 class ABBAuroraComponent : public uart::UARTDevice, public Component {
  public:
   void setup() override;
@@ -151,11 +498,15 @@ class ABBAuroraComponent : public uart::UARTDevice, public Component {
              uint8_t param5, uint8_t param6);
   bool write_baudrate_setting_(uint8_t baudcode);
 
-  static std::string transmission_state_text(uint8_t id);
-  static std::string global_state_text(uint8_t id);
-  static std::string dcdc_state_text(uint8_t id);
-  static std::string inverter_state_text(uint8_t id);
-  static std::string alarm_state_text(uint8_t id);
+  static const char* transformer_type_text(uint8_t id);
+  static const char* generation_type_text(uint8_t id);
+  static const char* grid_type_text(uint8_t id);
+  static const char* inverter_version_text(uint8_t id);
+  static const char *transmission_state_text(uint8_t id);
+  static const char *global_state_text(uint8_t id);
+  static const char *dcdc_state_text(uint8_t id);
+  static const char *inverter_state_text(uint8_t id);
+  static const char *alarm_state_text(uint8_t id);
 
   union {
     uint8_t asBytes[4];
@@ -181,10 +532,10 @@ class ABBAuroraComponent : public uart::UARTDevice, public Component {
   using DataVersion = struct {
     uint8_t TransmissionState;
     uint8_t GlobalState;
-    std::string Par1;
-    std::string Par2;
-    std::string Par3;
-    std::string Par4;
+    char *Par1;
+    char *Par2;
+    char *Par3;
+    char *Par4;
     bool ReadState;
   };
   DataVersion data_version_;
@@ -218,13 +569,13 @@ class ABBAuroraComponent : public uart::UARTDevice, public Component {
 
   // Inverters
   using DataSystemPartNumber = struct {
-    std::string PartNumber;
+    char PartNumber[7];
     bool ReadState;
   };
   DataSystemPartNumber system_partnumber_;
 
   using DataSystemSerialNumber = struct {
-    std::string SerialNumber;
+    char SerialNumber[7];
     bool ReadState;
   };
   DataSystemSerialNumber system_serialnumber_;
@@ -232,8 +583,8 @@ class ABBAuroraComponent : public uart::UARTDevice, public Component {
   using DataManufacturingWeekYear = struct {
     uint8_t TransmissionState;
     uint8_t GlobalState;
-    std::string Week;
-    std::string Year;
+    char Week[3];
+    char Year[3];
     bool ReadState;
   };
   DataManufacturingWeekYear manufacturing_week_year_;
@@ -241,7 +592,7 @@ class ABBAuroraComponent : public uart::UARTDevice, public Component {
   using DataFirmwareRelease = struct {
     uint8_t TransmissionState;
     uint8_t GlobalState;
-    std::string Release;
+    char Release[8];
     bool ReadState;
   };
   DataFirmwareRelease firmware_release_;

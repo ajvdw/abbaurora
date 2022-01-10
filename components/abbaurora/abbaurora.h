@@ -498,17 +498,75 @@ class ABBAuroraComponent : public uart::UARTDevice, public Component {
              uint8_t param5, uint8_t param6);
   bool write_baudrate_setting_(uint8_t baudcode);
 
-/*
-  const char *transformer_type_text_(uint8_t id);
-  const char *generation_type_text_(uint8_t id);
-  const char *grid_type_text_(uint8_t id);
-  const char *inverter_version_text_(uint8_t id);
-  const char *transmission_state_text_(uint8_t id);
-  const char *global_state_text_(uint8_t id);
-  const char *dcdc_state_text_(uint8_t id);
-  const char *inverter_state_text_(uint8_t id);
-  const char *alarm_state_text_(uint8_t id);
-*/
+  const char *ABBAuroraComponent::inverter_version_text_(uint8_t id) {
+    char *id_sequence = (char *) "iorIO56PC4321DX";
+    char *occur = strchr(id_sequence, (char)id);
+
+    if (occur) return INVERTER_VERSION_LOOKUP[occur - id_sequence];
+
+    return UNKNOWN_TEXT;
+  }
+
+  const char *ABBAuroraComponent::grid_type_text_(uint8_t id) {
+    char *id_sequence = (char *) "ABESIUK";
+    char *occur = strchr(id_sequence, (char)id);
+
+    if (occur) return GRID_TYPE_LOOKUP[occur - id_sequence];
+
+    return UNKNOWN_TEXT;
+  }
+
+  const char *ABBAuroraComponent::transformer_type_text_(uint8_t id) {
+    char *id_sequence = (char *) "NT";
+    char *occur = strchr(id_sequence, (char)id);
+
+    if (occur) return TRANSFORMER_TYPE_LOOKUP[occur - id_sequence];
+
+    return UNKNOWN_TEXT;
+  }
+
+  const char *ABBAuroraComponent::generation_type_text_(uint8_t id) {
+    char *id_sequence = (char *) "WN";
+    char *occur = strchr(id_sequence, (char)id);
+
+    if (occur) return GENERATION_TYPE_LOOKUP[occur - id_sequence];
+
+    return UNKNOWN_TEXT;
+  }
+
+  const char *ABBAuroraComponent::alarm_state_text_(uint8_t id) {
+    if (id >= 0 && id <= 64) return ALARM_TEXT_LOOKUP[id];
+
+    return UNKNOWN_TEXT;
+  }
+
+  const char *ABBAuroraComponent::transmission_state_text_(uint8_t id) {
+    if (id >= 0 && id <= 58) {
+      if (TRANSMISSION_STATE_LOOKUP[id]) return TRANSMISSION_STATE_LOOKUP[id];
+    }
+    return UNKNOWN_TEXT;
+  }
+
+  const char *ABBAuroraComponent::global_state_text_(uint8_t id) {
+    if (id >= 0 && id <= 101) {
+      if (GLOBAL_STATE_LOOKUP[id]) return GLOBAL_STATE_LOOKUP[id];
+    }
+    return UNKNOWN_TEXT;
+  }
+
+  const char *ABBAuroraComponent::dcdc_state_text_(uint8_t id) {
+    if (id >= 0 and id <= 19) {
+      if (DCDC_STATE_LOOKUP[id]) return DCDC_STATE_LOOKUP[id];
+    }
+    return UNKNOWN_TEXT;
+  }
+
+  const char *ABBAuroraComponent::inverter_state_text_(uint8_t id) {
+    if (id >= 0 && id <= 47) {
+      if (INVERTER_STATE_LOOKUP[id]) return INVERTER_STATE_LOOKUP[id];
+    }
+    return UNKNOWN_TEXT;
+  }
 
   union {
     uint8_t asBytes[4];

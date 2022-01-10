@@ -106,7 +106,7 @@ void ABBAuroraComponent::loop() {
           cumulated_energy_today_->publish_state(this->cumulated_energy_.Energy);
         break;
       case 28:
-        ESP_LOGV(TAG, "Memory FreeHeap: %d", ESP.getFreeHeap() );
+       // ESP_LOGV(TAG, "Memory FreeHeap: %d", ESP.getFreeHeap() );
         break;
     }
   }
@@ -555,7 +555,7 @@ bool ABBAuroraComponent::read_version_() {
 }
 
 char *ABBAuroraComponent::inverter_version_text_(uint8_t id) {
-  const char *id_sequence[] = "iorIO56PC4321DX";
+  const char *id_sequence = "iorIO56PC4321DX";
   char *occur = strchr(id_sequence, (char)id);
 
   if (occur) return INVERTER_VERSION_LOOKUP[occur - id_sequence];
@@ -564,7 +564,7 @@ char *ABBAuroraComponent::inverter_version_text_(uint8_t id) {
 }
 
 char *ABBAuroraComponent::grid_type_text_(uint8_t id) {
-  const char *id_sequence[] = "ABESIUK";
+  const char *id_sequence = "ABESIUK";
   char *occur = strchr(id_sequence, (char)id);
 
   if (occur) return GRID_TYPE_LOOKUP[occur - id_sequence];

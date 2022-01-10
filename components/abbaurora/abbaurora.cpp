@@ -410,7 +410,7 @@ bool ABBAuroraComponent::read_firmware_release_() {
   firmware_release_.TransmissionState = receive_data_[0];
   firmware_release_.GlobalState = receive_data_[1];
 
-  firmware_release_.Release[0] = receive_data_[2]);
+  firmware_release_.Release[0] = receive_data_[2];
   firmware_release_.Release[1] = '.';
   firmware_release_.Release[2] = receive_data_[3];
   firmware_release_.Release[3] = '.';

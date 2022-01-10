@@ -614,14 +614,14 @@ char *ABBAuroraComponent::dcdc_state_text_(uint8_t id) {
   if (id >= 0 and id <= 19) {
     if (DCDC_STATE_LOOKUP[id]) return DCDC_STATE_LOOKUP[id];
   }
-  return UNKNOW_TEXT;
+  return UNKNOWN_TEXT;
 }
 
 char *ABBAuroraComponent::inverter_state_text_(uint8_t id) {
   if (id >= 0 && id <= 47) {
     if (INVERTER_STATE_LOOKUP[id]) return INVERTER_STATE_LOOKUP[id];
   }
-  return UNKNOW_TEXT;
+  return UNKNOWN_TEXT;
 }
 
 }  // namespace abbaurora

@@ -106,7 +106,9 @@ void ABBAuroraComponent::loop() {
           cumulated_energy_today_->publish_state(this->cumulated_energy_.Energy);
         break;
       case 28:
-       // ESP_LOGV(TAG, "Memory FreeHeap: %d", ESP.getFreeHeap() );
+#ifdef USE_ESP32 || USE ESP8266
+        ESP_LOGV(TAG, "Memory FreeHeap: %d", ESP.getFreeHeap() );
+#endif
         break;
     }
   }

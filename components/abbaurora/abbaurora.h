@@ -9,6 +9,9 @@
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
 
+#ifdef USE_ESP32 || USE ESP8266
+#include <esp_heap_caps.h>
+#endif
 // Enums
 enum DspValueType {
   GRID_VOLTAGE = 1,

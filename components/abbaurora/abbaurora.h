@@ -429,6 +429,7 @@ static const char* GLOBAL_STATE_LOOKUP[] PROGMEM = {
   "Freeze"
 };
 
+
 class ABBAuroraComponent : public uart::UARTDevice, public Component {
  public:
   void setup() override;
@@ -498,15 +499,76 @@ class ABBAuroraComponent : public uart::UARTDevice, public Component {
   bool send_(uint8_t address, uint8_t param0, uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4,
              uint8_t param5, uint8_t param6);
   bool write_baudrate_setting_(uint8_t baudcode);
-  const char *inverter_version_text_(uint8_t id);
-  const char *grid_type_text_(uint8_t id);
-  const char *transformer_type_text_(uint8_t id);
-  const char *generation_type_text_(uint8_t id);
-  const char *alarm_state_text_(uint8_t id);
-  const char *transmission_state_text_(uint8_t id);
-  const char *global_state_text_(uint8_t id);
-  const char *dcdc_state_text_(uint8_t id);
-  const char *inverter_state_text_(uint8_t id);
+
+  const char *inverter_version_text_(uint8_t id) {
+    char *id_sequence = (char *) "iorIO56PC4321DX";
+    char *occur = strchr(id_sequence, (char)id);
+
+    if (occur) return INVERTER_VERSION_LOOKUP[occur - id_sequence];
+
+    return UNKNOWN_TEXT;
+  }
+
+  const char *grid_type_text_(uint8_t id) {
+    char *id_sequence = (char *) "ABESIUK";
+    char *occur = strchr(id_sequence, (char)id);
+
+    if (occur) return GRID_TYPE_LOOKUP[occur - id_sequence];
+
+    return UNKNOWN_TEXT;
+  }
+
+  const char *transformer_type_text_(uint8_t id) {
+    char *id_sequence = (char *) "NT";
+    char *occur = strchr(id_sequence, (char)id);
+
+    if (occur) return TRANSFORMER_TYPE_LOOKUP[occur - id_sequence];
+
+    return UNKNOWN_TEXT;
+  }
+
+  const char *generation_type_text_(uint8_t id) {
+    char *id_sequence = (char *) "WN";
+    char *occur = strchr(id_sequence, (char)id);
+
+    if (occur) return GENERATION_TYPE_LOOKUP[occur - id_sequence];
+
+    return UNKNOWN_TEXT;
+  }
+
+  const char *alarm_state_text_(uint8_t id) {
+    if (id >= 0 && id <= 64) return ALARM_TEXT_LOOKUP[id];
+
+    return UNKNOWN_TEXT;
+  }
+
+  const char *transmission_state_text_(uint8_t id) {
+    if (id >= 0 && id <= 58) {
+      if (TRANSMISSION_STATE_LOOKUP[id]) return TRANSMISSION_STATE_LOOKUP[id];
+    }
+    return UNKNOWN_TEXT;
+  }
+
+  const char *global_state_text_(uint8_t id) {
+    if (id >= 0 && id <= 101) {
+      if (GLOBAL_STATE_LOOKUP[id]) return GLOBAL_STATE_LOOKUP[id];
+    }
+    return UNKNOWN_TEXT;
+  }
+
+  const char *dcdc_state_text_(uint8_t id) {
+    if (id >= 0 and id <= 19) {
+      if (DCDC_STATE_LOOKUP[id]) return DCDC_STATE_LOOKUP[id];
+    }
+    return UNKNOWN_TEXT;
+  }
+
+  const char *inverter_state_text_(uint8_t id) {
+    if (id >= 0 && id <= 47) {
+      if (INVERTER_STATE_LOOKUP[id]) return INVERTER_STATE_LOOKUP[id];
+    }
+    return UNKNOWN_TEXT;
+  }
 
   union {
     uint8_t asBytes[4];

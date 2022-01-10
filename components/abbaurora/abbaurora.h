@@ -427,7 +427,7 @@ const char* GLOBAL_STATE_LOOKUP[] PROGMEM = {
 namespace esphome {
 namespace abbaurora {
 
-const char* UNKNOWN_TEXT PROGMEM = "Unknown";
+const char* UNKNOWN_TEXT = "Unknown";
 
 
 class ABBAuroraComponent : public uart::UARTDevice, public Component {

@@ -555,7 +555,7 @@ bool ABBAuroraComponent::read_version_() {
 }
 
 char *ABBAuroraComponent::inverter_version_text_(uint8_t id) {
-  char *id_sequence = "iorIO56PC4321DX";
+  const char *id_sequence[] = "iorIO56PC4321DX";
   char *occur = strchr(id_sequence, (char)id);
 
   if (occur) return INVERTER_VERSION_LOOKUP[occur - id_sequence];
@@ -564,7 +564,7 @@ char *ABBAuroraComponent::inverter_version_text_(uint8_t id) {
 }
 
 char *ABBAuroraComponent::grid_type_text_(uint8_t id) {
-  char *id_sequence = "ABESIUK";
+  const char *id_sequence[] = "ABESIUK";
   char *occur = strchr(id_sequence, (char)id);
 
   if (occur) return GRID_TYPE_LOOKUP[occur - id_sequence];
@@ -573,7 +573,7 @@ char *ABBAuroraComponent::grid_type_text_(uint8_t id) {
 }
 
 char *ABBAuroraComponent::transfomer_type_text_(uint8_t id) {
-  char *id_sequence = "NT";
+  const char *id_sequence = "NT";
   char *occur = strchr(id_sequence, (char)id);
 
   if (occur) return TRANSFORMER_TYPE_LOOKUP[occur - id_sequence];
@@ -582,7 +582,7 @@ char *ABBAuroraComponent::transfomer_type_text_(uint8_t id) {
 }
 
 char *ABBAuroraComponent::generation_type_text_(uint8_t id) {
-  char *id_sequence = "WN";
+  const char *id_sequence = "WN";
   char *occur = strchr(id_sequence, (char)id);
 
   if (occur) return GENERATION_TYPE_LOOKUP[occur - id_sequence];

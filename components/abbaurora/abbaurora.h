@@ -426,7 +426,7 @@ const char* GLOBAL_STATE_LOOKUP[] PROGMEM = {
   "Erasing External EEprom",
   "Counting EEprom",
   "Freeze"
-}
+};
 
 class ABBAuroraComponent : public uart::UARTDevice, public Component {
  public:

@@ -546,10 +546,10 @@ bool ABBAuroraComponent::read_version_() {
 
   data_version_.TransmissionState = receive_data_[0];
   data_version_.GlobalState = receive_data_[1];
-  data_version_.Par1 = inverter_version_text_(receive_data_[2]);
-  data_version_.Par2 = grid_type_text_(receive_data_[3]);
-  data_version_.Par3 = transformer_type_text_(receive_data_[4]);
-  data_version_.Par4 = generation_type_text_(receive_data_[5]);
+  data_version_.Par1 = (char *)inverter_version_text_(receive_data_[2]);
+  data_version_.Par2 = (char *)grid_type_text_(receive_data_[3]);
+  data_version_.Par3 = (char *)transformer_type_text_(receive_data_[4]);
+  data_version_.Par4 = (char *)generation_type_text_(receive_data_[5]);
 
   return data_version_.ReadState;
 }

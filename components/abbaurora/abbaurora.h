@@ -79,7 +79,12 @@ enum CumulatedEnergyType {
 };
 
 
-const char* INVERTER_VERSION_LOOKUP[] PROGMEM = {
+namespace esphome {
+namespace abbaurora {
+
+static const char* UNKNOWN_TEXT PROGMEM = "Unknown";
+
+static const char* INVERTER_VERSION_LOOKUP[] PROGMEM = {
   "Aurora 2 kW indoor",
   "Aurora 2 kW outdoor",
   "ABB TRIO 5.8kW outdoor",
@@ -97,7 +102,7 @@ const char* INVERTER_VERSION_LOOKUP[] PROGMEM = {
   "Aurora 10.0kW"
 };
 
-const char* GRID_TYPE_LOOKUP[] PROGMEM = {
+static const char* GRID_TYPE_LOOKUP[] PROGMEM = {
   "UL1741",       
   "NETHERL", 
   "VDE0126", 
@@ -107,17 +112,17 @@ const char* GRID_TYPE_LOOKUP[] PROGMEM = {
   "AS 4777"
 };
 
-const char* TRANSFORMER_TYPE_LOOKUP[] PROGMEM = {
+static const char* TRANSFORMER_TYPE_LOOKUP[] PROGMEM = {
   "Transformerless Version",
   "Transformer Version"
 };
 
-const char* GENERATION_TYPE_LOOKUP[] PROGMEM = {
+static const char* GENERATION_TYPE_LOOKUP[] PROGMEM = {
   "Wind Version", 
   "PV Version"
 };
 
-const char* ALARM_TEXT_LOOKUP[] PROGMEM = {
+static const char* ALARM_TEXT_LOOKUP[] PROGMEM = {
   "No Alarm",
   "Sun Low",
   "Input OC",
@@ -185,7 +190,7 @@ const char* ALARM_TEXT_LOOKUP[] PROGMEM = {
   "Jbox fail"
 };
 
-const char* TRANSMISSION_STATE_LOOKUP[] PROGMEM = {
+static const char* TRANSMISSION_STATE_LOOKUP[] PROGMEM = {
     "Everything is OK.",
     NULL,
     NULL,
@@ -247,7 +252,7 @@ const char* TRANSMISSION_STATE_LOOKUP[] PROGMEM = {
     "The variable is not available, retry"
   };
 
-const char* INVERTER_STATE_LOOKUP[] PROGMEM = {
+static const char* INVERTER_STATE_LOOKUP[] PROGMEM = {
   "Stand By",
   "Checking Grid",
   "Run",
@@ -298,7 +303,7 @@ const char* INVERTER_STATE_LOOKUP[] PROGMEM = {
   "Input OC"
 };
 
-const char* DCDC_STATE_LOOKUP[] PROGMEM = {
+static const char* DCDC_STATE_LOOKUP[] PROGMEM = {
   "DcDc OFF",
   "Ramp Start",
   "MPPT",
@@ -321,7 +326,7 @@ const char* DCDC_STATE_LOOKUP[] PROGMEM = {
   "DcDc Comm.Error"
 };
 
-const char* GLOBAL_STATE_LOOKUP[] PROGMEM = {
+static const char* GLOBAL_STATE_LOOKUP[] PROGMEM = {
   "Sending Parameters", //0
   "Wait Sun / Grid",
   "Checking Grid",
@@ -423,12 +428,6 @@ const char* GLOBAL_STATE_LOOKUP[] PROGMEM = {
   "Counting EEprom",
   "Freeze"
 };
-
-namespace esphome {
-namespace abbaurora {
-
-const char* UNKNOWN_TEXT = "Unknown";
-
 
 class ABBAuroraComponent : public uart::UARTDevice, public Component {
  public:

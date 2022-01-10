@@ -33,9 +33,6 @@ void ABBAuroraComponent::loop() {
     last_request = now;
     rotaterequests++;
     switch (rotaterequests % 30) {
-      case 0:
-        ESP_LOGV(TAG, "Memory FreeHeap: %d", ESP.getFreeHeap() );
-        break;
       case 2:
         if (connection_status_ && this->read_state_())  // If inverter is connected
           connection_status_->publish_state(ABBAuroraComponent::inverter_state_text_(state_.InverterState));
@@ -107,6 +104,9 @@ void ABBAuroraComponent::loop() {
       case 27:
         if (cumulated_energy_today_ && this->read_cumulated_energy_(CURRENT_DAY))
           cumulated_energy_today_->publish_state(this->cumulated_energy_.Energy);
+        break;
+      case 28:
+        ESP_LOGV(TAG, "Memory FreeHeap: %d", ESP.getFreeHeap() );
         break;
     }
   }

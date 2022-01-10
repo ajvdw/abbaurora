@@ -498,6 +498,7 @@ class ABBAuroraComponent : public uart::UARTDevice, public Component {
              uint8_t param5, uint8_t param6);
   bool write_baudrate_setting_(uint8_t baudcode);
 
+/*
   const char *transformer_type_text_(uint8_t id);
   const char *generation_type_text_(uint8_t id);
   const char *grid_type_text_(uint8_t id);
@@ -507,6 +508,7 @@ class ABBAuroraComponent : public uart::UARTDevice, public Component {
   const char *dcdc_state_text_(uint8_t id);
   const char *inverter_state_text_(uint8_t id);
   const char *alarm_state_text_(uint8_t id);
+*/
 
   union {
     uint8_t asBytes[4];

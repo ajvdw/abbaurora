@@ -9,10 +9,6 @@
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
 
-#ifdef USE_ARDUINO
-#include <Esp.h>
-#endif
-
 // Enums
 enum DspValueType {
   GRID_VOLTAGE = 1,
@@ -83,8 +79,7 @@ enum CumulatedEnergyType {
 };
 
 
-namespace esphome {
-namespace abbaurora {
+
 
 static const char* UNKNOWN_TEXT PROGMEM = "Unknown";
 
@@ -434,6 +429,9 @@ static const char* GLOBAL_STATE_LOOKUP[] PROGMEM = {
 };
 
 
+namespace esphome {
+namespace abbaurora {
+  
 class ABBAuroraComponent : public uart::UARTDevice, public Component {
  public:
   void setup() override;

@@ -78,9 +78,6 @@ enum CumulatedEnergyType {
   SINCE_RESET = 6
 };
 
-
-
-
 static const char* UNKNOWN_TEXT PROGMEM = "Unknown";
 
 static const char* INVERTER_VERSION_LOOKUP[] PROGMEM = {
@@ -428,10 +425,9 @@ static const char* GLOBAL_STATE_LOOKUP[] PROGMEM = {
   "Freeze"
 };
 
-
 namespace esphome {
 namespace abbaurora {
-  
+
 class ABBAuroraComponent : public uart::UARTDevice, public Component {
  public:
   void setup() override;

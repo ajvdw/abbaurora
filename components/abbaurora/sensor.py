@@ -37,47 +37,82 @@ AUTO_LOAD = ["abbaurora"]
 
 TYPES = {
     CONF_V_IN_1: sensor.sensor_schema(
-        UNIT_VOLT, ICON_EMPTY, 1, DEVICE_CLASS_VOLTAGE, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_VOLT,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_VOLTAGE,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_V_IN_2: sensor.sensor_schema(
-        UNIT_VOLT, ICON_EMPTY, 1, DEVICE_CLASS_VOLTAGE, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_VOLT,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_VOLTAGE,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_I_IN_1: sensor.sensor_schema(
-        UNIT_AMPERE, ICON_EMPTY, 1, DEVICE_CLASS_CURRENT, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_AMPERE,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_CURRENT,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_I_IN_2: sensor.sensor_schema(
-        UNIT_AMPERE, ICON_EMPTY, 1, DEVICE_CLASS_CURRENT, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_AMPERE,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_CURRENT,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_POWER_IN_1: sensor.sensor_schema(
-        UNIT_WATT, ICON_EMPTY, 0, DEVICE_CLASS_POWER, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_WATT,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_POWER,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_POWER_IN_2: sensor.sensor_schema(
-        UNIT_WATT, ICON_EMPTY, 0, DEVICE_CLASS_POWER, STATE_CLASS_MEASUREMENT
+         unit_of_measurement=UNIT_WATT,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_POWER,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_POWER_IN_TOTAL: sensor.sensor_schema(
-        UNIT_WATT, ICON_EMPTY, 0, DEVICE_CLASS_POWER, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_WATT,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_POWER,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_GRID_POWER: sensor.sensor_schema(
-        UNIT_WATT, ICON_EMPTY, 0, DEVICE_CLASS_POWER, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_WATT,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_POWER,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_TEMPERATURE_INVERTER: sensor.sensor_schema(
-        UNIT_CELSIUS, ICON_EMPTY, 1, DEVICE_CLASS_TEMPERATURE, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_CELSIUS,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_TEMPERATURE_BOOSTER: sensor.sensor_schema(
-        UNIT_CELSIUS, ICON_EMPTY, 1, DEVICE_CLASS_TEMPERATURE, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_CELSIUS,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_GRID_VOLTAGE: sensor.sensor_schema(
-        UNIT_VOLT, ICON_EMPTY, 1, DEVICE_CLASS_VOLTAGE, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_VOLT,
+        accuracy_decimals=1,
+        device_class=DEVICE_CLASS_VOLTAGE,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_CUMULATED_ENERGY_TODAY: sensor.sensor_schema(
-        UNIT_WATT_HOURS, ICON_EMPTY, 0, DEVICE_CLASS_ENERGY, STATE_CLASS_MEASUREMENT
+        unit_of_measurement=UNIT_WATT_HOURS,
+        accuracy_decimals=0,
+        device_class=DEVICE_CLASS_ENERGY,
+        state_class=STATE_CLASS_MEASUREMENT,
     ),
     CONF_CUMULATED_ENERGY_TOTAL: sensor.sensor_schema(
-        UNIT_WATT_HOURS,
-        ICON_EMPTY,
-        0,
-        DEVICE_CLASS_ENERGY,
-        STATE_CLASS_TOTAL_INCREASING,
+        unit_of_measurement=UNIT_WATT_HOURS,
+        accuracy_decimals=0,
+        device_class=DEVICE_CLASS_ENERGY,
+        state_class=STATE_CLASS_TOTAL_INCREASING,
     ),
 }
 
